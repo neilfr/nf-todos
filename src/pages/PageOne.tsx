@@ -1,6 +1,7 @@
 import React from "react";
 import MyFirstComponent from "../components/MyFirstComponent";
-import {TextBox} from "../stories/TextBox";
+import {Task} from "../stories/Task";
+import {Priority} from "../stories/Priority";
 
 const PageOne: React.FC = () => {
     return (
@@ -8,7 +9,11 @@ const PageOne: React.FC = () => {
             <h1>page one header</h1>
             <p>this is my page one text</p>
             <MyFirstComponent/>
-            <TextBox placeholder='arg' size='small' />
+            <Priority priority={9}/>
+            <Task
+                placeholder='arg'
+                description='the description'
+                />
         </>
     )
 }
