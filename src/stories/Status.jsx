@@ -1,10 +1,6 @@
-import React, {FC} from 'react'
+import React from 'react'
 
-export type StatusProps = {
-    completed:boolean
-}
-
-export const Status:FC<StatusProps> = ({
+export const Status = ({
     completed
                                     }) => {
     return(

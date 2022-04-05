@@ -2,7 +2,7 @@ import React, {useReducer} from 'react';
 import './App.css';
 import Base from "./layouts/Base";
 
-const reducer = ( state: any, action: any ) => {
+const reducer = ( state, action ) => {
   switch (action.type) {
     case 'increment':
       return {...state, 'count': state.count + 1}
