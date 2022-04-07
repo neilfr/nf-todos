@@ -15,15 +15,18 @@ Default.args = {
     tasks: [
         {
             status:false,
-            placeholder:'placeholder',
-            description:'task one',
+            description:'task a',
             priority:2
         },
         {
-            status:true,
-            placeholder:'another placeholder',
-            description:'task two',
+            status:false,
+            description:'task c',
             priority:1
+        },
+        {
+            status:false,
+            description:'task b',
+            priority:3
         }
     ]
 }

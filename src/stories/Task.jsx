@@ -4,7 +4,6 @@ import {Status} from "./Status";
 
 export const Task = ({
     status= false,
-    placeholder='enter a task',
     description,
     priority
                                          }) => {
@@ -17,7 +16,6 @@ export const Task = ({
             <Status completed={status}/>
             <input
                 type='text'
-                placeholder={placeholder}
                 style={textStyle}
                 value={description}
             />
