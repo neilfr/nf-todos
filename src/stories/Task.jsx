@@ -16,6 +16,7 @@ export const Task = ({
             <Status completed={status}/>
             <input
                 type='text'
+                placeholder='Enter a task'
                 style={textStyle}
                 value={description}
             />

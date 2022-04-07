@@ -3,7 +3,7 @@ import React from 'react'
 import {TaskList, SORT_OPTIONS} from "./TaskList"
 
 export default {
-    title: 'My tasklist',
+    title: 'TaskList',
     component: TaskList
 }
 
