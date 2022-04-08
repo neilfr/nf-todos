@@ -41,6 +41,7 @@ export const TaskList= ({tasks, sortByProperty}) => {
                 return (
                     <Task
                         key={index}
+                        id={task.id}
                         status={task.status}
                         description={task.description}
                         priority={task.priority}

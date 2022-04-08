@@ -5,18 +5,20 @@ import {Status} from "./Status";
 export const Task = ({
     status= false,
     description,
-    priority
+    priority,
+    id
                                          }) => {
     const textStyle = {
         height: '1.5rem',
     }
 
     const updateTask = () => {
-        console.log('update task')
+        console.log('update task with id:', id)
     }
 
     return (
         <div>
+            <p>id:{id}</p>
             <Status completed={status}/>
             <input
                 type='text'

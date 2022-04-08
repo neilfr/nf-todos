@@ -2,8 +2,14 @@ import React, {useState,useEffect} from "react";
 import {TaskList} from "../stories/TaskList";
 
 const PageOne = () => {
+    const [getNewTaskId, setNewTaskId] = useState(0)
 
-    const [getTask,setTask] = useState({})
+    const [getTask,setTask] = useState({
+        status: false,
+        description: '',
+        priority:1,
+        id:0,
+    })
 
     const [getTasks,setTaskList] = useState([])
 
@@ -14,8 +20,10 @@ const PageOne = () => {
     }, [getTask])
 
     const addTask = () => {
+        console.log('id', getTask.id, 'getnewtaskid', getNewTaskId)
         setTaskList([
             ...getTasks, {
+                id:getTask.id,
                 status:getTask.status,
                 description:getTask.description,
                 priority:getTask.priority
@@ -24,16 +32,14 @@ const PageOne = () => {
         setTask({
             status:false,
             description:'',
-            priority:1
+            priority:1,
+            id:getNewTaskId+1,
         })
+        setNewTaskId(getNewTaskId+1)
     }
 
     const updateTaskDescription = (e) => {
-        setTask({
-            status:true,
-            description:e.target.value,
-            priority:1
-        })
+        setTask({...getTask, description:e.target.value})
     }
 
     return (
