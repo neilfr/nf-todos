@@ -1,15 +1,17 @@
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import {TaskList} from "../stories/TaskList";
 
 const PageOne = () => {
 
-    const [getTask,setTask] = useState({
-        status:false,
-        description:'',
-        priority:1
-    })
+    const [getTask,setTask] = useState({})
 
     const [getTasks,setTaskList] = useState([])
+
+    const [getIsSavable, setIsSavable] = useState(false)
+
+    useEffect(()=>{
+        (Object.keys(getTask).length>0 && getTask.description.length>0) ? setIsSavable(true) : setIsSavable(false)
+    }, [getTask])
 
     const addTask = () => {
         setTaskList([
@@ -27,8 +29,6 @@ const PageOne = () => {
     }
 
     const updateTaskDescription = (e) => {
-        console.log(e.target.value.charCodeAt(e.target.value.length))
-        // if(e.target.value.slice.charCodeAt(e.target.value.length))
         setTask({
             status:true,
             description:e.target.value,
@@ -50,7 +50,7 @@ const PageOne = () => {
                     onChange={updateTaskDescription}
                     placeholder='Task Description'
                 />
-                <button disabled={getTask.description.length<1} onClick={addTask}>Add Task</button>
+                <button onClick={addTask} disabled={!getIsSavable}>Add Task</button>
                 <TaskList tasks={getTasks}/>
             </div>
         </>

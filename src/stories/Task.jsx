@@ -11,6 +11,10 @@ export const Task = ({
         height: '1.5rem',
     }
 
+    const updateTask = () => {
+        console.log('update task')
+    }
+
     return (
         <div>
             <Status completed={status}/>
@@ -19,6 +23,7 @@ export const Task = ({
                 placeholder='Enter a task'
                 style={textStyle}
                 value={description}
+                onChange={updateTask}
             />
             <Priority priority={priority}/>
         </div>
