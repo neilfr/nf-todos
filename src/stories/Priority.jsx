@@ -1,12 +1,10 @@
 import React from 'react'
 
-export const Priority = ({
-    priority=1
-}) => {
+export const Priority = (props) => {
     const changePriority = () => {
         console.log('change priority')
     }
     return (
-        <input type='number' min='1' value={priority} onChange={changePriority}/>
+        <input type='number' min='1' value={props.priority} onChange={changePriority}/>
     )
 }

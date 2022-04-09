@@ -1,14 +1,12 @@
 import React from 'react'
 
-export const Status = ({
-    completed
-                                    }) => {
+export const Status = (props) => {
     const changeStatus = () => {
         console.log('change status')
     }
     return(
         <div>
-            <input type='checkbox' checked={completed} onChange={changeStatus}/>
+            <input type='checkbox' checked={props.completed} onChange={changeStatus}/>
         </div>
     )
 }

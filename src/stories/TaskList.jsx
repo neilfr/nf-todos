@@ -6,7 +6,7 @@ export const SORT_OPTIONS = {
     SORT_BY_PRIORITY: 'priority'
 }
 
-export const TaskList= ({tasks, updateTaskList, sortByProperty}) => {
+export const TaskList= (props) => {
 
     const prioritySort = (a,b) => {
         if(a.priority>b.priority) return 1
@@ -20,24 +20,20 @@ export const TaskList= ({tasks, updateTaskList, sortByProperty}) => {
         return 0
     }
 
-
-
     const sortBy = (property) => {
         switch (property){
             case 'priority':
-                return tasks.sort(prioritySort)
+                return props.tasks.sort(prioritySort)
                 break
             case 'description':
-                return tasks.sort(descriptionSort)
+                return props.tasks.sort(descriptionSort)
                 break
             default:
-                return tasks.sort(prioritySort)
+                return props.tasks.sort(prioritySort)
         }
     }
 
-    const sortedTasks = tasks.length>0 ? sortBy(sortByProperty) : tasks
-
-
+    const sortedTasks = props.tasks.length>0 ? sortBy(props.sortByProperty) : props.tasks
 
     return sortedTasks.length>0 ? (
         <div>
@@ -49,7 +45,7 @@ export const TaskList= ({tasks, updateTaskList, sortByProperty}) => {
                         status={task.status}
                         description={task.description}
                         priority={task.priority}
-                        updateTaskList={updateTaskList}
+                        updateTaskList={props.updateTaskList}
                     />
                 )
             })}
