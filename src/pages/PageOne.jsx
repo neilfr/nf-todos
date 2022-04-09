@@ -11,7 +11,7 @@ const PageOne = () => {
         id:0,
     })
 
-    const [getTasks,setTaskList] = useState([])
+    const [getTaskList,setTaskList] = useState([])
 
     const [getIsSavable, setIsSavable] = useState(false)
 
@@ -22,7 +22,7 @@ const PageOne = () => {
     const addTask = () => {
         console.log('id', getTask.id, 'getnewtaskid', getNewTaskId)
         setTaskList([
-            ...getTasks, {
+            ...getTaskList, {
                 id:getTask.id,
                 status:getTask.status,
                 description:getTask.description,
@@ -36,6 +36,14 @@ const PageOne = () => {
             id:getNewTaskId+1,
         })
         setNewTaskId(getNewTaskId+1)
+    }
+
+    const updateTaskList = (e,taskId) => {
+        const newTasks = getTaskList.map((task)=>{
+            if(task.id===taskId) task.description=e.target.value
+            return task
+        })
+        setTaskList(newTasks)
     }
 
     const updateTaskDescription = (e) => {
@@ -57,7 +65,7 @@ const PageOne = () => {
                     placeholder='Task Description'
                 />
                 <button onClick={addTask} disabled={!getIsSavable}>Add Task</button>
-                <TaskList tasks={getTasks}/>
+                <TaskList tasks={getTaskList} updateTaskList={updateTaskList}/>
             </div>
         </>
     )
