@@ -8,32 +8,23 @@ export const Task = (props) => {
         height: '1.5rem',
     }
 
-    const task = {
-        id:props.id,
-        description:props.description,
-        status: props.status,
-        priority: props.priority
-    }
-
     const updateDescription = (e) => {
         props.updateTaskList({
-            id:props.id,
-            description:e.target.value,
-            status: props.status,
-            priority: props.priority
+            ...props.task,
+            description:e.target.value
         })
     }
 
     return (
         <div>
-            <Status completed={props.status}/>
+            <Status task={props.task} updateTaskList={props.updateTaskList}/>
             <input
                 type='text'
                 style={textStyle}
-                value={props.description}
+                value={props.task.description}
                 onChange={updateDescription}
             />
-            <Priority priority={props.priority} updateTaskList={props.updateTaskList} task={task}/>
+            <Priority updateTaskList={props.updateTaskList} task={props.task}/>
         </div>
     )
 }

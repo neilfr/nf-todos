@@ -8,6 +8,7 @@ export const SORT_OPTIONS = {
 
 export const TaskList= (props) => {
 
+    //todo: sorting like strings instead of integers
     const prioritySort = (a,b) => {
         if(a.priority>b.priority) return 1
         if(a.priority<b.priority) return -1
@@ -41,10 +42,8 @@ export const TaskList= (props) => {
                 return (
                     <Task
                         key={index}
-                        id={task.id}
+                        task={task}
                         status={task.status}
-                        description={task.description}
-                        priority={task.priority}
                         updateTaskList={props.updateTaskList}
                     />
                 )

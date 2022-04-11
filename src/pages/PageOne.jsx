@@ -20,7 +20,6 @@ const PageOne = () => {
     }, [getTask])
 
     const addTask = () => {
-        console.log('id', getTask.id, 'getnewtaskid', getNewTaskId)
         setTaskList([
             ...getTaskList, {
                 id:getTask.id,
