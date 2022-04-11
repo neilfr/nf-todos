@@ -38,16 +38,24 @@ const PageOne = () => {
         setNewTaskId(getNewTaskId+1)
     }
 
-    const updateTaskList = (e,taskId) => {
-        const newTasks = getTaskList.map((task)=>{
-            if(task.id===taskId) task.description=e.target.value
+    const updateTaskList = (updatedTask) => {
+        const updatedTaskList = getTaskList.map((task)=>{
+            if(task.id===updatedTask.id){
+                task.description=updatedTask.description
+                task.status=updatedTask.status
+                task.priority=updatedTask.priority
+            }
             return task
         })
-        setTaskList(newTasks)
+        setTaskList(updatedTaskList)
     }
 
-    const updateTaskDescription = (e) => {
+    const updateTaskFormDescription = (e) => {
         setTask({...getTask, description:e.target.value})
+    }
+
+    const updateTaskFormPriority = (e) => {
+        setTask({...getTask, priority: e.target.value})
     }
 
     return (
@@ -61,9 +69,18 @@ const PageOne = () => {
                     name='foo'
                     id='bar'
                     value={getTask.description}
-                    onChange={updateTaskDescription}
+                    onChange={updateTaskFormDescription}
                     placeholder='Task Description'
                 />
+                <label htmlFor="priority">Priority:</label>
+                <input
+                    type="number"
+                    name="priority"
+                    id="priority"
+                    value={getTask.priority}
+                    onChange={updateTaskFormPriority}
+                    min="1"
+                    />
                 <button onClick={addTask} disabled={!getIsSavable}>Add Task</button>
                 <TaskList tasks={getTaskList} updateTaskList={updateTaskList}/>
             </div>
