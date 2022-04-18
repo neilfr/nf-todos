@@ -1,7 +1,12 @@
-import React, {useState,useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {TaskList} from "../stories/TaskList";
+import {TestContext} from "../context/TestContext";
+import {TaskListContext} from "../context/TaskListContext";
 
-const PageOne = () => {
+const MainPage = () => {
+
+    const {getTest, setTest} =useContext(TestContext)
+    const {getTaskList2, setTaskList2} = useContext(TaskListContext)
     const [getNewTaskId, setNewTaskId] = useState(0)
 
     const [getTask,setTask] = useState({
@@ -20,6 +25,14 @@ const PageOne = () => {
     }, [getTask])
 
     const addTask = () => {
+        setTaskList2([
+            ...getTaskList2, {
+                id:getTask.id,
+                status:getTask.status,
+                description:getTask.description,
+                priority:getTask.priority
+            }
+        ])
         setTaskList([
             ...getTaskList, {
                 id:getTask.id,
@@ -38,6 +51,7 @@ const PageOne = () => {
     }
 
     const updateTaskList = (updatedTask) => {
+        console.log('updated task is:', updatedTask)
         const updatedTaskList = getTaskList.map((task)=>{
             if(task.id===updatedTask.id){
                 task.description=updatedTask.description
@@ -59,6 +73,8 @@ const PageOne = () => {
 
     return (
         <>
+            <p>{getTest}</p>
+            <button onClick={()=>setTest('BAR')}>set to bar</button>
             <h1>page one header</h1>
             <p>this is my page one text</p>
             <div>
@@ -87,4 +103,4 @@ const PageOne = () => {
     )
 }
 
-export default PageOne
+export default MainPage
