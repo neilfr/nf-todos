@@ -13,12 +13,12 @@ export const Task = (props) => {
         height: '1.5rem',
     }
 
-    const updateDescription = (e) => {
-        props.updateTaskList({
-            ...props.task,
-            description:e.target.value
-        })
-    }
+    // const updateDescription = (e) => {
+    //     props.updateTaskList({
+    //         ...props.task,
+    //         description:e.target.value
+    //     })
+    // }
 
     const editTask = () => {
         setCurrentTaskId(props.task.id)
@@ -29,7 +29,6 @@ export const Task = (props) => {
         <div className="flex border rounded border-black m-2" onClick={editTask}>
             <Status
                 task={props.task}
-                updateTaskList={props.updateTaskList}
             />
             <div>
                 <input
@@ -37,12 +36,10 @@ export const Task = (props) => {
                     type='text'
                     style={textStyle}
                     value={props.task.description}
-                    onChange={updateDescription}
                     readOnly
                 />
                 <Priority
                     className="border border-black m-2"
-                    updateTaskList={props.updateTaskList}
                     task={props.task}
                 />
             </div>

@@ -1,11 +1,9 @@
 import React, {useState, useEffect, useContext} from "react";
 import {TaskList} from "../stories/TaskList";
-import {TestContext} from "../context/TestContext";
 import {TaskListContext} from "../context/TaskListContext";
 
 const MainPage = () => {
 
-    const {getTest, setTest} =useContext(TestContext)
     const {getTaskList2, setTaskList2} = useContext(TaskListContext)
     const [getNewTaskId, setNewTaskId] = useState(0)
 
@@ -73,10 +71,7 @@ const MainPage = () => {
 
     return (
         <>
-            <p>{getTest}</p>
-            <button onClick={()=>setTest('BAR')}>set to bar</button>
             <h1>page one header</h1>
-            <p>this is my page one text</p>
             <div>
                 <label htmlFor="bar">Description</label>
                 <input
@@ -97,7 +92,7 @@ const MainPage = () => {
                     min="1"
                     />
                 <button onClick={addTask} disabled={!getIsSavable}>Add Task</button>
-                <TaskList tasks={getTaskList} updateTaskList={updateTaskList}/>
+                <TaskList/>
             </div>
         </>
     )

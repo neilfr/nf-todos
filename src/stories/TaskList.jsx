@@ -1,12 +1,15 @@
-import React, {FC} from 'react'
-import {Task, TaskProps} from "./Task";
+import React, {useContext} from 'react'
+import {Task} from "./Task";
+import {TaskListContext} from "../context/TaskListContext";
 
 export const SORT_OPTIONS = {
     SORT_BY_DESCRIPTION: 'description',
     SORT_BY_PRIORITY: 'priority'
 }
 
+
 export const TaskList= (props) => {
+    const {getTaskList2} = useContext(TaskListContext)
 
     //todo: sorting like strings instead of integers
     const prioritySort = (a,b) => {
@@ -24,17 +27,17 @@ export const TaskList= (props) => {
     const sortBy = (property) => {
         switch (property){
             case 'priority':
-                return props.tasks.sort(prioritySort)
+                return getTaskList2.sort(prioritySort)
                 break
             case 'description':
-                return props.tasks.sort(descriptionSort)
+                return getTaskList2.sort(descriptionSort)
                 break
             default:
-                return props.tasks.sort(prioritySort)
+                return getTaskList2.sort(prioritySort)
         }
     }
 
-    const sortedTasks = props.tasks.length>0 ? sortBy(props.sortByProperty) : props.tasks
+    const sortedTasks = getTaskList2.length>0 ? sortBy(props.sortByProperty) : getTaskList2
 
     return sortedTasks.length>0 ? (
         <div>
@@ -44,7 +47,6 @@ export const TaskList= (props) => {
                         key={index}
                         task={task}
                         status={task.status}
-                        updateTaskList={props.updateTaskList}
                     />
                 )
             })}

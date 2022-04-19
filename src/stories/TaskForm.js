@@ -1,8 +1,6 @@
 import React, {useContext} from 'react'
 import {CurrentTaskIdContext} from "../context/CurrentTaskIdContext";
-import {Status} from "./Status";
 import {TaskListContext} from "../context/TaskListContext";
-import {Priority} from "./Priority";
 
 export const TaskForm = () => {
     const {getCurrentTaskId, setCurrentTaskId} = useContext(CurrentTaskIdContext)
@@ -16,10 +14,12 @@ export const TaskForm = () => {
             <input
                 type="text"
                 value={getTaskList2[getCurrentTaskId]['description']}
+                readOnly
                 />
             <input
                 type="number"
                 value={getTaskList2[getCurrentTaskId]['priority']}
+                readOnly
             />
         </div>
     )

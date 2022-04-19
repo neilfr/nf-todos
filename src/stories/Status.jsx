@@ -1,11 +1,14 @@
 import React from 'react'
 
 export const Status = (props) => {
+
     const changeStatus = (e) => {
         props.updateTaskList({
             ...props.task,
             status:!props.task.status
         })
+
+
     }
 
     return(
