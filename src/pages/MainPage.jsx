@@ -48,18 +48,6 @@ const MainPage = () => {
         setNewTaskId(getNewTaskId+1)
     }
 
-    const updateTaskList = (updatedTask) => {
-        console.log('updated task is:', updatedTask)
-        const updatedTaskList = getTaskList.map((task)=>{
-            if(task.id===updatedTask.id){
-                task.description=updatedTask.description
-                task.status=updatedTask.status
-                task.priority=updatedTask.priority
-            }
-            return task
-        })
-        setTaskList(updatedTaskList)
-    }
 
     const updateTaskFormDescription = (e) => {
         setTask({...getTask, description:e.target.value})

@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {Task} from "./Task";
 import {TaskListContext} from "../context/TaskListContext";
+import {CurrentTaskIdContext} from "../context/CurrentTaskIdContext";
 
 export const SORT_OPTIONS = {
     SORT_BY_DESCRIPTION: 'description',
@@ -9,6 +10,7 @@ export const SORT_OPTIONS = {
 
 export const TaskList= (props) => {
     const {getTaskList2,setTaskList2} = useContext(TaskListContext)
+    const {getCurrentTaskId} = useContext(CurrentTaskIdContext)
 
     //todo: sorting like strings instead of integers
     const prioritySort = (a,b) => {
@@ -37,15 +39,18 @@ export const TaskList= (props) => {
     }
 
     useEffect(() => {
+        console.log('beforeset:', getTaskList2)
+        console.log('currenttaskid', getCurrentTaskId)
         setTaskList2(getTaskList2.length>0 ? sortBy(props.sortByProperty) : getTaskList2)
-    },[])
+        console.log('afterset:', getTaskList2)
+    },[getTaskList2])
 
     return getTaskList2.length>0 ? (
         <div>
-            {getTaskList2.map( (task, index) => {
+            {getTaskList2.map( (task) => {
                 return (
                     <Task
-                        key={index}
+                        key={task.id}
                         task={task}
                         status={task.status}
                     />

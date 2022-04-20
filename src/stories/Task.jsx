@@ -1,9 +1,8 @@
-import React, {FC, useContext, useEffect, useState} from 'react'
+import React, {useContext} from 'react'
 import {Priority} from "./Priority";
 import {Status} from "./Status";
 import {useNavigate} from "react-router-dom";
 import {CurrentTaskIdContext} from "../context/CurrentTaskIdContext";
-import {TaskListContext} from "../context/TaskListContext";
 
 export const Task = (props) => {
 
@@ -13,13 +12,6 @@ export const Task = (props) => {
     const textStyle = {
         height: '1.5rem',
     }
-
-    // const updateDescription = (e) => {
-    //     props.updateTaskList({
-    //         ...props.task,
-    //         description:e.target.value
-    //     })
-    // }
 
     const editTask = () => {
         setCurrentTaskId(props.task.id)
