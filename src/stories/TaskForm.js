@@ -1,26 +1,49 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import {CurrentTaskIdContext} from "../context/CurrentTaskIdContext";
 import {TaskListContext} from "../context/TaskListContext";
+import {useNavigate} from "react-router-dom";
 
 export const TaskForm = () => {
-    const {getCurrentTaskId, setCurrentTaskId} = useContext(CurrentTaskIdContext)
-    const {getTaskList2} = useContext(TaskListContext)
+    const {getCurrentTaskId} = useContext(CurrentTaskIdContext)
+    const {getTaskList2, setTaskList2} = useContext(TaskListContext)
 
-    console.log('current task id:', getCurrentTaskId)
-    console.log('current task list:', getTaskList2)
+    const [getTaskToUpdate, setTaskToUpdate] = useState(getTaskList2[getCurrentTaskId])
+
+    const updateTaskToDescription = (e) => {
+        setTaskToUpdate({
+            ...getTaskToUpdate,
+            description: e.target.value
+        })
+    }
+
+    const updateTaskToPriority = (e) => {
+        setTaskToUpdate({
+            ...getTaskToUpdate,
+            priority: e.target.value
+        })
+    }
+
+    let navigate = useNavigate()
+    const updateTask = () => {
+        setTaskList2(getTaskList2.map((task)=>{
+            return task.id === getTaskToUpdate.id ? getTaskToUpdate : task
+        }))
+        navigate("/")
+    }
 
     return (
         <div>
             <input
                 type="text"
-                value={getTaskList2[getCurrentTaskId]['description']}
-                readOnly
+                value={getTaskToUpdate['description']}
+                onChange={updateTaskToDescription}
                 />
             <input
                 type="number"
-                value={getTaskList2[getCurrentTaskId]['priority']}
-                readOnly
+                value={getTaskToUpdate['priority']}
+                onChange={updateTaskToPriority}
             />
+            <button onClick={updateTask}>Save</button>
         </div>
     )
 }

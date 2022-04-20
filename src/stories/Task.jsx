@@ -3,6 +3,7 @@ import {Priority} from "./Priority";
 import {Status} from "./Status";
 import {useNavigate} from "react-router-dom";
 import {CurrentTaskIdContext} from "../context/CurrentTaskIdContext";
+import {TaskListContext} from "../context/TaskListContext";
 
 export const Task = (props) => {
 

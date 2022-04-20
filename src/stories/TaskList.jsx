@@ -7,7 +7,6 @@ export const SORT_OPTIONS = {
     SORT_BY_PRIORITY: 'priority'
 }
 
-
 export const TaskList= (props) => {
     const {getTaskList2,setTaskList2} = useContext(TaskListContext)
 
