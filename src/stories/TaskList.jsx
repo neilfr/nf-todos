@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {Task} from "./Task";
 import {TaskListContext} from "../context/TaskListContext";
 
@@ -9,7 +9,7 @@ export const SORT_OPTIONS = {
 
 
 export const TaskList= (props) => {
-    const {getTaskList2} = useContext(TaskListContext)
+    const {getTaskList2,setTaskList2} = useContext(TaskListContext)
 
     //todo: sorting like strings instead of integers
     const prioritySort = (a,b) => {
@@ -37,11 +37,13 @@ export const TaskList= (props) => {
         }
     }
 
-    const sortedTasks = getTaskList2.length>0 ? sortBy(props.sortByProperty) : getTaskList2
+    useEffect(() => {
+        setTaskList2(getTaskList2.length>0 ? sortBy(props.sortByProperty) : getTaskList2)
+    },[])
 
-    return sortedTasks.length>0 ? (
+    return getTaskList2.length>0 ? (
         <div>
-            {sortedTasks.map( (task, index) => {
+            {getTaskList2.map( (task, index) => {
                 return (
                     <Task
                         key={index}
