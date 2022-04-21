@@ -1,26 +1,25 @@
 import MainPage from "../pages/MainPage"
-import {BrowserRouter, Routes, Route, useNavigate, useHistory} from "react-router-dom"
+import {BrowserRouter, Routes, Route} from "react-router-dom"
 import {EditTaskPage} from "../pages/EditTaskPage"
 import React, {useState} from "react";
-import {CurrentTaskIdContext} from "../context/CurrentTaskIdContext";
+import {TaskContext} from "../context/TaskContext";
 import {TaskListContext} from "../context/TaskListContext";
 
 
 const Base = () => {
-    const [getCurrentTaskId, setCurrentTaskId] = useState(null)
+    const [getTask, setTask] = useState(null)
     const [getTaskList2, setTaskList2] = useState([])
-
-    // put update here and pass it via the provider.  then task form runs the function there.
-    // update state of tasklistcontext here.
 
     const updateTaskList = (updatedTask) => {
         //sort here
         const taco = getTaskList2.map((task)=>{
             return task.id === updatedTask.id ? updatedTask : task
         })
+        console.log('taco', taco)
+        const sortedTaco = taco.length>0 ? taco.sort(prioritySort) : taco
+        console.log('sortedTaco', sortedTaco)
 
-        setTaskList2(taco.length>0 ? taco.sort(prioritySort) : taco)
-
+        setTaskList2(sortedTaco)
     }
 
     //todo: sorting like strings instead of integers
@@ -36,23 +35,9 @@ const Base = () => {
         return 0
     }
 
-    const sortBy = (property) => {
-        switch (property){
-            case 'priority':
-                return getTaskList2.sort(prioritySort)
-                break
-            case 'description':
-                return getTaskList2.sort(descriptionSort)
-                break
-            default:
-                return getTaskList2.sort(prioritySort)
-        }
-    }
-
-
     return (
         <TaskListContext.Provider value={{getTaskList2, setTaskList2, updateTaskList}}>
-            <CurrentTaskIdContext.Provider value={{getCurrentTaskId, setCurrentTaskId}}>
+            <TaskContext.Provider value={{getTask, setTask}}>
                 <div className="base-layout">
                     <h1 className="bg-red">Base Layout Header</h1>
                     <BrowserRouter>
@@ -62,7 +47,7 @@ const Base = () => {
                         </Routes>
                     </BrowserRouter>
                 </div>
-            </CurrentTaskIdContext.Provider>
+            </TaskContext.Provider>
         </TaskListContext.Provider>
     )
 }

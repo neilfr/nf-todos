@@ -1,40 +1,35 @@
 import React, {useContext} from 'react'
 import {Priority} from "./Priority";
 import {Status} from "./Status";
-import {useNavigate} from "react-router-dom";
-import {CurrentTaskIdContext} from "../context/CurrentTaskIdContext";
+import {TaskContext} from "../context/TaskContext";
 
-export const Task = (props) => {
+export const Task = () => {
 
-    let navigate = useNavigate()
-    const {setCurrentTaskId} = useContext(CurrentTaskIdContext)
+    const {getTask, setTask} = useContext(TaskContext)
+    console.log('did i get here')
+    console.log('gettask', getTask)
 
     const textStyle = {
         height: '1.5rem',
     }
 
-    const editTask = () => {
-        setCurrentTaskId(props.task.id)
-        navigate("/edit",)
-    }
-
     return (
-        <div className="flex border rounded border-black m-2" onClick={editTask}>
-            <Status
-                task={props.task}
-            />
+        <div className="flex border rounded border-black m-2">
+            {/*<Status*/}
+            {/*    task={getTask}*/}
+            {/*/>*/}
             <div>
                 <input
                     className="m-2"
                     type='text'
                     style={textStyle}
-                    value={props.task.description}
+                    value={getTask ? getTask.description : ''}
                     readOnly
                 />
-                <Priority
-                    className="border border-black m-2"
-                    task={props.task}
-                />
+                {/*<Priority*/}
+                {/*    className="border border-black m-2"*/}
+                {/*    task={getTask}*/}
+                {/*/>*/}
             </div>
         </div>
     )

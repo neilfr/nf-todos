@@ -1,13 +1,15 @@
 import React, {useState, useEffect, useContext} from "react";
 import {TaskList} from "../stories/TaskList";
 import {TaskListContext} from "../context/TaskListContext";
+import {TaskContext} from "../context/TaskContext";
 
 const MainPage = () => {
 
     const {getTaskList2, setTaskList2} = useContext(TaskListContext)
+    const {getTask, setTask} = useContext(TaskContext)
     const [getNewTaskId, setNewTaskId] = useState(0)
 
-    const [getTask,setTask] = useState({
+    const [getNewTask,setNewTask] = useState({
         status: false,
         description: '',
         priority:1,
@@ -19,27 +21,33 @@ const MainPage = () => {
     const [getIsSavable, setIsSavable] = useState(false)
 
     useEffect(()=>{
-        (Object.keys(getTask).length>0 && getTask.description.length>0) ? setIsSavable(true) : setIsSavable(false)
-    }, [getTask])
+        (Object.keys(getNewTask).length>0 && getNewTask.description.length>0) ? setIsSavable(true) : setIsSavable(false)
+    }, [getNewTask])
 
     const addTask = () => {
+        setTask({
+            id:getNewTask.id,
+            status:getNewTask.status,
+            description:getNewTask.description,
+            priority:getNewTask.priority
+        })
         setTaskList2([
             ...getTaskList2, {
-                id:getTask.id,
-                status:getTask.status,
-                description:getTask.description,
-                priority:getTask.priority
+                id:getNewTask.id,
+                status:getNewTask.status,
+                description:getNewTask.description,
+                priority:getNewTask.priority
             }
         ])
         setTaskList([
             ...getTaskList, {
-                id:getTask.id,
-                status:getTask.status,
-                description:getTask.description,
-                priority:getTask.priority
+                id:getNewTask.id,
+                status:getNewTask.status,
+                description:getNewTask.description,
+                priority:getNewTask.priority
             }
         ])
-        setTask({
+        setNewTask({
             status:false,
             description:'',
             priority:1,
@@ -50,11 +58,11 @@ const MainPage = () => {
 
 
     const updateTaskFormDescription = (e) => {
-        setTask({...getTask, description:e.target.value})
+        setNewTask({...getNewTask, description:e.target.value})
     }
 
     const updateTaskFormPriority = (e) => {
-        setTask({...getTask, priority: e.target.value})
+        setNewTask({...getNewTask, priority: e.target.value})
     }
 
     return (
@@ -66,7 +74,7 @@ const MainPage = () => {
                     type='text'
                     name='foo'
                     id='bar'
-                    value={getTask.description}
+                    value={getNewTask.description}
                     onChange={updateTaskFormDescription}
                     placeholder='Task Description'
                 />
@@ -75,7 +83,7 @@ const MainPage = () => {
                     type="number"
                     name="priority"
                     id="priority"
-                    value={getTask.priority}
+                    value={getNewTask.priority}
                     onChange={updateTaskFormPriority}
                     min="1"
                     />

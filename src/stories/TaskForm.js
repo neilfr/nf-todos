@@ -1,32 +1,32 @@
 import React, {useContext, useState} from 'react'
-import {CurrentTaskIdContext} from "../context/CurrentTaskIdContext";
-import {TaskListContext} from "../context/TaskListContext";
 import {useNavigate} from "react-router-dom";
+import {TaskListContext} from "../context/TaskListContext";
+import {TaskContext} from "../context/TaskContext";
 
 export const TaskForm = () => {
-    const {getCurrentTaskId} = useContext(CurrentTaskIdContext)
+    const {getTask, setTask} = useContext(TaskContext)
     const {getTaskList2, setTaskList2, updateTaskList} = useContext(TaskListContext)
 
-    const [getTaskToUpdate, setTaskToUpdate] = useState(getTaskList2[getCurrentTaskId])
+    // const [getTaskToUpdate, setTaskToUpdate] = useState(getTask)
 
     let navigate = useNavigate()
 
-    const updateTaskToDescription = (e) => {
-        setTaskToUpdate({
-            ...getTaskToUpdate,
+    const updateTaskDescription = (e) => {
+        setTask({
+            ...getTask,
             description: e.target.value
         })
     }
 
-    const updateTaskToPriority = (e) => {
-        setTaskToUpdate({
-            ...getTaskToUpdate,
+    const updateTaskPriority = (e) => {
+        setTask({
+            ...getTask,
             priority: e.target.value
         })
     }
 
     const updateTask = () => {
-        updateTaskList(getTaskToUpdate)
+        updateTaskList(getTask)
         navigate("/")
     }
 
@@ -34,13 +34,13 @@ export const TaskForm = () => {
         <div>
             <input
                 type="text"
-                value={getTaskToUpdate['description']}
-                onChange={updateTaskToDescription}
+                value={getTask['description']}
+                onChange={updateTaskDescription}
                 />
             <input
                 type="number"
-                value={getTaskToUpdate['priority']}
-                onChange={updateTaskToPriority}
+                value={getTask['priority']}
+                onChange={updateTaskPriority}
             />
             <button onClick={updateTask}>Save</button>
         </div>

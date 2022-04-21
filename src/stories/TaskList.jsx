@@ -1,16 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {Task} from "./Task";
 import {TaskListContext} from "../context/TaskListContext";
-import {CurrentTaskIdContext} from "../context/CurrentTaskIdContext";
+import {useNavigate} from "react-router-dom";
+import {TaskContext} from "../context/TaskContext";
 
-export const SORT_OPTIONS = {
-    SORT_BY_DESCRIPTION: 'description',
-    SORT_BY_PRIORITY: 'priority'
-}
+export const TaskList= () => {
+    const {getTaskList2} = useContext(TaskListContext)
+    const {setTask} = useContext(TaskContext)
 
-export const TaskList= (props) => {
-    const {getTaskList2,setTaskList2} = useContext(TaskListContext)
-    const {getCurrentTaskId} = useContext(CurrentTaskIdContext)
+    let navigate = useNavigate()
+
+    const editTask = (task) => {
+        setTask(task)
+        navigate("/edit",)
+    }
 
     return getTaskList2.length>0 ? (
         <div>
@@ -18,8 +21,7 @@ export const TaskList= (props) => {
                 return (
                     <Task
                         key={task.id}
-                        task={task}
-                        status={task.status}
+                        onClick={()=>{editTask(task)}}
                     />
                 )
             })}
