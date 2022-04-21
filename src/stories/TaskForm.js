@@ -5,9 +5,11 @@ import {useNavigate} from "react-router-dom";
 
 export const TaskForm = () => {
     const {getCurrentTaskId} = useContext(CurrentTaskIdContext)
-    const {getTaskList2, setTaskList2} = useContext(TaskListContext)
+    const {getTaskList2, setTaskList2, updateTaskList} = useContext(TaskListContext)
 
     const [getTaskToUpdate, setTaskToUpdate] = useState(getTaskList2[getCurrentTaskId])
+
+    let navigate = useNavigate()
 
     const updateTaskToDescription = (e) => {
         setTaskToUpdate({
@@ -23,11 +25,8 @@ export const TaskForm = () => {
         })
     }
 
-    let navigate = useNavigate()
     const updateTask = () => {
-        setTaskList2(getTaskList2.map((task)=>{
-            return task.id === getTaskToUpdate.id ? getTaskToUpdate : task
-        }))
+        updateTaskList(getTaskToUpdate)
         navigate("/")
     }
 
