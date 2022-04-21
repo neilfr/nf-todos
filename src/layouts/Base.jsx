@@ -15,11 +15,40 @@ const Base = () => {
 
     const updateTaskList = (updatedTask) => {
         //sort here
-        console.log('updated task', updatedTask)
-        setTaskList2(getTaskList2.map((task)=>{
+        const taco = getTaskList2.map((task)=>{
             return task.id === updatedTask.id ? updatedTask : task
-        }))
+        })
+
+        setTaskList2(taco.length>0 ? taco.sort(prioritySort) : taco)
+
     }
+
+    //todo: sorting like strings instead of integers
+    const prioritySort = (a,b) => {
+        if(a.priority>b.priority) return 1
+        if(a.priority<b.priority) return -1
+        return 0
+    }
+
+    const descriptionSort = (a,b) => {
+        if(a.description>b.description) return 1
+        if(a.description<b.description) return -1
+        return 0
+    }
+
+    const sortBy = (property) => {
+        switch (property){
+            case 'priority':
+                return getTaskList2.sort(prioritySort)
+                break
+            case 'description':
+                return getTaskList2.sort(descriptionSort)
+                break
+            default:
+                return getTaskList2.sort(prioritySort)
+        }
+    }
+
 
     return (
         <TaskListContext.Provider value={{getTaskList2, setTaskList2, updateTaskList}}>
