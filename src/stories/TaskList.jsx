@@ -3,11 +3,11 @@ import {Task} from "./Task";
 import {TaskListContext} from "../context/TaskListContext";
 
 export const TaskList= () => {
-    const {getTaskList2} = useContext(TaskListContext)
+    const {getTaskList} = useContext(TaskListContext)
 
-    return getTaskList2.length>0 ? (
-        <div>
-            {getTaskList2.map( (task) => {
+    return getTaskList.length>0 ? (
+        <div className="pb-2">
+            {getTaskList.map( (task) => {
                 return (
                     <Task
                         key={task.id}

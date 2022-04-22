@@ -8,26 +8,29 @@ import {TaskListContext} from "../context/TaskListContext";
 
 const Base = () => {
     const [getTask, setTask] = useState(null)
-    const [getTaskList2, setTaskList2] = useState([])
-
-
+    const [getTaskList, setTaskList] = useState([])
 
     const updateTaskList = (updatedTask) => {
-        //sort here
-        const taco = getTaskList2.map((task)=>{
+        const updatedTaskList = getTaskList.map((task)=>{
             return task.id === updatedTask.id ? updatedTask : task
         })
-        console.log('taco', taco)
-        const sortedTaco = taco.length>0 ? taco.sort(prioritySort) : taco
-        console.log('sortedTaco', sortedTaco)
 
-        setTaskList2(sortedTaco)
+        const descriptionSortedUpdatedTaskList = updatedTaskList.length>0 ? updatedTaskList.sort(descriptionSort) : updatedTaskList
+        const prioritySortedUpdatedTaskList = descriptionSortedUpdatedTaskList.length>0 ? descriptionSortedUpdatedTaskList.sort(prioritySort) : descriptionSortedUpdatedTaskList
+        const statusSortedUpdatedTaskList = prioritySortedUpdatedTaskList.length>0 ? prioritySortedUpdatedTaskList.sort(statusSort) : prioritySortedUpdatedTaskList
+
+        setTaskList(statusSortedUpdatedTaskList)
     }
 
-    //todo: sorting like strings instead of integers
-    const prioritySort = (a,b) => {
-        if(a.priority>b.priority) return 1
-        if(a.priority<b.priority) return -1
+    const statusSort = (a,b) => {
+        if(a.status>b.status) return 1
+        if(a.status<b.status) return -1
+        return 0
+    }
+
+    const prioritySort = (a, b) => {
+        if(parseInt(a.priority)>parseInt(b.priority)) return 1
+        if(parseInt(a.priority)<parseInt(b.priority)) return -1
         return 0
     }
 
@@ -38,7 +41,7 @@ const Base = () => {
     }
 
     return (
-        <TaskListContext.Provider value={{getTaskList2, setTaskList2, updateTaskList}}>
+        <TaskListContext.Provider value={{getTaskList, setTaskList, updateTaskList}}>
             <TaskContext.Provider value={{getTask, setTask}}>
                 <div className="base-layout">
                     <h1 className="bg-red">Base Layout Header</h1>

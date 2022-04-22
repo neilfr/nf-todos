@@ -1,12 +1,10 @@
 import React, {useState, useEffect, useContext} from "react";
 import {TaskList} from "../stories/TaskList";
 import {TaskListContext} from "../context/TaskListContext";
-import {TaskContext} from "../context/TaskContext";
 
 const MainPage = () => {
 
-    const {getTaskList2, setTaskList2} = useContext(TaskListContext)
-    const {getTask, setTask} = useContext(TaskContext)
+    const {getTaskList, setTaskList} = useContext(TaskListContext)
     const [getNewTaskId, setNewTaskId] = useState(0)
 
     const [getNewTask,setNewTask] = useState({
@@ -16,8 +14,6 @@ const MainPage = () => {
         id:0,
     })
 
-    const [getTaskList,setTaskList] = useState([])
-
     const [getIsSavable, setIsSavable] = useState(false)
 
     useEffect(()=>{
@@ -25,20 +21,6 @@ const MainPage = () => {
     }, [getNewTask])
 
     const addTask = () => {
-        setTask({
-            id:getNewTask.id,
-            status:getNewTask.status,
-            description:getNewTask.description,
-            priority:getNewTask.priority
-        })
-        setTaskList2([
-            ...getTaskList2, {
-                id:getNewTask.id,
-                status:getNewTask.status,
-                description:getNewTask.description,
-                priority:getNewTask.priority
-            }
-        ])
         setTaskList([
             ...getTaskList, {
                 id:getNewTask.id,
