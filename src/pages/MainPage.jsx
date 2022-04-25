@@ -4,7 +4,7 @@ import {TaskListContext} from "../context/TaskListContext";
 
 const MainPage = () => {
 
-    const {getTaskList, setTaskList} = useContext(TaskListContext)
+    const {getTaskList, setTaskList, sortTaskList} = useContext(TaskListContext)
     const [getNewTaskId, setNewTaskId] = useState(0)
 
     const [getNewTask,setNewTask] = useState({
@@ -21,14 +21,14 @@ const MainPage = () => {
     }, [getNewTask])
 
     const addTask = () => {
-        setTaskList([
+        setTaskList(sortTaskList([
             ...getTaskList, {
                 id:getNewTask.id,
                 status:getNewTask.status,
                 description:getNewTask.description,
                 priority:getNewTask.priority
             }
-        ])
+        ]))
         setNewTask({
             status:false,
             description:'',

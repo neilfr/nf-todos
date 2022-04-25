@@ -10,16 +10,18 @@ const Base = () => {
     const [getTask, setTask] = useState(null)
     const [getTaskList, setTaskList] = useState([])
 
+    const sortTaskList = (tl) => {
+        const descriptionSortedUpdatedTaskList = tl.length>0 ? tl.sort(descriptionSort) : tl
+        const prioritySortedUpdatedTaskList = descriptionSortedUpdatedTaskList.length>0 ? descriptionSortedUpdatedTaskList.sort(prioritySort) : descriptionSortedUpdatedTaskList
+        return prioritySortedUpdatedTaskList.length>0 ? prioritySortedUpdatedTaskList.sort(statusSort) : prioritySortedUpdatedTaskList
+    }
+
     const updateTaskList = (updatedTask) => {
         const updatedTaskList = getTaskList.map((task)=>{
             return task.id === updatedTask.id ? updatedTask : task
         })
 
-        const descriptionSortedUpdatedTaskList = updatedTaskList.length>0 ? updatedTaskList.sort(descriptionSort) : updatedTaskList
-        const prioritySortedUpdatedTaskList = descriptionSortedUpdatedTaskList.length>0 ? descriptionSortedUpdatedTaskList.sort(prioritySort) : descriptionSortedUpdatedTaskList
-        const statusSortedUpdatedTaskList = prioritySortedUpdatedTaskList.length>0 ? prioritySortedUpdatedTaskList.sort(statusSort) : prioritySortedUpdatedTaskList
-
-        setTaskList(statusSortedUpdatedTaskList)
+        setTaskList(sortTaskList(updatedTaskList))
     }
 
     const statusSort = (a,b) => {
@@ -41,7 +43,7 @@ const Base = () => {
     }
 
     return (
-        <TaskListContext.Provider value={{getTaskList, setTaskList, updateTaskList}}>
+        <TaskListContext.Provider value={{getTaskList, setTaskList, updateTaskList, sortTaskList}}>
             <TaskContext.Provider value={{getTask, setTask}}>
                 <div className="base-layout">
                     <h1 className="bg-red">Base Layout Header</h1>
