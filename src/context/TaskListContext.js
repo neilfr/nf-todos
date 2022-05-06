@@ -1,25 +1,35 @@
-import React, {createContext, useContext} from "react";
+import React, {useState, createContext} from "react";
 
 export const TaskListContext = createContext()
 
-const TaskListProvider = ({
+export const TaskListProvider = ({
     children
-                          }) => {
+}) => {
+    const [getTaskList, setTaskList] = useState([
+        {
+            id:0,
+            priority:1,
+            description:'first task',
+            complete: false
+        },
+        {
+            id:1,
+            priority:2,
+            description:'second task',
+            complete: true
+        }
+    ])
+
+    const updateTaskCompleteStatus = (taskId) => {
+        const updatedTaskList = getTaskList.map((task)=>{
+            return taskId === task.id ? {...task, complete:!task.complete} : task
+        })
+        setTaskList(updatedTaskList)
+    }
 
     return (
-        <TaskListContext.Provider value={{x:'y'}}>
+        <TaskListContext.Provider value={{tasks:getTaskList, updateTaskCompleteStatus}}>
             {children}
         </TaskListContext.Provider>
     )
 }
-
-export const useTaskList = () => {
-    const context = useContext(TaskListContext)
-    if (context === undefined) {
-        throw new Error(
-            'not working'
-        )
-    }
-    return context
-}
-export default TaskListProvider

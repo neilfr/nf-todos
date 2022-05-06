@@ -1,13 +1,29 @@
-import React, {useContext} from 'react'
-import TaskListProvider, {TaskListContext, useTaskList} from "../context/TaskListContext";
+import React from 'react'
+import {useTaskList} from "../context/TaskListContext";
+import {Task} from "../stories/Task";
 
 export const AnotherComponent = () => {
 
-    const foo = useTaskList()
-
+    // const taskListContext = useTaskList()
+    //
+    // return taskListContext.getTaskList2.length>0 ? (
+    //         <div className="pb-2">
+    //             {taskListContext.getTaskList2.map( (task) => {
+    //                 return (
+    //                     // <p>{task}</p>
+    //                     <Task
+    //                         key={task.id}
+    //                         task={task}
+    //                     />
+    //                 )
+    //             })}
+    //         </div>
+    //     ): (
+    //         <div>Enter a task</div>
+    // )
     return (
         <div>
-            <p>sending something:{foo.x}</p>
+            foo
         </div>
     )
 

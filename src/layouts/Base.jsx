@@ -1,9 +1,9 @@
-import MainPage from "../pages/MainPage"
-import {BrowserRouter, Routes, Route} from "react-router-dom"
-import {EditTaskPage} from "../pages/EditTaskPage"
 import React, {useState} from "react";
-import {TaskContext} from "../context/TaskContext";
-import {TaskListContext} from "../context/TaskListContext";
+import {TaskListProvider} from "../context/TaskListContext";
+import {TaskList} from "../stories/TaskList";
+import {BrowserRouter} from "react-router-dom";
+import {Route, Routes} from "react-router";
+import {Foo} from "../components/Foo";
 
 
 const Base = () => {
@@ -43,19 +43,30 @@ const Base = () => {
     }
 
     return (
-        <TaskListContext.Provider value={{getTaskList, setTaskList, updateTaskList, sortTaskList}}>
-            <TaskContext.Provider value={{getTask, setTask}}>
-                <div className="base-layout">
-                    <h1 className="bg-red">Base Layout Header</h1>
-                    <BrowserRouter>
-                        <Routes>
-                            <Route path="/" element={<MainPage/>}/>
-                            <Route path="/edit" element={<EditTaskPage/>}/>
-                        </Routes>
-                    </BrowserRouter>
-                </div>
-            </TaskContext.Provider>
-        </TaskListContext.Provider>
+        <TaskListProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path = "/" element={<TaskList/>}/>
+                    <Route path = "/edit" element={<Foo/>}/>
+                </Routes>
+            </BrowserRouter>
+        </TaskListProvider>
     )
+
+    // return (
+    //     <TaskListContext.Provider value={{getTaskList, setTaskList, updateTaskList, sortTaskList}}>
+    //         <TaskContext.Provider value={{getTask, setTask}}>
+    //             <div className="base-layout">
+    //                 <h1 className="bg-red">Base Layout Header</h1>
+    //                 <BrowserRouter>
+    //                     <Routes>
+    //                         <Route path="/" element={<MainPage/>}/>
+    //                         <Route path="/edit" element={<EditTaskPage/>}/>
+    //                     </Routes>
+    //                 </BrowserRouter>
+    //             </div>
+    //         </TaskContext.Provider>
+    //     </TaskListContext.Provider>
+    // )
 }
 export default Base

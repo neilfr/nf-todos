@@ -1,28 +1,30 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {Task} from "./Task";
-import TaskListProvider, {TaskListContext} from "../context/TaskListContext";
-import {AnotherComponent} from "../components/AnotherComponent";
+import React, {useContext} from 'react'
+import {TaskListContext} from "../context/TaskListContext";
+import {useNavigate} from "react-router-dom";
 
 export const TaskList= () => {
-    const {getTaskList} = useContext(TaskListContext)
-    return (
-        <TaskListProvider>
-            <AnotherComponent/>
-        </TaskListProvider>
-    )
+    const {tasks, updateTaskCompleteStatus} = useContext(TaskListContext)
 
-    // return getTaskList.length>0 ? (
-    //         <div className="pb-2">
-    //             {getTaskList.map( (task) => {
-    //                 return (
-    //                     <Task
-    //                         key={task.id}
-    //                         task={task}
-    //                     />
-    //                 )
-    //             })}
-    //         </div>
-    //     ): (
-    //         <div>Enter a task</div>
-    // )
+    let navigate = useNavigate()
+
+    const editTask = (task) => {
+        console.log("task is:",task)
+        navigate("/edit", {state:{task}})
+    }
+
+    return (
+        <div>
+            {tasks.map( (task) => {
+                return (
+                    <div key={task.id} className={"flex"}>
+                        <input type={"checkbox"} checked={task.complete} onChange={()=>updateTaskCompleteStatus(task.id)}/>
+                        <div onClick={()=>{editTask(task)}}>
+                            <span>{task.priority}</span>
+                            <span>{task.description}</span>
+                        </div>
+                    </div>
+                )
+            })}
+        </div>
+    )
 }
