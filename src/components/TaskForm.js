@@ -3,9 +3,9 @@ import {useLocation} from "react-router-dom";
 import {TaskListContext} from "../context/TaskListContext";
 import {useNavigate} from "react-router";
 
-export const Foo = () => {
+export const TaskForm = () => {
 
-    const {updateTask} = useContext(TaskListContext)
+    const {updateOrCreateTask} = useContext(TaskListContext)
     const location = useLocation()
     const navigate = useNavigate()
     const task = location.state.task
@@ -20,7 +20,11 @@ export const Foo = () => {
     }
 
     const saveTask = () => {
-        updateTask(getTask)
+        updateOrCreateTask(getTask)
+        navigate("/")
+    }
+
+    const cancel = () =>{
         navigate("/")
     }
 
@@ -35,6 +39,7 @@ export const Foo = () => {
                 <input id="description" type={"text"} value={getTask.description} onChange={(e)=>updateTaskDescription(e)}/>
             </div>
             <button onClick={saveTask}>Save</button>
+            <button onClick={cancel}>Cancel</button>
         </div>
     )
 }

@@ -3,7 +3,7 @@ import {TaskListProvider} from "../context/TaskListContext";
 import {TaskList} from "../stories/TaskList";
 import {BrowserRouter} from "react-router-dom";
 import {Route, Routes} from "react-router";
-import {Foo} from "../components/Foo";
+import {TaskForm} from "../components/TaskForm";
 
 
 const Base = () => {
@@ -47,7 +47,7 @@ const Base = () => {
             <BrowserRouter>
                 <Routes>
                     <Route path = "/" element={<TaskList/>}/>
-                    <Route path = "/edit" element={<Foo/>}/>
+                    <Route path = "/edit" element={<TaskForm/>}/>
                 </Routes>
             </BrowserRouter>
         </TaskListProvider>

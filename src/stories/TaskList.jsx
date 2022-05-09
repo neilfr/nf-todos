@@ -3,7 +3,7 @@ import {TaskListContext} from "../context/TaskListContext";
 import {useNavigate} from "react-router-dom";
 
 export const TaskList= () => {
-    const {tasks, updateTaskCompleteStatus} = useContext(TaskListContext)
+    const {tasks, updateTaskCompleteStatus, newTask} = useContext(TaskListContext)
 
     let navigate = useNavigate()
 
@@ -13,6 +13,7 @@ export const TaskList= () => {
 
     return (
         <div>
+            <button onClick={ () => editTask(newTask()) }>Add</button>
             {tasks.map( (task) => {
                 return (
                     <div key={task.id} className={"flex"}>
