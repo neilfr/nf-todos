@@ -8,7 +8,6 @@ export const TaskList= () => {
     let navigate = useNavigate()
 
     const editTask = (task) => {
-        console.log("task is:",task)
         navigate("/edit", {state:{task}})
     }
 

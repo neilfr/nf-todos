@@ -1,6 +1,6 @@
 import React, {useState, createContext} from "react";
 
-export const TaskListContext = createContext()
+export const TaskListContext = createContext([])
 
 export const TaskListProvider = ({
     children
@@ -20,6 +20,14 @@ export const TaskListProvider = ({
         }
     ])
 
+    const updateTask = (updatedTask) =>{
+        console.log('updating task', updatedTask)
+        const updatedTaskList = getTaskList.map((task) => {
+            return task.id === updatedTask.id ? updatedTask : task
+        })
+        setTaskList(updatedTaskList)
+    }
+
     const updateTaskCompleteStatus = (taskId) => {
         const updatedTaskList = getTaskList.map((task)=>{
             return taskId === task.id ? {...task, complete:!task.complete} : task
@@ -28,7 +36,7 @@ export const TaskListProvider = ({
     }
 
     return (
-        <TaskListContext.Provider value={{tasks:getTaskList, updateTaskCompleteStatus}}>
+        <TaskListContext.Provider value={{tasks:getTaskList, updateTaskCompleteStatus, updateTask}}>
             {children}
         </TaskListContext.Provider>
     )
