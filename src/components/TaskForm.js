@@ -5,7 +5,7 @@ import {useNavigate} from "react-router";
 
 export const TaskForm = () => {
 
-    const {updateOrCreateTask} = useContext(TaskListContext)
+    const {updateOrCreateTask, removeTask} = useContext(TaskListContext)
     const location = useLocation()
     const navigate = useNavigate()
     const task = location.state.task
@@ -24,7 +24,12 @@ export const TaskForm = () => {
         navigate("/")
     }
 
-    const cancel = () =>{
+    const cancel = () => {
+        navigate("/")
+    }
+
+    const deleteTask = () => {
+        removeTask(getTask)
         navigate("/")
     }
 
@@ -40,6 +45,7 @@ export const TaskForm = () => {
             </div>
             <button onClick={saveTask}>Save</button>
             <button onClick={cancel}>Cancel</button>
+            <button onClick={deleteTask}>Delete</button>
         </div>
     )
 }

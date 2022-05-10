@@ -1,4 +1,4 @@
-import React, {useState, createContext} from "react";
+import React, {useState, createContext, useEffect} from "react";
 
 export const TaskListContext = createContext([])
 
@@ -6,6 +6,13 @@ export const TaskListProvider = ({
     children
 }) => {
     const [getTaskList, setTaskList] = useState([])
+
+    const [getSortedTaskList, setSortedTaskList] = useState(getTaskList)
+
+    useEffect(() => {
+        console.log('firing')
+        setSortedTaskList(sortTaskList)
+    }, [getTaskList])
 
     const getDefaultTask = () => {
         return {
@@ -16,8 +23,28 @@ export const TaskListProvider = ({
         }
     }
 
+    const sortTaskList = () => {
+        const descriptionSortedTaskList = () => {
+            return getTaskList.sort(descriptionSort)
+        }
+        const prioritySortedTaskList = () => {
+            return descriptionSortedTaskList().sort(prioritySort)
+        }
+        const completeSortedTaskList = () => {
+            return prioritySortedTaskList().sort(completeSort)
+        }
+
+        return completeSortedTaskList()
+    }
+
     const updateOrCreateTask = (taskToCreateOrUpdate) => {
         taskToCreateOrUpdate.id === null ? createNewTask(taskToCreateOrUpdate) : updateTaskInList(taskToCreateOrUpdate)
+    }
+
+    const removeTask = (taskToRemove) => {
+        setTaskList(getTaskList.filter( (task) => {
+            return task.id !== taskToRemove.id
+        }))
     }
 
     const createNewTask = (taskToCreateOrUpdate) => {
@@ -38,16 +65,9 @@ export const TaskListProvider = ({
         setTaskList(updatedTaskList)
     }
 
-    const sortTaskList = () => {
-        // const descriptionSortedUpdatedTaskList = tl.length>0 ? tl.sort(descriptionSort) : tl
-        // const prioritySortedUpdatedTaskList = descriptionSortedUpdatedTaskList.length>0 ? descriptionSortedUpdatedTaskList.sort(prioritySort) : descriptionSortedUpdatedTaskList
-        // return prioritySortedUpdatedTaskList.length>0 ? prioritySortedUpdatedTaskList.sort(statusSort) : prioritySortedUpdatedTaskList
-        return getTaskList.length>0 ? setTaskList(getTaskList.sort(prioritySort)) : []
-    }
-
-    const statusSort = (a,b) => {
-        if(a.status>b.status) return 1
-        if(a.status<b.status) return -1
+    const completeSort = (a,b) => {
+        if(a.complete>b.complete) return 1
+        if(a.complete<b.complete) return -1
         return 0
     }
 
@@ -64,7 +84,7 @@ export const TaskListProvider = ({
     }
 
     return (
-        <TaskListContext.Provider value={{tasks:getTaskList, updateTaskCompleteStatus, updateOrCreateTask, getDefaultTask}}>
+        <TaskListContext.Provider value={{getTaskList, removeTask, getSortedTaskList, updateTaskCompleteStatus, updateOrCreateTask, getDefaultTask}}>
             {children}
         </TaskListContext.Provider>
     )
