@@ -1,8 +1,16 @@
 import React, {useContext} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
+import {useNavigate} from "react-router-dom";
 
 export const Task = (props) => {
-    const {updateTaskCompleteStatus, editTask} = useContext(TaskListContext)
+    const {updateTaskCompleteStatus} = useContext(TaskListContext)
+
+    let navigate = useNavigate()
+
+    const editTask = (task) => {
+        navigate("/edit", {state:{task}})
+    }
+
     return (
         <div className="flex border rounded border-black m-2 p-2">
             <input type={"checkbox"} checked={props.task.complete} onChange={()=>updateTaskCompleteStatus(props.task.id)}/>
@@ -13,5 +21,3 @@ export const Task = (props) => {
         </div>
     )
 }
-
-

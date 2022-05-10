@@ -10,7 +10,6 @@ export const TaskListProvider = ({
     const [getSortedTaskList, setSortedTaskList] = useState(getTaskList)
 
     useEffect(() => {
-        console.log('firing')
         setSortedTaskList(sortTaskList)
     }, [getTaskList])
 
