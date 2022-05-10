@@ -5,30 +5,15 @@ export const TaskListContext = createContext([])
 export const TaskListProvider = ({
     children
 }) => {
-    const [getTaskList, setTaskList] = useState([
-        {
-            id:0,
+    const [getTaskList, setTaskList] = useState([])
+
+    const getDefaultTask = () => {
+        return {
+            id:null,
             priority:1,
-            description:'first task',
+            description:'',
             complete: false
-        },
-        {
-            id:1,
-            priority:2,
-            description:'second task',
-            complete: true
         }
-    ])
-
-    const defaultTask = {
-        id:null,
-        priority:1,
-        description:'',
-        complete: false
-    }
-
-    const newTask = () => {
-        return defaultTask
     }
 
     const updateOrCreateTask = (taskToCreateOrUpdate) => {
@@ -79,7 +64,7 @@ export const TaskListProvider = ({
     }
 
     return (
-        <TaskListContext.Provider value={{tasks:getTaskList, updateTaskCompleteStatus, updateOrCreateTask, newTask}}>
+        <TaskListContext.Provider value={{tasks:getTaskList, updateTaskCompleteStatus, updateOrCreateTask, getDefaultTask}}>
             {children}
         </TaskListContext.Provider>
     )
