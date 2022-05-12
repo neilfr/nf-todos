@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
 import {useNavigate} from "react-router-dom";
-import {Task} from "../components/Task";
+import {Task} from "./Task";
 
 export const TaskList= () => {
     const {getTaskList, getDefaultTask, getSortedTaskList} = useContext(TaskListContext)
