@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {useLocation} from "react-router-dom";
 import {TaskListContext} from "../context/TaskListContext";
 import {useNavigate} from "react-router";
@@ -10,6 +10,11 @@ export const TaskForm = () => {
     const navigate = useNavigate()
     const task = location.state.task
     const [getTask, setTask] = useState(task)
+    const [getIsSavable, setIsSavable] = useState(false)
+
+    useEffect(() => {
+        (getTask.description.length > 0 && getTask.priority.length > 0) ? setIsSavable(true) : setIsSavable(false)
+    }, [getTask])
 
     const updateTaskPriority = (e) => {
         setTask({...getTask, priority:e.target.value})
@@ -43,7 +48,7 @@ export const TaskForm = () => {
                 <label htmlFor={"description"}>Description: </label>
                 <input id="description" type={"text"} value={getTask.description} onChange={(e)=>updateTaskDescription(e)}/>
             </div>
-            <button onClick={saveTask}>Save</button>
+            <button onClick={saveTask} disabled={!getIsSavable}>Save</button>
             <button onClick={cancel}>Cancel</button>
             <button onClick={deleteTask}>Delete</button>
         </div>
