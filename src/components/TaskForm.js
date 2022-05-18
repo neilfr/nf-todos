@@ -5,7 +5,7 @@ import {useNavigate} from "react-router";
 
 export const TaskForm = () => {
 
-    const {updateOrCreateTask, removeTask} = useContext(TaskListContext)
+    const {dispatch, actions} = useContext(TaskListContext)
     const location = useLocation()
     const navigate = useNavigate()
     const task = location.state.task
@@ -24,8 +24,11 @@ export const TaskForm = () => {
         setTask({...getTask, description:e.target.value})
     }
 
-    const saveTask = () => {
-        updateOrCreateTask(getTask)
+    const updateOrCreateTask = () => {
+        const taskToCreateOrUpdate = getTask
+        taskToCreateOrUpdate.id === null ?
+            dispatch({type: actions.CREATE, data:taskToCreateOrUpdate}) :
+            dispatch({type: actions.UPDATE, data:taskToCreateOrUpdate})
         navigate("/")
     }
 
@@ -34,7 +37,7 @@ export const TaskForm = () => {
     }
 
     const deleteTask = () => {
-        removeTask(getTask)
+        dispatch({type: actions.DELETE, data:getTask})
         navigate("/")
     }
 
@@ -48,7 +51,7 @@ export const TaskForm = () => {
                 <label htmlFor={"description"}>Description: </label>
                 <input id={"description"} type={"text"} value={getTask.description} onChange={(e)=>updateTaskDescription(e)}/>
             </div>
-            <button onClick={saveTask} disabled={!getIsSavable}>Save</button>
+            <button onClick={updateOrCreateTask} disabled={!getIsSavable}>Save</button>
             <button onClick={cancel}>Cancel</button>
             <button onClick={deleteTask}>Delete</button>
         </div>

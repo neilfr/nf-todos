@@ -1,11 +1,61 @@
-import React, {useState, createContext, useEffect} from "react";
+import React, {useState, createContext, useEffect, useReducer} from "react";
 
 export const TaskListContext = createContext([])
+
+const actions = {
+    UPDATE: 'update',
+    CREATE: 'create',
+    DELETE: 'delete'
+}
+
+export const defaultTask = {
+    id:null,
+    priority:1,
+    description:'',
+    complete: false
+}
+
+const reducer = (state,action) => {
+    switch (action.type) {
+        case actions.UPDATE:
+            return state.map((task)=>{
+                return task.id === action.data.id ? action.data : task
+            })
+        case actions.CREATE:
+            const newTask = {...action.data, id:state.length}
+            return [
+                ...state, newTask
+            ]
+        case actions.DELETE:
+            return state.filter((task)=>{
+                return task.id !== action.data.id
+            })
+        default:
+            throw 'Invalid reducer action'
+    }
+}
 
 export const TaskListProvider = ({
     children
 }) => {
     const [getTaskList, setTaskList] = useState([])
+
+    const updateOrCreateTask = (taskToCreateOrUpdate) => {
+        taskToCreateOrUpdate.id === null ? createNewTask(taskToCreateOrUpdate) : updateTaskInList(taskToCreateOrUpdate)
+    }
+
+    const removeTask = (taskToRemove) => {
+        setTaskList(getTaskList.filter( (task) => {
+            return task.id !== taskToRemove.id
+        }))
+    }
+
+    const createNewTask = (taskToCreateOrUpdate) => {
+        const newTask = {...taskToCreateOrUpdate, id:getTaskList.length}
+        setTaskList([...getTaskList, newTask])
+    }
+
+    const [state, dispatch] = useReducer(reducer, '')
 
     const [getSortedTaskList, setSortedTaskList] = useState(getTaskList)
 
@@ -34,21 +84,6 @@ export const TaskListProvider = ({
         }
 
         return completeSortedTaskList()
-    }
-
-    const updateOrCreateTask = (taskToCreateOrUpdate) => {
-        taskToCreateOrUpdate.id === null ? createNewTask(taskToCreateOrUpdate) : updateTaskInList(taskToCreateOrUpdate)
-    }
-
-    const removeTask = (taskToRemove) => {
-        setTaskList(getTaskList.filter( (task) => {
-            return task.id !== taskToRemove.id
-        }))
-    }
-
-    const createNewTask = (taskToCreateOrUpdate) => {
-        const newTask = {...taskToCreateOrUpdate, id:getTaskList.length}
-        setTaskList([...getTaskList, newTask])
     }
 
     const updateTaskInList = (taskToCreateOrUpdate) => {
@@ -83,7 +118,7 @@ export const TaskListProvider = ({
     }
 
     return (
-        <TaskListContext.Provider value={{getTaskList, removeTask, getSortedTaskList, updateTaskCompleteStatus, updateOrCreateTask, getDefaultTask}}>
+        <TaskListContext.Provider value={{getTaskList, removeTask, getSortedTaskList, updateTaskCompleteStatus, updateOrCreateTask, getDefaultTask, state, dispatch, actions}}>
             {children}
         </TaskListContext.Provider>
     )
