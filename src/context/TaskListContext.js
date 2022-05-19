@@ -1,4 +1,4 @@
-import React, {useState, createContext, useReducer} from "react";
+import React, {createContext, useReducer} from "react";
 
 export const TaskListContext = createContext([])
 
@@ -55,8 +55,6 @@ const reducer = (state,action) => {
 export const TaskListProvider = ({
     children
 }) => {
-    const [getTaskList, setTaskList] = useState([])
-
     const [state, dispatch] = useReducer(reducer, '')
 
     const getDefaultTask = () => {
@@ -68,15 +66,8 @@ export const TaskListProvider = ({
         }
     }
 
-    const updateTaskCompleteStatus = (taskId) => {
-        const updatedTaskList = getTaskList.map((task)=>{
-            return taskId === task.id ? {...task, complete:!task.complete} : task
-        })
-        setTaskList(updatedTaskList)
-    }
-
     return (
-        <TaskListContext.Provider value={{getTaskList, updateTaskCompleteStatus, getDefaultTask, state, dispatch, actions}}>
+        <TaskListContext.Provider value={{getDefaultTask, state, dispatch, actions}}>
             {children}
         </TaskListContext.Provider>
     )

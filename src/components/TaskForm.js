@@ -38,7 +38,7 @@ export const TaskForm = () => {
 
     const deleteTask = () => {
         dispatch({type: actions.DELETE, data:getTask})
-        navigate("/")
+        navigate("/")  // extract to a constant HOMEPAGE or something
     }
 
     return (
