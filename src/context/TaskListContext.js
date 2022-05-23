@@ -1,4 +1,4 @@
-import React, {createContext, useReducer} from "react";
+import React, {createContext, useEffect, useReducer} from "react";
 
 export const TaskListContext = createContext([])
 
@@ -55,7 +55,13 @@ const reducer = (state,action) => {
 export const TaskListProvider = ({
     children
 }) => {
-    const [state, dispatch] = useReducer(reducer, '')
+    const [state, dispatch] = useReducer(reducer, undefined, ()=>{
+        return JSON.parse(localStorage.getItem('tasks'))
+    })
+
+    useEffect(()=>{
+        localStorage.setItem('tasks', JSON.stringify(state))
+    }, [state])
 
     const getDefaultTask = () => {
         return {
