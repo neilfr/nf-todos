@@ -21,7 +21,7 @@ export const Task = (props) => {
     return (
         <div className="flex border rounded border-black m-2 p-2">
             <input type={"checkbox"} checked={props.task.complete} onChange={updateTaskCompleteState}/>
-            <div className={"bg-red-500 w-full"} onClick={()=>{editTask(props.task)}}>
+            <div className={"w-full"} onClick={()=>{editTask(props.task)}}>
                 <Priority priority={props.task.priority}/>
                 <Description description={props.task.description}/>
             </div>
