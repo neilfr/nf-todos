@@ -2,10 +2,11 @@ import {TaskForm} from "./TaskForm"
 import { render, screen } from "@testing-library/react"
 import {MemoryRouter} from "react-router-dom"
 import React from 'react'
+import {fireEvent} from "@testing-library/dom";
 
 describe('TaskForm tests', () => {
     it('disables the save button if the description is empty', () => {
-        const { getByText } = render(
+        const { getByText, getByLabelText } = render(
             <MemoryRouter initialEntries={
                 [
                     {
@@ -30,5 +31,13 @@ describe('TaskForm tests', () => {
         const saveButton = getByText('Save')
 
         expect(saveButton).toBeVisible();
+        expect(saveButton).toHaveAttribute('disabled')
+
+        const description = getByLabelText('Description:')
+        expect(description).toHaveValue('')
+
+        fireEvent.change(description, {target: {value: 'abc'}})
+        expect(description).toHaveValue('abc')
+
     })
 })
