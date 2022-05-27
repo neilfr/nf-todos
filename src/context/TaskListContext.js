@@ -10,7 +10,7 @@ const actions = {
 
 export const defaultTask = {
     id:null,
-    priority:1,
+    priority:'1',
     description:'',
     complete: false
 }

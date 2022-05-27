@@ -6,23 +6,7 @@ import {fireEvent} from "@testing-library/dom";
 
 const renderTaskForm = () => {
     return render(
-        <MemoryRouter initialEntries={
-            [
-                {
-                    pathname:'/',
-                    state:
-                        {
-                            task:
-                                {
-                                    id:null,
-                                    priority:1,
-                                    description:'',
-                                    complete: false
-                                }
-                        }
-                }
-            ]
-        }>
+        <MemoryRouter>
             <TaskForm/>
         </MemoryRouter>
     );
