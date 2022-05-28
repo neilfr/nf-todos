@@ -1,6 +1,6 @@
-import React, {createContext, useEffect, useReducer} from "react";
+import React, {createContext, useReducer} from "react";
 
-export const TaskListContext = createContext([])
+export const TaskListContext = createContext('')
 
 const actions = {
     UPDATE: 'update',
@@ -36,17 +36,27 @@ const prioritySort = (a, b) => {
 const reducer = (state,action) => {
     switch (action.type) {
         case actions.UPDATE:
-            return state.map((task)=>{
-                return task.id === action.data.id ? action.data : task
-            }).sort(descriptionSort).sort(prioritySort).sort(completeSort)
+            return {
+                ...state,
+                tasks:state.tasks.map( (task) => task.id === action.data.id ? action.data : task)
+                    .sort(descriptionSort).sort(prioritySort).sort(completeSort)
+            }
         case actions.CREATE:
-            return [
-                ...state, {...action.data, id:state.length}
-            ].sort(descriptionSort).sort(prioritySort).sort(completeSort)
+            return {
+                nextTaskId:state.nextTaskId+1,
+                tasks:[
+                    ...state.tasks,
+                    {
+                        ...action.data,
+                        id:state.nextTaskId
+                    }
+                ].sort(descriptionSort).sort(prioritySort).sort(completeSort)
+            }
         case actions.DELETE:
-            return state.filter((task)=>{
-                return task.id !== action.data.id
-            })
+            return {
+                ...state,
+                tasks:state.tasks.filter((task) => task.id !== action.data.id)
+            }
         default:
             throw 'Invalid reducer action'
     }
@@ -56,12 +66,22 @@ export const TaskListProvider = ({
     children
 }) => {
     const [state, dispatch] = useReducer(reducer, undefined, ()=>{
-        return JSON.parse(localStorage.getItem('tasks'))
+        const initialState = {
+            nextTaskId: 0,
+            tasks: []
+        }
+        console.log('got here', {
+            nextTaskId: localStorage.getItem('nextTaskId'),
+            tasks:localStorage.getItem('tasks')
+        })
+        if(!localStorage.getItem('nextTaskId'))
+            return initialState
+        return {
+            nextTaskId: localStorage.getItem('nextTaskId'),
+            tasks:localStorage.getItem('tasks')
+        }
+        // return JSON.parse(localStorage.getItem('tasks'))
     })
-
-    useEffect(()=>{
-        localStorage.setItem('tasks', JSON.stringify(state))
-    }, [state])
 
     const getDefaultTask = () => {
         return {
@@ -73,7 +93,7 @@ export const TaskListProvider = ({
     }
 
     return (
-        <TaskListContext.Provider value={{getDefaultTask, state, dispatch, actions}}>
+        <TaskListContext.Provider value={{getDefaultTask, tasks:state.tasks, dispatch, actions}}>
             {children}
         </TaskListContext.Provider>
     )

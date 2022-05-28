@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {Task} from "./Task";
 
 export const TaskList= () => {
-    const {state} = useContext(TaskListContext)
+    const {tasks} = useContext(TaskListContext)
 
     let navigate = useNavigate()
 
@@ -15,7 +15,7 @@ export const TaskList= () => {
     return (
         <div>
             <button onClick={ () => editNewTask() }>Add</button>
-            {state.length > 0 ? state.map( (task) => {
+            {tasks.length > 0 ? tasks.map( (task) => {
                 return (
                     <Task key={task.id} task={task}/>
                 )
