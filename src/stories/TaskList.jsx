@@ -3,7 +3,7 @@ import {TaskListContext} from "../context/TaskListContext";
 import {useNavigate} from "react-router-dom";
 import {Task} from "./Task";
 
-export const TaskList= () => {
+export const TaskList = () => {
     const {tasks} = useContext(TaskListContext)
 
     let navigate = useNavigate()
