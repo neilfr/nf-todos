@@ -34,7 +34,6 @@ export const TaskListReducer = (state,action) => {
             localStorage.setItem('tasks', JSON.stringify(newState.tasks))
             return newState
         case actions.CREATE:
-            console.log('test', null + 1)
             newState = {
                 nextTaskId:parseInt(state.nextTaskId)+1,
                 tasks:[
@@ -45,8 +44,8 @@ export const TaskListReducer = (state,action) => {
                     }
                 ].sort(descriptionSort).sort(prioritySort).sort(completeSort)
             }
-            localStorage.setItem('tasks', JSON.stringify(newState.tasks))
             localStorage.setItem('nextTaskId', JSON.stringify(newState.nextTaskId))
+            localStorage.setItem('tasks', JSON.stringify(newState.tasks))
             return newState
         case actions.DELETE:
             newState = {

@@ -4,6 +4,27 @@ import {MemoryRouter} from "react-router-dom"
 import React from 'react'
 import {fireEvent} from "@testing-library/dom";
 
+const mockLocation = {
+    "pathname": "/edit",
+    "search": "",
+    "hash": "",
+    "state": {
+        "task": {
+            "id": 0,
+            "priority": "1",
+            "description": "a",
+            "complete": false
+        }
+    }
+}
+
+jest.mock("react-router-dom", () => {
+    return {
+        ...jest.requireActual('react-router-dom'),
+        useLocation:()=>mockLocation
+    }
+})
+
 const renderTaskForm = () => {
     return render(
         <MemoryRouter>
@@ -12,21 +33,21 @@ const renderTaskForm = () => {
     );
 };
 
-describe('TaskForm tests', () => {
+describe('TaskForm save button', () => {
     let getByText, getByLabelText
 
     beforeEach(() => {
         ({getByText, getByLabelText} = renderTaskForm());
     });
 
-    it('disables the save button if the description is empty', () => {
+    it('disables if the description is empty', () => {
         const saveButton = getByText('Save')
 
         expect(saveButton).toBeVisible();
         expect(saveButton).toHaveAttribute('disabled')
     })
 
-    it('enables the save button if the user enters a description', () => {
+    it('enables if the user enters a description', () => {
         const saveButton = getByText('Save')
         const description = getByLabelText('Description:')
 
@@ -35,7 +56,7 @@ describe('TaskForm tests', () => {
         expect(saveButton).not.toHaveAttribute('disabled')
     })
 
-    it('disables the save button if the description is deleted', () => {
+    it('disables if the description is deleted', () => {
         const saveButton = getByText('Save')
         const description = getByLabelText('Description:')
 
@@ -48,4 +69,15 @@ describe('TaskForm tests', () => {
         expect(saveButton).toHaveAttribute('disabled')
     })
 
+})
+
+describe('mock tests', () => {
+    let getByLabelText
+    it('it can mock useLocation', () => {
+        ({getByLabelText} = renderTaskForm())
+        const description = getByLabelText('Description:')
+        expect(description).toHaveValue('a')
+        const priority = getByLabelText('Priority:')
+        expect(priority).toHaveValue(1)
+    })
 })

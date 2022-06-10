@@ -18,17 +18,12 @@ export const TaskListProvider = ({
             nextTaskId: 0,
             tasks: []
         }
-        console.log('got here', {
-            nextTaskId: localStorage.getItem('nextTaskId'),
-            tasks:JSON.parse(localStorage.getItem('tasks'))
-        })
         if(!localStorage.getItem('tasks') || JSON.parse(localStorage.getItem('tasks')).length < 1 )
             return initialState
         return {
             nextTaskId: localStorage.getItem('nextTaskId'),
             tasks:JSON.parse(localStorage.getItem('tasks'))
         }
-        // return JSON.parse(localStorage.getItem('tasks'))
     })
 
     const getDefaultTask = () => {
