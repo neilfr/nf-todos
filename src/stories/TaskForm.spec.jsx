@@ -72,12 +72,25 @@ describe('TaskForm save button', () => {
 })
 
 describe('mock tests', () => {
-    let getByLabelText
-    it('it can mock useLocation', () => {
-        ({getByLabelText} = renderTaskForm())
+    let getByLabelText, getByText
+    it('can mock useLocation', () => {
+        ({getByLabelText, getByText} = renderTaskForm())
         const description = getByLabelText('Description:')
         expect(description).toHaveValue('a')
         const priority = getByLabelText('Priority:')
         expect(priority).toHaveValue(1)
+    })
+    xit('sets localstorage nextTaskId to the next task id when saving a valid task', () => {
+        // set the current nextTaskId to 1
+
+        // render the task form with a valid new task (id is null)
+        ({getByText} = renderTaskForm())
+
+        // user clicks save
+        const saveButton = getByText('Save')
+        fireEvent.click(saveButton)
+
+        // assert that local storage set item is called with nextTaskId as 2
+        expect('localStorage.setItem()').toHaveBeenCalled()
     })
 })
