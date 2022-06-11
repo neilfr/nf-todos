@@ -69,6 +69,63 @@ describe('task list reducer tests', () => {
             nextTaskId: nextTaskId,
             tasks:[]
         })
+    })
+})
 
+describe('sorting', ()=>{
+    let originalTaskId, nextTaskId, originalTask, initialState
+
+    beforeEach(()=>{
+        originalTaskId = 0
+        nextTaskId = originalTaskId+1
+        originalTask = {
+            id: originalTaskId,
+            priority: 5,
+            description: "z original description",
+            complete: true
+        }
+        initialState = {
+            nextTaskId:nextTaskId,
+            tasks:[originalTask]
+        }
+    })
+
+    it('sorts tasks by description in ascending order when a new task is added', () => {
+        const newTask = {
+            id: null,
+            priority: 5,
+            description: "z new task description",
+            complete: true
+        }
+
+        const newState = TaskListReducer(initialState, {type:'create', data:newTask})
+
+        expect(newState.tasks).toEqual([{...newTask, id:originalTaskId+1}, originalTask])
+    })
+
+    it('sorts tasks by priority in ascending order when a new task is added', () => {
+        const newTask = {
+            id: null,
+            priority: 1,
+            description: "z original description",
+            complete: true
+        }
+
+        const newState = TaskListReducer(initialState, {type:'create', data:newTask})
+
+        expect(newState.tasks).toEqual([{...newTask, id:originalTaskId+1}, originalTask])
+    })
+
+    it('sorts incomplete tasks to the top when a new task is added', () => {
+        const newTask = {
+            id: null,
+            priority: 5,
+            description: "z original description",
+            complete: false
+        }
+
+        const newState = TaskListReducer(initialState, {type:'create', data:newTask})
+
+        expect(newState.tasks).toEqual([{...newTask, id:originalTaskId+1}, originalTask])
     })
 })
