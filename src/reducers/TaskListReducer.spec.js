@@ -1,6 +1,6 @@
 import {TaskListReducer} from "./TaskListReducer";
 
-describe('task list actions and state persistence', () => {
+describe('task list reducer tests', () => {
 
     let mockStorage
 
