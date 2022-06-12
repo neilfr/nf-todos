@@ -1,7 +1,21 @@
 import {TaskListReducer} from "./TaskListReducer";
 
 describe('task list reducer tests', () => {
-    it('updates task', () => {
+
+    let mockStorage
+
+    beforeEach(()=>{
+        mockStorage = {}
+        global.Storage.prototype.setItem = jest.fn((key, value) => {
+            mockStorage[key] = value
+        })
+    })
+
+    afterEach(()=>{
+        global.Storage.prototype.setItem.mockReset()
+    })
+
+    it('updates task list and persists it when task is updated', () => {
         const originalTaskId = 0
         const nextTaskId = originalTaskId+1
         const originalTask = {
@@ -27,9 +41,12 @@ describe('task list reducer tests', () => {
             nextTaskId: nextTaskId,
             tasks: [updatedTask]
         })
+
+        expect(global.Storage.prototype.setItem).toHaveBeenCalledTimes(1)
+        expect(JSON.parse(mockStorage['tasks'])).toEqual([updatedTask])
     })
 
-    it('creates task', () => {
+    it('adds created task to task list, increments nextTaskId and persists them', () => {
         const initialState = {
             nextTaskId:0,
             tasks:[]
@@ -47,9 +64,13 @@ describe('task list reducer tests', () => {
             nextTaskId: initialState.nextTaskId+1,
             tasks: [{...newTask, id:0}]
         })
+
+        expect(global.Storage.prototype.setItem).toHaveBeenCalledTimes(2)
+        expect(JSON.parse(mockStorage['tasks'])).toEqual(newState.tasks)
+        expect(JSON.parse(mockStorage['nextTaskId'])).toEqual(newState.nextTaskId)
     })
 
-    it('deletes task', () => {
+    it('deletes task from task list and persists it', () => {
         const originalTaskId = 0
         const nextTaskId = originalTaskId+1
         const originalTask = {
@@ -69,6 +90,9 @@ describe('task list reducer tests', () => {
             nextTaskId: nextTaskId,
             tasks:[]
         })
+
+        expect(global.Storage.prototype.setItem).toHaveBeenCalledTimes(1)
+        expect(JSON.parse(mockStorage['tasks'])).toEqual([])
     })
 })
 
