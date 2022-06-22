@@ -1,25 +1,27 @@
 import React, {useContext} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
-import {useNavigate} from "react-router-dom";
 import {Task} from "./Task";
 
-export const TaskList = () => {
-    const {tasks} = useContext(TaskListContext)
+export const TaskList = (props) => {
+    const {currentTask, tasks, dispatch, actions} = useContext(TaskListContext)
 
-    let navigate = useNavigate()
+    const updateCurrentTask = () => {
+        dispatch({type:actions.SELECT, data: tasks})
+    }
 
-    const editNewTask = () => {
-        navigate("/edit")
+    const addNewTask = () => {
+        dispatch({type:actions.NEW})
+        props.editTask()
     }
 
     return (
         <div>
-            <button onClick={ () => editNewTask() }>Add</button>
+            <button onClick={ addNewTask }>Add</button>
             {tasks.length > 0 ? tasks.map( (task) => {
                 return (
                     <Task key={task.id} task={task}/>
                 )
-            }) : <div>Please add a first task</div>}
+            }) : <p>Please add a first task</p>}
         </div>
     )
 }

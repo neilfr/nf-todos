@@ -40,13 +40,6 @@ describe('TaskForm save button', () => {
         ({getByText, getByLabelText} = renderTaskForm());
     });
 
-    it('disables if the description is empty', () => {
-        const saveButton = getByText('Save')
-
-        expect(saveButton).toBeVisible();
-        expect(saveButton).toHaveAttribute('disabled')
-    })
-
     it('enables if the user enters a description', () => {
         const saveButton = getByText('Save')
         const description = getByLabelText('Description:')
@@ -56,7 +49,7 @@ describe('TaskForm save button', () => {
         expect(saveButton).not.toHaveAttribute('disabled')
     })
 
-    it('disables if the description is deleted', () => {
+    it('disables if the description is empty', () => {
         const saveButton = getByText('Save')
         const description = getByLabelText('Description:')
 
@@ -80,7 +73,7 @@ describe('mock tests', () => {
         const priority = getByLabelText('Priority:')
         expect(priority).toHaveValue(1)
     })
-    xit('sets localstorage nextTaskId to the next task id when saving a valid task', () => {
+    it('sets localstorage nextTaskId to the next task id when saving a valid task', () => {
         // set the current nextTaskId to 1
 
         // render the task form with a valid new task (id is null)

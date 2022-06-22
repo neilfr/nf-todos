@@ -5,12 +5,16 @@ import {useNavigate} from "react-router";
 
 export const TaskForm = () => {
 
-    const {dispatch, actions} = useContext(TaskListContext)
-    const location = useLocation()
+    const {currentTask, dispatch, actions} = useContext(TaskListContext)
+    // const location = useLocation()
     const navigate = useNavigate()
-    const task = (location && location.state && location.state.task) ? location.state.task : defaultTask
+    const task = currentTask
     const [getTask, setTask] = useState(task)
     const [getIsSavable, setIsSavable] = useState(false)
+
+    useEffect(()=>{
+        setTask(currentTask)
+    },[])
 
     useEffect(() => {
         (getTask.description.length > 0 && getTask.priority !== '') ? setIsSavable(true) : setIsSavable(false)

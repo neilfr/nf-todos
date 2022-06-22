@@ -16,13 +16,15 @@ export const TaskListProvider = ({
     const [state, dispatch] = useReducer(TaskListReducer, undefined, ()=>{
         const initialState = {
             nextTaskId: 0,
-            tasks: []
+            tasks: [],
+            currentTask: defaultTask
         }
         if(!localStorage.getItem('tasks') || JSON.parse(localStorage.getItem('tasks')).length < 1 )
             return initialState
         return {
             nextTaskId: localStorage.getItem('nextTaskId'),
-            tasks:JSON.parse(localStorage.getItem('tasks'))
+            tasks:JSON.parse(localStorage.getItem('tasks')),
+            currentTask: JSON.parse(localStorage.getItem('currentTask'))
         }
     })
 
@@ -36,7 +38,7 @@ export const TaskListProvider = ({
     }
 
     return (
-        <TaskListContext.Provider value={{getDefaultTask, tasks:state.tasks, dispatch, actions}}>
+        <TaskListContext.Provider value={{getDefaultTask, tasks:state.tasks, currentTask:state.currentTask, dispatch, actions}}>
             {children}
         </TaskListContext.Provider>
     )

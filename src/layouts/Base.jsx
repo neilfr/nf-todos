@@ -1,9 +1,7 @@
 import React from "react";
 import {TaskListProvider} from "../context/TaskListContext";
-import {TaskList} from "../stories/TaskList";
 import {BrowserRouter} from "react-router-dom";
-import {Route, Routes} from "react-router";
-import {TaskForm} from "../stories/TaskForm";
+import {Navigation} from "../components/Navigation";
 
 
 const Base = () => {
@@ -11,10 +9,7 @@ const Base = () => {
     return (
         <TaskListProvider>
             <BrowserRouter>
-                <Routes>
-                    <Route path = "/" element={<TaskList/>}/>
-                    <Route path = "/edit" element={<TaskForm/>}/>
-                </Routes>
+                <Navigation/>
             </BrowserRouter>
         </TaskListProvider>
     )
