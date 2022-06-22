@@ -1,12 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {useLocation} from "react-router-dom";
-import {TaskListContext, defaultTask} from "../context/TaskListContext";
+import {TaskListContext} from "../context/TaskListContext";
 import {useNavigate} from "react-router";
 
 export const TaskForm = () => {
 
     const {currentTask, dispatch, actions} = useContext(TaskListContext)
-    // const location = useLocation()
     const navigate = useNavigate()
     const task = currentTask
     const [getTask, setTask] = useState(task)

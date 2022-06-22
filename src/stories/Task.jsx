@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
 import {useNavigate} from "react-router-dom";
 import {Priority} from "./Priority";
@@ -6,7 +6,6 @@ import {Description} from "./Description";
 
 export const Task = (props) => {
     const {dispatch, actions} = useContext(TaskListContext)
-
 
     let navigate = useNavigate()
 
