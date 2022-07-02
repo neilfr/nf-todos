@@ -3,33 +3,22 @@ import { render } from "@testing-library/react"
 import {MemoryRouter} from "react-router-dom"
 import React from 'react'
 import {fireEvent} from "@testing-library/dom";
+import {TaskListContext} from "../context/TaskListContext";
 
-const mockLocation = {
-    "pathname": "/edit",
-    "search": "",
-    "hash": "",
-    "state": {
-        "task": {
-            "id": 0,
-            "priority": "1",
-            "description": "a",
-            "complete": false
-        }
-    }
+const currentTask = {
+    "id": 0,
+    "priority": "1",
+    "description": "a",
+    "complete": false
 }
-
-jest.mock("react-router-dom", () => {
-    return {
-        ...jest.requireActual('react-router-dom'),
-        useLocation:()=>mockLocation
-    }
-})
 
 const renderTaskForm = () => {
     return render(
-        <MemoryRouter>
-            <TaskForm/>
-        </MemoryRouter>
+        <TaskListContext.Provider value={{currentTask:currentTask}}>
+            <MemoryRouter>
+                <TaskForm/>
+            </MemoryRouter>
+        </TaskListContext.Provider>
     );
 };
 
@@ -61,18 +50,10 @@ describe('TaskForm save button', () => {
         expect(description).toHaveValue('')
         expect(saveButton).toHaveAttribute('disabled')
     })
-
 })
 
 describe('mock tests', () => {
     let getByLabelText, getByText
-    it('can mock useLocation', () => {
-        ({getByLabelText, getByText} = renderTaskForm())
-        const description = getByLabelText('Description:')
-        expect(description).toHaveValue('a')
-        const priority = getByLabelText('Priority:')
-        expect(priority).toHaveValue(1)
-    })
     it('sets localstorage nextTaskId to the next task id when saving a valid task', () => {
         // set the current nextTaskId to 1
 
