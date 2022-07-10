@@ -2,6 +2,7 @@ import React, {useContext} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
 import {Task} from "./Task";
 import {StatusColumn} from "../components/StatusColumn";
+import {STATUSES} from "../Utilities";
 
 export const TaskList = (props) => {
     const {currentTask, tasks, dispatch, actions} = useContext(TaskListContext)
@@ -15,7 +16,7 @@ export const TaskList = (props) => {
         props.editTask()
     }
 
-    const statuses = ["foo", "bar"]
+    const statuses = STATUSES
 
     return (
         <div>
