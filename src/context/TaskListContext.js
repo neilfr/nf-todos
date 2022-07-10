@@ -7,7 +7,7 @@ export const defaultTask = {
     id:null,
     priority:'1',
     description:'',
-    complete: false
+    status: "foo"
 }
 
 export const TaskListProvider = ({
@@ -33,7 +33,7 @@ export const TaskListProvider = ({
             id:null,
             priority:1,
             description:'',
-            complete: false
+            status: "foo"
         }
     }
 

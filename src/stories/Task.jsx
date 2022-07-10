@@ -15,14 +15,14 @@ export const Task = (props) => {
     }
 
     const updateTaskCompleteState = (e) => {
-        dispatch({type: actions.UPDATE, data:{...props.task, complete:!(e.target.value == "false")}})
+        dispatch({type: actions.UPDATE, data:{...props.task, status:e.target.value}})
     }
 
     return (
         <div className="flex border rounded border-black m-2 p-2">
-            <select value={props.task.complete} name="status" id="status" onChange={(e)=>updateTaskCompleteState(e)}>
-                <option value="true">Completed</option>
-                <option value="false">not</option>
+            <select value={props.task.status} name="status" id="status" onChange={(e)=>updateTaskCompleteState(e)}>
+                <option value="foo">foo</option>
+                <option value="bar">bar</option>
             </select>
             <div className={"w-full"} onClick={editTask}>
                 <Priority priority={props.task.priority}/>

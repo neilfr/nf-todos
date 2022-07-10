@@ -15,7 +15,7 @@ export const TaskList = (props) => {
         props.editTask()
     }
 
-    const statuses = [true, false]
+    const statuses = ["foo", "bar"]
 
     return (
         <div>
@@ -24,7 +24,7 @@ export const TaskList = (props) => {
                     return (
                         <StatusColumn>
                             {tasks.map( (task) => {
-                                if (task.complete===status)
+                                if (task.status===status)
                                     return (
                                         <Task key={task.id} task={task}/>
                                     )
