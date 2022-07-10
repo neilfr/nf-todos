@@ -19,14 +19,12 @@ export const Task = (props) => {
         dispatch({type: actions.UPDATE, data:{...props.task, status:e.target.value}})
     }
 
-    const statuses = STATUSES
-
     return (
         <div className="flex border rounded border-black m-2 p-2">
             <select value={props.task.status} name="status" id="status" onChange={(e)=>updateTaskCompleteState(e)}>
-                {statuses.map((status)=>{
+                {STATUSES.map((status,index)=>{
                     return (
-                        <option value={status}>{status}</option>
+                        <option key={index} value={status}>{status}</option>
                     )
                 })}
             </select>
