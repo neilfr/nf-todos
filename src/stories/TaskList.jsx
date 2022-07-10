@@ -5,11 +5,7 @@ import {StatusColumn} from "../components/StatusColumn";
 import {STATUSES} from "../Utilities";
 
 export const TaskList = (props) => {
-    const {currentTask, tasks, dispatch, actions} = useContext(TaskListContext)
-
-    const updateCurrentTask = () => {
-        dispatch({type:actions.SELECT, data: tasks})
-    }
+    const {tasks, dispatch, actions} = useContext(TaskListContext)
 
     const addNewTask = () => {
         dispatch({type:actions.NEW})

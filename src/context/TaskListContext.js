@@ -1,5 +1,6 @@
 import React, {createContext, useReducer} from "react";
 import {actions, TaskListReducer} from "../reducers/TaskListReducer";
+import {DEFAULT_STATUS} from "../Utilities";
 
 export const TaskListContext = createContext('')
 
@@ -7,7 +8,7 @@ export const defaultTask = {
     id:null,
     priority:'1',
     description:'',
-    status: "foo"
+    status: DEFAULT_STATUS
 }
 
 export const TaskListProvider = ({
@@ -33,7 +34,7 @@ export const TaskListProvider = ({
             id:null,
             priority:1,
             description:'',
-            status: "foo"
+            status: DEFAULT_STATUS
         }
     }
 
