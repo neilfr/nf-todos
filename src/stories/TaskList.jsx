@@ -20,22 +20,18 @@ export const TaskList = (props) => {
     return (
         <div>
             <div className={'flex justify-around'}>
-                <StatusColumn>
-                    {tasks.map( (task) => {
-                        if (task.complete)
-                            return (
-                                <Task key={task.id} task={task}/>
-                            )
-                        })}
-                </StatusColumn>
-                <StatusColumn>
-                    {tasks.map( (task) => {
-                        if (!task.complete)
-                            return (
-                                <Task key={task.id} task={task}/>
-                            )
-                    })}
-                </StatusColumn>
+                {statuses.map( (status) => {
+                    return (
+                        <StatusColumn>
+                            {tasks.map( (task) => {
+                                if (task.complete===status)
+                                    return (
+                                        <Task key={task.id} task={task}/>
+                                    )
+                            })}
+                        </StatusColumn>
+                    )
+                })}
             </div>
             <button onClick={ addNewTask }>Add</button>
             {tasks.length > 0 ? tasks.map( (task) => {

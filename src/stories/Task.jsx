@@ -14,13 +14,16 @@ export const Task = (props) => {
         navigate("/edit")
     }
 
-    const updateTaskCompleteState = () => {
-        dispatch({type: actions.UPDATE, data:{...props.task, complete:!props.task.complete}})
+    const updateTaskCompleteState = (e) => {
+        dispatch({type: actions.UPDATE, data:{...props.task, complete:!(e.target.value == "false")}})
     }
 
     return (
         <div className="flex border rounded border-black m-2 p-2">
-            <input type={"checkbox"} checked={props.task.complete} onChange={updateTaskCompleteState}/>
+            <select value={props.task.complete} name="status" id="status" onChange={(e)=>updateTaskCompleteState(e)}>
+                <option value="true">Completed</option>
+                <option value="false">not</option>
+            </select>
             <div className={"w-full"} onClick={editTask}>
                 <Priority priority={props.task.priority}/>
                 <Description description={props.task.description}/>
