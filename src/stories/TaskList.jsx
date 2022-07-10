@@ -1,6 +1,7 @@
 import React, {useContext} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
 import {Task} from "./Task";
+import {StatusColumn} from "../components/StatusColumn";
 
 export const TaskList = (props) => {
     const {currentTask, tasks, dispatch, actions} = useContext(TaskListContext)
@@ -14,8 +15,28 @@ export const TaskList = (props) => {
         props.editTask()
     }
 
+    const statuses = [true, false]
+
     return (
         <div>
+            <div className={'flex justify-around'}>
+                <StatusColumn>
+                    {tasks.map( (task) => {
+                        if (task.complete)
+                            return (
+                                <Task key={task.id} task={task}/>
+                            )
+                        })}
+                </StatusColumn>
+                <StatusColumn>
+                    {tasks.map( (task) => {
+                        if (!task.complete)
+                            return (
+                                <Task key={task.id} task={task}/>
+                            )
+                    })}
+                </StatusColumn>
+            </div>
             <button onClick={ addNewTask }>Add</button>
             {tasks.length > 0 ? tasks.map( (task) => {
                 return (
