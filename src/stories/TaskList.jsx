@@ -12,8 +12,21 @@ export const TaskList = (props) => {
         props.editTask()
     }
 
+    const dothis = () => {
+        // console.log("do this")
+        fetch("http://localhost:8000/api/tasks",{
+            // headers : {
+            //     'Content-Type': 'application/json',
+            //     'Accept': 'application/json'
+            // }
+        })
+            .then(response => response.json())
+            .then(data=>console.log(data));
+    }
+
     return (
         <div>
+            <button onClick={dothis}>do this</button>
             <button onClick={ addNewTask }>Add</button>
             <div className={'flex justify-around'}>
                 {STATUSES.map( (status,index) => {

@@ -15,6 +15,7 @@ export const TaskListProvider = ({
     children
 }) => {
     const [state, dispatch] = useReducer(TaskListReducer, undefined, ()=>{
+
         const initialState = {
             nextTaskId: 0,
             tasks: [],
@@ -22,6 +23,16 @@ export const TaskListProvider = ({
         }
         if(!localStorage.getItem('tasks') || JSON.parse(localStorage.getItem('tasks')).length < 1 )
             return initialState
+
+        // fetch("http::/localhost:8000/api/",{
+        //     headers : {
+        //         'Content-Type': 'application/json',
+        //         'Accept': 'application/json'
+        //     }
+        // })
+        //     .then(response => response.json())
+        //     .then(data=>console.log(data));
+        // console.log('foo',foo)
         return {
             nextTaskId: localStorage.getItem('nextTaskId'),
             tasks:JSON.parse(localStorage.getItem('tasks')),
