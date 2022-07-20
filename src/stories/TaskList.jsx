@@ -19,7 +19,7 @@ export const TaskList = (props) => {
         <div>
             <button onClick={ addNewTask }>Add</button>
             {(tasks.length === 0) && (<p>Please add a first task</p>)}
-            <div className={'flex justify-around'}>
+            <div className={'flex pr-8'}>
                 {STAGES.map( (stage, index) => {
                     return (
                         <StageColumn key={index} title={stage}>
