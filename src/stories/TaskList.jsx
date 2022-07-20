@@ -12,13 +12,17 @@ export const TaskList = (props) => {
         props.editTask()
     }
 
+    console.log('length', tasks.length)
+    console.log('tasks', tasks)
+
     return (
         <div>
             <button onClick={ addNewTask }>Add</button>
+            {(tasks.length === 0) && (<p>Please add a first task</p>)}
             <div className={'flex justify-around'}>
                 {STAGES.map( (stage, index) => {
                     return (
-                        <StageColumn key={index}>
+                        <StageColumn key={index} title={stage}>
                             {tasks.map( (task) => {
                                 if (task.stage===stage)
                                     return (
@@ -29,7 +33,6 @@ export const TaskList = (props) => {
                     )
                 })}
             </div>
-            {(tasks.length === 0) && (<p>Please add a first task</p>)}
         </div>
     )
 }
