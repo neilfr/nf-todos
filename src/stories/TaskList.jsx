@@ -1,8 +1,8 @@
 import React, {useContext} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
 import {Task} from "./Task";
-import {StatusColumn} from "../components/StatusColumn";
-import {STATUSES} from "../Utilities";
+import {StageColumn} from "../components/StageColumn";
+import {STAGES} from "../Utilities";
 
 export const TaskList = (props) => {
     const {tasks, dispatch, actions} = useContext(TaskListContext)
@@ -12,33 +12,20 @@ export const TaskList = (props) => {
         props.editTask()
     }
 
-    const dothis = () => {
-        // console.log("do this")
-        fetch("http://localhost:8000/api/tasks",{
-            // headers : {
-            //     'Content-Type': 'application/json',
-            //     'Accept': 'application/json'
-            // }
-        })
-            .then(response => response.json())
-            .then(data=>console.log(data));
-    }
-
     return (
         <div>
-            <button onClick={dothis}>do this</button>
             <button onClick={ addNewTask }>Add</button>
             <div className={'flex justify-around'}>
-                {STATUSES.map( (status,index) => {
+                {STAGES.map( (stage, index) => {
                     return (
-                        <StatusColumn key={index}>
+                        <StageColumn key={index}>
                             {tasks.map( (task) => {
-                                if (task.status===status)
+                                if (task.stage===stage)
                                     return (
                                         <Task key={task.id} task={task}/>
                                     )
                             })}
-                        </StatusColumn>
+                        </StageColumn>
                     )
                 })}
             </div>
