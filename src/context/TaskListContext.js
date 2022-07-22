@@ -1,4 +1,4 @@
-import React, {createContext, useReducer} from "react";
+import React, {createContext, useEffect, useReducer} from "react";
 import {actions, TaskListReducer} from "../reducers/TaskListReducer";
 import {DEFAULT_STAGE} from "../Utilities";
 
@@ -24,14 +24,9 @@ export const TaskListProvider = ({
         if(!localStorage.getItem('tasks') || JSON.parse(localStorage.getItem('tasks')).length < 1 )
             return initialState
 
-        fetch("http://localhost:8000/api/tasks",{
-            // headers : {
-            //     'Content-Type': 'application/json',
-            //     'Accept': 'application/json'
-            // }
-        })
+        fetch("http://localhost:8000/api/tasks",)
             .then(response => response.json())
-            .then(data=>console.log(data));
+            .then(data=>console.log('the data is', data));
 
         return {
             nextTaskId: localStorage.getItem('nextTaskId'),
@@ -39,6 +34,16 @@ export const TaskListProvider = ({
             currentTask: JSON.parse(localStorage.getItem('currentTask'))
         }
     })
+
+    useEffect(()=>{
+        fetch("http://localhost:8000/api/tasks",)
+            .then(response => response.json())
+            .then(data=>{
+                console.log('inside useEffect the data is', data)
+                dispatch({type:actions.INITIALIZE, data:data})
+            });
+    },[])
+
 
     const getDefaultTask = () => {
         return {
