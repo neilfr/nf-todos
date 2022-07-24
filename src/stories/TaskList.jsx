@@ -12,9 +12,6 @@ export const TaskList = (props) => {
         props.editTask()
     }
 
-    console.log('length', tasks.length)
-    console.log('tasks', tasks)
-
     return (
         <div>
             <button onClick={ addNewTask }>Add</button>
