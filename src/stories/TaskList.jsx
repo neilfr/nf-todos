@@ -7,7 +7,6 @@ import {StageColumn} from "../components/StageColumn";
 export const TaskList = (props) => {
     const {tasks, dispatch, actions} = useContext(TaskListContext)
     const {stages} = useContext(StageContext)
-
     const addNewTask = () => {
         dispatch({type:actions.NEW})
         props.editTask()
@@ -18,9 +17,9 @@ export const TaskList = (props) => {
             <button onClick={ addNewTask }>Add</button>
             {(tasks.length === 0) && (<p>Please add a first task</p>)}
             <div className={'flex pr-8'}>
-                {stages.map( (stage, index) => {
+                {stages && stages.map((stage)=>{
                     return (
-                        <StageColumn key={index} title={stage.description}>
+                        <StageColumn key={stage.id} title={stage.description}>
                             {tasks.map( (task) => {
                                 if (task.stage===stage.description)
                                     return (
