@@ -4,9 +4,11 @@ import {useNavigate} from "react-router-dom";
 import {Priority} from "./Priority";
 import {Description} from "./Description";
 import {STAGES} from "../Utilities";
+import {StageContext} from "../context/StageContext";
 
 export const Task = (props) => {
     const {dispatch, actions} = useContext(TaskListContext)
+    const {stages} = useContext(StageContext)
 
     let navigate = useNavigate()
 
@@ -22,9 +24,9 @@ export const Task = (props) => {
     return (
         <div className="flex border rounded border-black m-2 p-2">
             <select value={props.task.stage} name="stage" id="stage" onChange={(e)=>updateTaskCompleteState(e)}>
-                {STAGES.map((stage, index)=>{
+                {stages.map((stage, index)=>{
                     return (
-                        <option key={index} value={stage}>{stage}</option>
+                        <option key={index} value={stage.description}>{stage.description}</option>
                     )
                 })}
             </select>

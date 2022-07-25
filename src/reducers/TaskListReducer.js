@@ -38,7 +38,6 @@ export const TaskListReducer = (state,action) => {
 
     switch (action.type) {
         case actions.INIT_TASKS:
-            console.log('Initializing tasks:', action.data)
             newState = {
                 ...state,
                 tasks:action.data.tasks
