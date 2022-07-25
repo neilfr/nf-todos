@@ -24,10 +24,6 @@ export const TaskListProvider = ({
         if(!localStorage.getItem('tasks') || JSON.parse(localStorage.getItem('tasks')).length < 1 )
             return initialState
 
-        // fetch("http://localhost:8000/api/tasks",)
-        //     .then(response => response.json())
-        //     .then(data=>console.log('the data is', data));
-
         return {
             nextTaskId: localStorage.getItem('nextTaskId'),
             tasks:JSON.parse(localStorage.getItem('tasks')),
@@ -43,15 +39,6 @@ export const TaskListProvider = ({
                 dispatch({
                     type:actions.INIT_TASKS,
                     data:{"tasks":tasks}
-                })
-            });
-        fetch("http://localhost:8000/api/stages",)
-            .then(response => response.json())
-            .then(stages=>{
-                console.log('inside useEffect the stages data is', stages)
-                dispatch({
-                    type:actions.INIT_STAGES,
-                    data:{"stages":stages}
                 })
             });
     },[])
