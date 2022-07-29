@@ -31,9 +31,9 @@ export const TaskListReducer = (state,action) => {
     let newState = {}
 
     const persistState = () => {
-        localStorage.setItem('nextTaskId', JSON.stringify(newState.nextTaskId))
-        localStorage.setItem('tasks', JSON.stringify(newState.tasks))
-        localStorage.setItem('currentTask', JSON.stringify(newState.currentTask))
+        // localStorage.setItem('nextTaskId', JSON.stringify(newState.nextTaskId))
+        // localStorage.setItem('tasks', JSON.stringify(newState.tasks))
+        // localStorage.setItem('currentTask', JSON.stringify(newState.currentTask))
     }
 
     switch (action.type) {
