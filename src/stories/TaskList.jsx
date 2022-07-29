@@ -21,7 +21,7 @@ export const TaskList = (props) => {
                     return (
                         <StageColumn key={stage.id} title={stage.description}>
                             {tasks.map( (task) => {
-                                if (task.stage===stage.description)
+                                if (task.stage_id === stage.id)
                                     return (
                                         <Task key={task.id} task={task}/>
                                     )

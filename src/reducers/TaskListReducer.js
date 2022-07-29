@@ -44,6 +44,23 @@ export const TaskListReducer = (state,action) => {
             }
             return newState
         case actions.UPDATE:
+            console.log('in actions.update with:', action.data)
+
+            fetch(`http://localhost:8000/api/tasks/${action.data.id}`, {
+                method: 'PATCH',
+                headers: {
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify(action.data),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
             newState = {
                 ...state,
                 tasks:state.tasks.map( (task) => task.id === action.data.id ? action.data : task)
