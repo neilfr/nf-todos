@@ -62,7 +62,6 @@ export const TaskListReducer = (state,action) => {
                     console.error('Error:', error);
                 });
 
-
         case actions.CREATE:
             newState = {
                 tasks:[

@@ -23,7 +23,7 @@ export const Task = (props) => {
 
     return (
         <div className="flex border rounded border-black m-2 p-2">
-            <select value={props.task.stage.id} name="stage" id="stage" onChange={(e)=>updateTaskCompleteState(e)}>
+            <select value={props.task.stage_id} name="stage" id="stage" onChange={(e)=>updateTaskCompleteState(e)}>
                 {stages.map((stage, index)=>{
                     return (
                         <option key={index} value={stage.id}>{stage.description}</option>
