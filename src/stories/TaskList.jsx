@@ -3,7 +3,6 @@ import {TaskListContext} from "../context/TaskListContext";
 import {StageContext} from "../context/StageContext";
 import {Task} from "./Task";
 import {StageColumn} from "../components/StageColumn";
-import {actions} from "../reducers/TaskListReducer";
 
 export const TaskList = (props) => {
     const {tasks, dispatch, actions} = useContext(TaskListContext)

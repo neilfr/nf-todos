@@ -18,9 +18,7 @@ export const Task = (props) => {
     }
 
     const updateTaskCompleteState = (e) => {
-        console.log('task', props.task, 'stage', e.target.value)
         dispatch({type: actions.UPDATE, data:{...props.task, stage_id:e.target.value}})
-
     }
 
     return (
