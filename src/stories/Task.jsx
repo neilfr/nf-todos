@@ -18,15 +18,17 @@ export const Task = (props) => {
     }
 
     const updateTaskCompleteState = (e) => {
-        dispatch({type: actions.UPDATE, data:{...props.task, stage:e.target.value}})
+        console.log('task', props.task, 'stage', e.target.value)
+        dispatch({type: actions.UPDATE, data:{...props.task, stage_id:e.target.value}})
+
     }
 
     return (
         <div className="flex border rounded border-black m-2 p-2">
-            <select value={props.task.stage} name="stage" id="stage" onChange={(e)=>updateTaskCompleteState(e)}>
+            <select value={props.task.stage.id} name="stage" id="stage" onChange={(e)=>updateTaskCompleteState(e)}>
                 {stages.map((stage, index)=>{
                     return (
-                        <option key={index} value={stage.description}>{stage.description}</option>
+                        <option key={index} value={stage.id}>{stage.description}</option>
                     )
                 })}
             </select>
