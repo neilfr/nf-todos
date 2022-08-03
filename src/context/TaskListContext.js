@@ -22,6 +22,9 @@ export const TaskListProvider = ({
         }
     })
 
+    // useEffect(()=>{
+    //     dispatch({type:actions.INIT_TASKS})
+    // },[])
     useEffect(()=>{
         fetch("http://localhost:8000/api/tasks",)
             .then(response => response.json())

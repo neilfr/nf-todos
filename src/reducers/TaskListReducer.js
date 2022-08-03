@@ -38,8 +38,6 @@ export const TaskListReducer = (state,action) => {
             }
             return newState
         case actions.UPDATE:
-            console.log('in actions.update with:', action.data)
-
             fetch(`http://localhost:8000/api/tasks/${action.data.id}`, {
                 method: 'PATCH',
                 headers: {
@@ -49,14 +47,16 @@ export const TaskListReducer = (state,action) => {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log('Success:', data);
-                    newState = {
-                        ...state,
-                        tasks:state.tasks.map( (task) => task.id === action.data.id ? {...task, ...action.data} : task)
-                            .sort(descriptionSort).sort(prioritySort).sort(completeSort),
-                        currentTask:defaultTask
-                    }
-                    return newState
+                    fetch("http://localhost:8000/api/tasks",)
+                        .then(response => response.json())
+                        .then(tasks=>{
+                            newState={
+                                ...state,
+                                tasks: tasks,
+                                currentTask:defaultTask
+                            }
+                            return newState
+                        });
                 })
                 .catch((error) => {
                     console.error('Error:', error);
