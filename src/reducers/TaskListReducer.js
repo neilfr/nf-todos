@@ -55,6 +55,7 @@ export const TaskListReducer = (state,action) => {
                                 tasks: tasks,
                                 currentTask:defaultTask
                             }
+                            console.log("new state is:", newState)
                             return newState
                         });
                 })

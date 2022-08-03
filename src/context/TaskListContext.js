@@ -22,6 +22,7 @@ export const TaskListProvider = ({
         }
     })
 
+    console.log('tasklist provider state: ',state)
     // useEffect(()=>{
     //     dispatch({type:actions.INIT_TASKS})
     // },[])
