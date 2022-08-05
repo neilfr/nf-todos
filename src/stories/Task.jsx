@@ -3,8 +3,8 @@ import {TaskListContext} from "../context/TaskListContext";
 import {useNavigate} from "react-router-dom";
 import {Priority} from "./Priority";
 import {Description} from "./Description";
-import {STAGES} from "../Utilities";
 import {StageContext} from "../context/StageContext";
+import {updateTask} from "../service/ApiService";
 
 export const Task = (props) => {
     const {dispatch, actions} = useContext(TaskListContext)
@@ -17,8 +17,10 @@ export const Task = (props) => {
         navigate("/edit")
     }
 
-    const updateTaskCompleteState = (e) => {
-        dispatch({type: actions.UPDATE, data:{...props.task, stage_id:parseInt(e.target.value)}})
+    const updateTaskCompleteState = async (e) => {
+        const task = await updateTask(props.task.id, {stage_id:e.target.value})
+        console.log('task is', task)
+        dispatch({type: actions.UPDATE, data:task})
     }
 
     return (

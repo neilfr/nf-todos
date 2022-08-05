@@ -38,30 +38,20 @@ export const TaskListReducer = (state,action) => {
             }
             return newState
         case actions.UPDATE:
-            fetch(`http://localhost:8000/api/tasks/${action.data.id}`, {
-                method: 'PATCH',
-                headers: {
-                    "Content-type": "application/json",
-                },
-                body: JSON.stringify(action.data),
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    fetch("http://localhost:8000/api/tasks",)
-                        .then(response => response.json())
-                        .then(tasks=>{
-                            newState={
-                                ...state,
-                                tasks: tasks,
-                                currentTask:defaultTask
-                            }
-                            console.log("new state is:", newState)
-                            return newState
-                        });
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+            // give it things it needs for new state.  pass it the things it needs from the response.?
+            // make a service for doing the db updates... then call it from the reducer
+
+            // change to async await....
+
+            // wait(2000).then(()=>{
+            //     console.log('foo', newState)
+            //     return newState
+            // })
+            console.log('got here! with: ',action.data)
+            newState = {
+                ...state,
+            }
+            return newState
 
         case actions.CREATE:
             newState = {

@@ -1,6 +1,7 @@
 import React, {createContext, useEffect, useReducer} from "react";
 import {actions, TaskListReducer} from "../reducers/TaskListReducer";
 import {DEFAULT_STAGE} from "../Utilities";
+import {getTasks} from "../service/ApiService";
 
 export const TaskListContext = createContext('')
 
@@ -14,30 +15,28 @@ export const defaultTask = {
 export const TaskListProvider = ({
     children
 }) => {
-    const [state, dispatch] = useReducer(TaskListReducer, undefined, ()=>{
-
-        return {
-            tasks:[],
-            currentTask: {}
-        }
+    const [state, dispatch] = useReducer(TaskListReducer, {
+        tasks:[],
+        currentTask: {}
     })
 
-    console.log('tasklist provider state: ',state)
-    // useEffect(()=>{
-    //     dispatch({type:actions.INIT_TASKS})
-    // },[])
-    useEffect(()=>{
-        fetch("http://localhost:8000/api/tasks",)
-            .then(response => response.json())
-            .then(tasks=>{
-                console.log('inside useEffect the tasks data is', tasks)
-                dispatch({
-                    type:actions.INIT_TASKS,
-                    data:{"tasks":tasks}
-                })
-            });
+    const foo = async (taskId, payload) => {
+
+        // console.log('data after await is:', data)
+        // dispatch({type: actions.UPDATE, data})
+    }
+
+    useEffect( async () => {
+        const tasks = await getTasks()
+        dispatch({
+            type:actions.INIT_TASKS,
+            data:{"tasks":tasks}
+        })
     },[])
 
+    const crap = () => {
+        console.log("crap")
+    }
 
     const getDefaultTask = () => {
         return {
