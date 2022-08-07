@@ -48,11 +48,40 @@ export const TaskListReducer = (state,action) => {
             //     return newState
             // })
             console.log('got here! with: ',action.data)
+            console.log('state: ', state)
+            const foo = state.tasks.findIndex((task)=>{
+                console.log('task.id is: ', task.id)
+                console.log('action.data.data.id: ', action.data.data.id)
+                return task.id === action.data.data.id})
+            console.log('foo', foo)
+            const newArray = state.tasks
+            newArray[foo] = action.data.data
+            console.log('newArray: ', newArray)
             newState = {
                 ...state,
+                tasks: newArray
             }
+            console.log('newState:', newState)
             return newState
-
+// return {
+//                 ...state,
+//     tasks: [
+//         {
+//             "id": 3,
+//             "description": "55532452455",
+//             "priority": 9,
+//             "stage_id": 4,
+//             "stage": "Done"
+//         },
+//         {
+//             "id": 4,
+//             "description": "iiiii",
+//             "priority": 2,
+//             "stage_id": 2,
+//             "stage": "To Do"
+//         }
+//     ]
+// }
         case actions.CREATE:
             newState = {
                 tasks:[
