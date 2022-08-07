@@ -38,50 +38,15 @@ export const TaskListReducer = (state,action) => {
             }
             return newState
         case actions.UPDATE:
-            // give it things it needs for new state.  pass it the things it needs from the response.?
-            // make a service for doing the db updates... then call it from the reducer
-
-            // change to async await....
-
-            // wait(2000).then(()=>{
-            //     console.log('foo', newState)
-            //     return newState
-            // })
-            console.log('got here! with: ',action.data)
-            console.log('state: ', state)
-            const foo = state.tasks.findIndex((task)=>{
-                console.log('task.id is: ', task.id)
-                console.log('action.data.data.id: ', action.data.data.id)
+            const taskToBeReplacedIndex = state.tasks.findIndex((task)=>{
                 return task.id === action.data.data.id})
-            console.log('foo', foo)
-            const newArray = state.tasks
-            newArray[foo] = action.data.data
-            console.log('newArray: ', newArray)
+            const newTaskArray = state.tasks
+            newTaskArray[taskToBeReplacedIndex] = action.data.data
             newState = {
                 ...state,
-                tasks: newArray
+                tasks: newTaskArray
             }
-            console.log('newState:', newState)
             return newState
-// return {
-//                 ...state,
-//     tasks: [
-//         {
-//             "id": 3,
-//             "description": "55532452455",
-//             "priority": 9,
-//             "stage_id": 4,
-//             "stage": "Done"
-//         },
-//         {
-//             "id": 4,
-//             "description": "iiiii",
-//             "priority": 2,
-//             "stage_id": 2,
-//             "stage": "To Do"
-//         }
-//     ]
-// }
         case actions.CREATE:
             newState = {
                 tasks:[
