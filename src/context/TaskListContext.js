@@ -20,23 +20,13 @@ export const TaskListProvider = ({
         currentTask: {}
     })
 
-    const foo = async (taskId, payload) => {
-
-        // console.log('data after await is:', data)
-        // dispatch({type: actions.UPDATE, data})
-    }
-
     useEffect( async () => {
         const tasks = await getTasks()
         dispatch({
-            type:actions.INIT_TASKS,
+            type:actions.INITIALIZE,
             data:{"tasks":tasks}
         })
     },[])
-
-    const crap = () => {
-        console.log("crap")
-    }
 
     const getDefaultTask = () => {
         return {

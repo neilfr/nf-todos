@@ -1,7 +1,7 @@
 import {defaultTask} from "../context/TaskListContext";
 
 export const actions = {
-    INIT_TASKS: 'init_tasks',
+    INITIALIZE: 'initialize',
     UPDATE: 'update',
     CREATE: 'create',
     DELETE: 'delete',
@@ -31,7 +31,7 @@ export const TaskListReducer = (state,action) => {
     let newState = {}
 
     switch (action.type) {
-        case actions.INIT_TASKS:
+        case actions.INITIALIZE:
             newState = {
                 ...state,
                 tasks:action.data.tasks
