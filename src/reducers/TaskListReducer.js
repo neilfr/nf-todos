@@ -39,9 +39,9 @@ export const TaskListReducer = (state,action) => {
             return newState
         case actions.UPDATE:
             const taskToBeReplacedIndex = state.tasks.findIndex((task)=>{
-                return task.id === action.data.data.id})
+                return task.id === action.data.id})
             const newTaskArray = state.tasks
-            newTaskArray[taskToBeReplacedIndex] = action.data.data
+            newTaskArray[taskToBeReplacedIndex] = action.data
             newState = {
                 ...state,
                 tasks: newTaskArray
@@ -52,7 +52,7 @@ export const TaskListReducer = (state,action) => {
                 tasks:[
                     ...state.tasks,
                     {
-                        ...action.data.data,
+                        ...action.data,
                     }
                 ].sort(descriptionSort).sort(prioritySort).sort(completeSort),
                 currentTask:defaultTask

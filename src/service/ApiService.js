@@ -7,7 +7,8 @@ export const updateTask = async (taskId, payload) => {
         body: JSON.stringify(payload),
     })
     if (!response.ok) { throw new Error(`Error: ${response.status}`)}
-    return await response.json()
+    const updatedTask = await response.json()
+    return updatedTask.data
 }
 
 export const createTask = async (payload) => {
@@ -19,7 +20,8 @@ export const createTask = async (payload) => {
         body: JSON.stringify(payload),
     })
     if (!response.ok) { throw new Error(`Error: ${response.status}`)}
-    return await response.json();
+    const createdTask = response.json()
+    return createdTask.data
 }
 
 export const getTasks = async () => {
