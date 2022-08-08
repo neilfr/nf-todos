@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
 import {useNavigate} from "react-router";
+import {createTask} from "../service/ApiService";
 
 export const TaskForm = () => {
 
@@ -26,11 +27,15 @@ export const TaskForm = () => {
         setTask({...getTask, description:e.target.value})
     }
 
-    const updateOrCreateTask = () => {
+    const updateOrCreateTask = async () => {
         const taskToCreateOrUpdate = getTask
-        taskToCreateOrUpdate.id === null ?
-            dispatch({type: actions.CREATE, data:taskToCreateOrUpdate}) :
+        if (taskToCreateOrUpdate.id === null) {
+            console.log('taskToCreateOrUpdate: ', taskToCreateOrUpdate)
+            const task = await createTask(taskToCreateOrUpdate)
+            dispatch({type: actions.CREATE, data:task})
+        } else {
             dispatch({type: actions.UPDATE, data:taskToCreateOrUpdate})
+        }
         navigate("/")
     }
 

@@ -48,11 +48,12 @@ export const TaskListReducer = (state,action) => {
             }
             return newState
         case actions.CREATE:
+            console.log('action.data: ', action.data.data)
             newState = {
                 tasks:[
                     ...state.tasks,
                     {
-                        ...action.data,
+                        ...action.data.data,
                     }
                 ].sort(descriptionSort).sort(prioritySort).sort(completeSort),
                 currentTask:defaultTask

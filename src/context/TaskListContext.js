@@ -1,6 +1,6 @@
 import React, {createContext, useEffect, useReducer} from "react";
 import {actions, TaskListReducer} from "../reducers/TaskListReducer";
-import {DEFAULT_STAGE} from "../Utilities";
+import {DEFAULT_STAGE_ID} from "../Utilities";
 import {getTasks} from "../service/ApiService";
 
 export const TaskListContext = createContext('')
@@ -9,7 +9,7 @@ export const defaultTask = {
     id:null,
     priority:'1',
     description:'',
-    stage: DEFAULT_STAGE
+    stage_id: DEFAULT_STAGE_ID
 }
 
 export const TaskListProvider = ({
@@ -33,7 +33,7 @@ export const TaskListProvider = ({
             id:null,
             priority:1,
             description:'',
-            stage: DEFAULT_STAGE
+            stage: DEFAULT_STAGE_ID
         }
     }
 

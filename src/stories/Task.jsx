@@ -19,7 +19,6 @@ export const Task = (props) => {
 
     const updateTaskCompleteState = async (e) => {
         const task = await updateTask(props.task.id, {stage_id:e.target.value})
-        console.log('task is', task)
         dispatch({type: actions.UPDATE, data:task})
     }
 
