@@ -7,7 +7,7 @@ export const updateTask = async (taskId, payload) => {
         body: JSON.stringify(payload),
     })
     if (!response.ok) { throw new Error(`Error: ${response.status}`)}
-    return await response.json();
+    return await response.json()
 }
 
 export const createTask = async (payload) => {

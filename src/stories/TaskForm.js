@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
 import {useNavigate} from "react-router";
-import {createTask} from "../service/ApiService";
+import {createTask, updateTask} from "../service/ApiService";
 
 export const TaskForm = () => {
 
@@ -30,11 +30,11 @@ export const TaskForm = () => {
     const updateOrCreateTask = async () => {
         const taskToCreateOrUpdate = getTask
         if (taskToCreateOrUpdate.id === null) {
-            console.log('taskToCreateOrUpdate: ', taskToCreateOrUpdate)
             const task = await createTask(taskToCreateOrUpdate)
             dispatch({type: actions.CREATE, data:task})
         } else {
-            dispatch({type: actions.UPDATE, data:taskToCreateOrUpdate})
+            const updatedTask = await updateTask(getTask.id, getTask)
+            dispatch({type: actions.UPDATE, data:updatedTask})
         }
         navigate("/")
     }

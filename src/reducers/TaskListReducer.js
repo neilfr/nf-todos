@@ -48,7 +48,6 @@ export const TaskListReducer = (state,action) => {
             }
             return newState
         case actions.CREATE:
-            console.log('action.data: ', action.data.data)
             newState = {
                 tasks:[
                     ...state.tasks,
