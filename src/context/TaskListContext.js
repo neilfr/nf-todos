@@ -28,17 +28,8 @@ export const TaskListProvider = ({
         })
     },[])
 
-    const getDefaultTask = () => {
-        return {
-            id:null,
-            priority:1,
-            description:'',
-            stage: DEFAULT_STAGE_ID
-        }
-    }
-
     return (
-        <TaskListContext.Provider value={{getDefaultTask, tasks:state.tasks, currentTask:state.currentTask, dispatch, actions}}>
+        <TaskListContext.Provider value={{tasks:state.tasks, currentTask:state.currentTask, dispatch, actions}}>
             {children}
         </TaskListContext.Provider>
     )

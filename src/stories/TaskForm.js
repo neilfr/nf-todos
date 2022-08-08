@@ -1,14 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
 import {useNavigate} from "react-router";
-import {createTask, updateTask} from "../service/ApiService";
+import {createTask, destroyTask, updateTask} from "../service/ApiService";
 
 export const TaskForm = () => {
 
     const {currentTask, dispatch, actions} = useContext(TaskListContext)
     const navigate = useNavigate()
-    const task = currentTask
-    const [getTask, setTask] = useState(task)
+    const [getTask, setTask] = useState(currentTask)
     const [getIsSavable, setIsSavable] = useState(false)
 
     useEffect(()=>{
@@ -43,7 +42,8 @@ export const TaskForm = () => {
         navigate("/")
     }
 
-    const deleteTask = () => {
+    const deleteTask = async () => {
+        await destroyTask(getTask.id)
         dispatch({type: actions.DELETE, data:getTask})
         navigate("/")  // extract to a constant HOMEPAGE or something
     }

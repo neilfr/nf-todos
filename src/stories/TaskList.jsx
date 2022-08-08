@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
 import {StageContext} from "../context/StageContext";
 import {Task} from "./Task";

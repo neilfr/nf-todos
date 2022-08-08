@@ -28,3 +28,13 @@ export const getTasks = async () => {
     const response = await fetch("http://localhost:8000/api/tasks")
     return await response.json()
 }
+
+export const destroyTask = async (taskId) => {
+    const response = await fetch(`http://localhost:8000/api/tasks/${taskId}`, {
+        method: 'DELETE',
+        headers: {
+            "Content-type": "application/json",
+        },
+    })
+    return await response.json()
+}
