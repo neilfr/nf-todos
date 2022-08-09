@@ -25,7 +25,6 @@ export const StageProvider = ({children}) => {
     const [state, dispatch] = useReducer(StageReducer, undefined, ()=>{
         return {}
     })
-
     useEffect(()=>{
         fetch("http://localhost:8000/api/stages",)
             .then(response => response.json())
