@@ -1,7 +1,7 @@
 import React from 'react'
 import {Route, Routes, useNavigate} from "react-router";
-import {TaskList} from "../stories/TaskList";
-import {TaskForm} from "../stories/TaskForm";
+import {TaskList} from "./TaskList";
+import {TaskForm} from "./TaskForm";
 
 export const Navigation = () => {
 

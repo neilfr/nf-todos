@@ -3,7 +3,7 @@ import {TaskListContext} from "./TaskListContext";
 import { render } from "@testing-library/react"
 import {getByLabelText} from "@testing-library/dom";
 import {MemoryRouter} from "react-router-dom";
-import {TaskForm} from "../stories/TaskForm";
+import {TaskForm} from "../components/TaskForm";
 
 describe('initial state setup', ()=> {
     const TestComponent = (props) => {

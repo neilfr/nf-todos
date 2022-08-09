@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
 import {StageContext} from "../context/StageContext";
 import {Task} from "./Task";
-import {StageColumn} from "../components/StageColumn";
+import {StageColumn} from "./StageColumn";
 
 export const TaskList = (props) => {
     const {tasks, dispatch, actions} = useContext(TaskListContext)

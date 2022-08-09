@@ -1,5 +1,5 @@
 import React from 'react'
-import {TaskForm} from "../stories/TaskForm";
+import {TaskForm} from "../components/TaskForm";
 
 export const EditTaskPage = () => {
     return (
