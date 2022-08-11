@@ -1,12 +1,21 @@
 import React from 'react';
 import './App.css';
-import Base from "./layouts/Base";
+import {BrowserRouter} from "react-router-dom";
+import {StageProvider} from "./context/StageContext";
+import {Navigation} from "./components/Navigation";
+import {TaskListProvider} from "./context/TaskListContext";
 
 const App = () => {
 
   return (
       <div>
-        <Base/>
+          <BrowserRouter>
+              <StageProvider>
+                  <TaskListProvider>
+                      <Navigation/>
+                  </TaskListProvider>
+              </StageProvider>
+          </BrowserRouter>
       </div>
   );
 }
