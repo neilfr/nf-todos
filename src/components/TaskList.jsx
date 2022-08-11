@@ -23,7 +23,7 @@ export const TaskList = (props) => {
                             {tasks.map( (task) => {
                                 if (task.stage_id === stage.id)
                                     return (
-                                        <Task key={task.id} task={task}/>
+                                        <Task key={task.id} task={task} editTask={props.editTask}/>
                                     )
                             })}
                         </StageColumn>

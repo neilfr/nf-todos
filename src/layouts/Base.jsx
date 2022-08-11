@@ -8,13 +8,13 @@ import {StageProvider} from "../context/StageContext";
 const Base = () => {
 
     return (
-        <StageProvider>
-            <TaskListProvider>
-                <BrowserRouter>
-                    <Navigation/>
-                </BrowserRouter>
-            </TaskListProvider>
-        </StageProvider>
+        <BrowserRouter>
+            <StageProvider>
+                <TaskListProvider>
+                        <Navigation/>
+                </TaskListProvider>
+            </StageProvider>
+        </BrowserRouter>
     )
 }
 export default Base
