@@ -1,15 +1,17 @@
 import React, {createContext, useEffect, useReducer} from "react";
 import {actions, TaskListReducer} from "../reducers/TaskListReducer";
-import {DEFAULT_STAGE_ID} from "../Utilities";
-import {createTask, destroyTask, getTasks, updateTask} from "../service/ApiService";
+import {createTask, destroyTask, getTasks, updateTask} from "../service/api/TaskListApiService";
 import {useNavigate} from "react-router-dom";
 import {navigate} from "@storybook/addon-links";
 
 export const TaskListContext = createContext('')
 
+const DEFAULT_STAGE_ID = 1
+const DEFAULT_PRIORITY = 1
+
 export const defaultTask = {
     id:null,
-    priority:'1',
+    priority: DEFAULT_PRIORITY,
     description:'',
     stage_id: DEFAULT_STAGE_ID
 }
