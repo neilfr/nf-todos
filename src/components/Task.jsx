@@ -1,13 +1,11 @@
 import React, {useContext} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
-import {useNavigate} from "react-router-dom";
 import {Priority} from "./Priority";
 import {Description} from "./Description";
 import {StageContext} from "../context/StageContext";
-import {updateTask} from "../service/ApiService";
 
 export const Task = (props) => {
-    const {updateTaskStage, editTask, dispatch, actions} = useContext(TaskListContext)
+    const {updateTaskStage, editTask} = useContext(TaskListContext)
     const {stages} = useContext(StageContext)
 
     return (

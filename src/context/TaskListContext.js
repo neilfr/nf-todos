@@ -33,6 +33,11 @@ export const TaskListProvider = ({
         navigate("/edit")
     }
 
+    const newTask = () => {
+        console.log('do stuff')
+        navigate("/edit")
+    }
+
     useEffect( async () => {
         const tasks = await getTasks()
         dispatch({
@@ -42,7 +47,7 @@ export const TaskListProvider = ({
     },[])
 
     return (
-        <TaskListContext.Provider value={{updateTaskStage, editTask, tasks:state.tasks, currentTask:state.currentTask, dispatch, actions}}>
+        <TaskListContext.Provider value={{newTask, updateTaskStage, editTask, tasks:state.tasks, currentTask:state.currentTask, dispatch, actions}}>
             {children}
         </TaskListContext.Provider>
     )

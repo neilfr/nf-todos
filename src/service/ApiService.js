@@ -20,7 +20,7 @@ export const createTask = async (payload) => {
         body: JSON.stringify(payload),
     })
     if (!response.ok) { throw new Error(`Error: ${response.status}`)}
-    const createdTask = response.json()
+    const createdTask = await response.json()
     return createdTask.data
 }
 
