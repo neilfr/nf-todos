@@ -44,8 +44,12 @@ export const TaskListProvider = ({
         navigate("/")  // extract to a constant HOMEPAGE or something
     }
 
+    const addNewTask = () => {
+        dispatch({type:actions.NEW})
+        newTask()
+    }
+
     const updateOrCreateTask = async (taskToCreateOrUpdate) => {
-        // const taskToCreateOrUpdate = getTask
         if (taskToCreateOrUpdate.id === null) {
             const task = await createTask(taskToCreateOrUpdate)
             dispatch({type: actions.CREATE, data:task})
@@ -65,7 +69,7 @@ export const TaskListProvider = ({
     },[])
 
     return (
-        <TaskListContext.Provider value={{updateOrCreateTask, deleteTask, newTask, updateTaskStage, editTask, tasks:state.tasks, currentTask:state.currentTask, dispatch, actions}}>
+        <TaskListContext.Provider value={{addNewTask, updateOrCreateTask, deleteTask, newTask, updateTaskStage, editTask, tasks:state.tasks, currentTask:state.currentTask, dispatch, actions}}>
             {children}
         </TaskListContext.Provider>
     )

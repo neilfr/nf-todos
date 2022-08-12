@@ -5,13 +5,8 @@ import {Task} from "./Task";
 import {StageColumn} from "./StageColumn";
 
 export const TaskList = (props) => {
-    const {newTask, tasks, dispatch, actions} = useContext(TaskListContext)
+    const {addNewTask, tasks} = useContext(TaskListContext)
     const {stages} = useContext(StageContext)
-    const addNewTask = () => {
-        dispatch({type:actions.NEW})
-        newTask()
-        // props.editTask()
-    }
 
     return (
         <div>
