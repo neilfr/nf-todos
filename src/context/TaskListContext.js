@@ -73,7 +73,7 @@ export const TaskListProvider = ({
     },[])
 
     return (
-        <TaskListContext.Provider value={{cancel, addNewTask, updateOrCreateTask, deleteTask, newTask, updateTaskStage, editTask, tasks:state.tasks, currentTask:state.currentTask, dispatch, actions}}>
+        <TaskListContext.Provider value={{cancel, addNewTask, updateOrCreateTask, deleteTask, newTask, updateTaskStage, editTask, tasks:state.tasks, currentTask:state.currentTask}}>
             {children}
         </TaskListContext.Provider>
     )
