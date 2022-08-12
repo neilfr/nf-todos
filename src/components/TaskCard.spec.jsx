@@ -4,12 +4,15 @@ import {TaskCard} from "./TaskCard";
 import {MemoryRouter} from "react-router-dom"
 import {StageContext} from "../context/StageContext";
 import {fireEvent} from "@testing-library/dom";
+import {TaskListContext} from "../context/TaskListContext";
 
-let renderTask, mockTask, mockStages, initialTaskStage
+let renderTask, mockTask, mockStages, mockEditTask, initialTaskStage
 
 describe('TaskCard',() => {
     beforeEach( () => {
         initialTaskStage = 2
+
+        mockEditTask = jest.fn()
 
         mockTask = {
             description:'my task',
@@ -30,11 +33,13 @@ describe('TaskCard',() => {
 
         renderTask = () => {
             return render(
-                <StageContext.Provider value={{stages:mockStages}}>
-                    <MemoryRouter>
-                        <TaskCard task={mockTask}/>
-                    </MemoryRouter>
-                </StageContext.Provider>
+                <MemoryRouter>
+                    <StageContext.Provider value={{stages:mockStages}}>
+                        <TaskListContext.Provider value={{updateTaskStage:jest.fn(), editTask:mockEditTask}}>
+                            <TaskCard task={mockTask}/>
+                        </TaskListContext.Provider>
+                    </StageContext.Provider>
+                </MemoryRouter>
             )
         }
     })
@@ -71,12 +76,13 @@ describe('TaskCard',() => {
     })
 
     it('navigates to the task edit endpoint when task is clicked', () => {
+
         const {getByLabelText} = renderTask()
 
         const taskSelect = getByLabelText(`task-select-for-${mockTask.description}`)
         fireEvent.click(taskSelect)
 
-        expect('editTask').toHaveBeenCalled()
+        expect(mockEditTask).toHaveBeenCalled()
 
     })
 })
