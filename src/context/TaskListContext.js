@@ -33,6 +33,10 @@ export const TaskListProvider = ({
         navigate("/edit")
     }
 
+    const cancel = () => {
+        navigate("/")
+    }
+
     const newTask = () => {
         console.log('do stuff')
         navigate("/edit")
@@ -69,7 +73,7 @@ export const TaskListProvider = ({
     },[])
 
     return (
-        <TaskListContext.Provider value={{addNewTask, updateOrCreateTask, deleteTask, newTask, updateTaskStage, editTask, tasks:state.tasks, currentTask:state.currentTask, dispatch, actions}}>
+        <TaskListContext.Provider value={{cancel, addNewTask, updateOrCreateTask, deleteTask, newTask, updateTaskStage, editTask, tasks:state.tasks, currentTask:state.currentTask, dispatch, actions}}>
             {children}
         </TaskListContext.Provider>
     )

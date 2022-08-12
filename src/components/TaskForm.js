@@ -1,12 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
 import {useNavigate} from "react-router";
-import {createTask, destroyTask, updateTask} from "../service/ApiService";
 
 export const TaskForm = () => {
 
-    const {updateOrCreateTask, deleteTask, currentTask, dispatch, actions} = useContext(TaskListContext)
-    const navigate = useNavigate()
+    const {cancel, updateOrCreateTask, deleteTask, currentTask} = useContext(TaskListContext)
     const [getTask, setTask] = useState(currentTask)
     const [getIsSavable, setIsSavable] = useState(false)
 
@@ -24,10 +22,6 @@ export const TaskForm = () => {
 
     const updateTaskDescription = (e) => {
         setTask({...getTask, description:e.target.value})
-    }
-
-    const cancel = () => {
-        navigate("/")
     }
 
     return (
