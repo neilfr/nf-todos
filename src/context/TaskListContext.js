@@ -37,11 +37,6 @@ export const TaskListProvider = ({
         navigate("/")
     }
 
-    const newTask = () => {
-        console.log('do stuff')
-        navigate("/edit")
-    }
-
     const deleteTask = async (task) => {
         await destroyTask(task.id)
         dispatch({type: actions.DELETE, data:task})
@@ -50,7 +45,7 @@ export const TaskListProvider = ({
 
     const addNewTask = () => {
         dispatch({type:actions.NEW})
-        newTask()
+        navigate("/edit")
     }
 
     const updateOrCreateTask = async (taskToCreateOrUpdate) => {
@@ -73,7 +68,7 @@ export const TaskListProvider = ({
     },[])
 
     return (
-        <TaskListContext.Provider value={{cancel, addNewTask, updateOrCreateTask, deleteTask, newTask, updateTaskStage, editTask, tasks:state.tasks, currentTask:state.currentTask}}>
+        <TaskListContext.Provider value={{cancel, addNewTask, updateOrCreateTask, deleteTask, updateTaskStage, editTask, tasks:state.tasks, currentTask:state.currentTask}}>
             {children}
         </TaskListContext.Provider>
     )
