@@ -5,14 +5,16 @@ import {MemoryRouter} from "react-router-dom"
 import {StageContext} from "../context/StageContext";
 import {fireEvent} from "@testing-library/dom";
 
-let renderTask, mockTask, mockStages
+let renderTask, mockTask, mockStages, initialTaskStage
 
 describe('TaskCard',() => {
     beforeEach( () => {
+        initialTaskStage = 2
+
         mockTask = {
             description:'my task',
             priority:5,
-            stage_id:1
+            stage_id:initialTaskStage
         }
 
         mockStages = [
@@ -37,18 +39,29 @@ describe('TaskCard',() => {
         }
     })
 
-    it('displays a task priority and description', () => {
+    it('displays a task priority', () => {
         const {getByText} = renderTask()
 
-        expect(getByText(mockTask.description)).toBeInTheDocument()
         expect(getByText(mockTask.priority)).toBeInTheDocument()
     })
 
-    it('displays task stages in stage select dropdown', () => {
+    it('displays a task description', () => {
+        const {getByText} = renderTask()
+
+        expect(getByText(mockTask.description)).toBeInTheDocument()
+    })
+
+    it('displays task stage as initial selected value in stage select dropdown', () => {
         const {getByLabelText} = renderTask()
 
-        const stageSelect = getByLabelText('stage-select')
-        expect(stageSelect).toHaveValue("1")
+        const stageSelect = getByLabelText(`stage-select-for-${mockTask.description}`)
+        expect(stageSelect).toHaveValue(initialTaskStage.toString())
+    })
+
+    it('displays all available task stages in stage select dropdown', () => {
+        const {getByLabelText} = renderTask()
+
+        const stageSelect = getByLabelText(`stage-select-for-${mockTask.description}`)
 
         fireEvent.click(stageSelect)
         mockStages.forEach( (stage) => {
@@ -57,4 +70,13 @@ describe('TaskCard',() => {
         })
     })
 
+    it('navigates to the task edit endpoint when task is clicked', () => {
+        const {getByLabelText} = renderTask()
+
+        const taskSelect = getByLabelText(`task-select-for-${mockTask.description}`)
+        fireEvent.click(taskSelect)
+
+        expect('editTask').toHaveBeenCalled()
+
+    })
 })
