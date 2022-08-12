@@ -1,7 +1,7 @@
 import React, {createContext, useEffect, useReducer} from "react";
 import {actions, TaskListReducer} from "../reducers/TaskListReducer";
 import {DEFAULT_STAGE_ID} from "../Utilities";
-import {destroyTask, getTasks, updateTask} from "../service/ApiService";
+import {createTask, destroyTask, getTasks, updateTask} from "../service/ApiService";
 import {useNavigate} from "react-router-dom";
 
 export const TaskListContext = createContext('')
@@ -44,6 +44,18 @@ export const TaskListProvider = ({
         navigate("/")  // extract to a constant HOMEPAGE or something
     }
 
+    const updateOrCreateTask = async (taskToCreateOrUpdate) => {
+        // const taskToCreateOrUpdate = getTask
+        if (taskToCreateOrUpdate.id === null) {
+            const task = await createTask(taskToCreateOrUpdate)
+            dispatch({type: actions.CREATE, data:task})
+        } else {
+            const updatedTask = await updateTask(taskToCreateOrUpdate.id, taskToCreateOrUpdate)
+            dispatch({type: actions.UPDATE, data:updatedTask})
+        }
+        navigate("/")
+    }
+
     useEffect( async () => {
         const tasks = await getTasks()
         dispatch({
@@ -53,7 +65,7 @@ export const TaskListProvider = ({
     },[])
 
     return (
-        <TaskListContext.Provider value={{deleteTask, newTask, updateTaskStage, editTask, tasks:state.tasks, currentTask:state.currentTask, dispatch, actions}}>
+        <TaskListContext.Provider value={{updateOrCreateTask, deleteTask, newTask, updateTaskStage, editTask, tasks:state.tasks, currentTask:state.currentTask, dispatch, actions}}>
             {children}
         </TaskListContext.Provider>
     )
