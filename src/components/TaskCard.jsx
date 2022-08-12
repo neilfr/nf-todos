@@ -4,7 +4,7 @@ import {Priority} from "./Priority";
 import {Description} from "./Description";
 import {StageContext} from "../context/StageContext";
 
-export const Task = (props) => {
+export const TaskCard = (props) => {
     const {updateTaskStage, editTask} = useContext(TaskListContext)
     const {stages} = useContext(StageContext)
 

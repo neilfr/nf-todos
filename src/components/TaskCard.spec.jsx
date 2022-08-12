@@ -1,13 +1,13 @@
 import React from 'react'
-import { render } from "@testing-library/react"
-import {Task} from "./Task";
+import {render} from "@testing-library/react"
+import {TaskCard} from "./TaskCard";
 import {MemoryRouter} from "react-router-dom"
 import {StageContext} from "../context/StageContext";
 import {fireEvent} from "@testing-library/dom";
 
 let renderTask, mockTask, mockStages
 
-describe('Task',() => {
+describe('TaskCard',() => {
     beforeEach( () => {
         mockTask = {
             description:'my task',
@@ -30,7 +30,7 @@ describe('Task',() => {
             return render(
                 <StageContext.Provider value={{stages:mockStages}}>
                     <MemoryRouter>
-                        <Task task={mockTask}/>
+                        <TaskCard task={mockTask}/>
                     </MemoryRouter>
                 </StageContext.Provider>
             )
@@ -55,7 +55,6 @@ describe('Task',() => {
             const stageOption = getByLabelText(`stage-select-option-${stage.description}`)
             expect(stageOption).toBeVisible()
         })
-
     })
 
 })

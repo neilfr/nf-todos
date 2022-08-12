@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import {TaskListContext} from "../context/TaskListContext";
 import {StageContext} from "../context/StageContext";
-import {Task} from "./Task";
+import {TaskCard} from "./TaskCard";
 import {StageColumn} from "./StageColumn";
 
 export const TaskList = (props) => {
@@ -19,7 +19,7 @@ export const TaskList = (props) => {
                             {tasks.map( (task) => {
                                 if (task.stage_id === stage.id)
                                     return (
-                                        <Task key={task.id} task={task} editTask={props.editTask}/>
+                                        <TaskCard key={task.id} task={task} editTask={props.editTask}/>
                                     )
                             })}
                         </StageColumn>
