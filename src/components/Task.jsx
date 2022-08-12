@@ -13,7 +13,7 @@ export const Task = (props) => {
             <select aria-label="stage-select" value={props.task.stage_id} name="stage" id="stage" onChange={(e)=>updateTaskStage(props.task.id,e.target.value)}>
                 {stages.map((stage, index)=>{
                     return (
-                        <option key={index} value={stage.id}>{stage.description}</option>
+                        <option aria-label={`stage-select-option-${stage.description}`} key={index} value={stage.id}>{stage.description}</option>
                     )
                 })}
             </select>
