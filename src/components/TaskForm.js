@@ -5,7 +5,7 @@ import {createTask, destroyTask, updateTask} from "../service/ApiService";
 
 export const TaskForm = () => {
 
-    const {currentTask, dispatch, actions} = useContext(TaskListContext)
+    const {deleteTask, currentTask, dispatch, actions} = useContext(TaskListContext)
     const navigate = useNavigate()
     const [getTask, setTask] = useState(currentTask)
     const [getIsSavable, setIsSavable] = useState(false)
@@ -42,11 +42,7 @@ export const TaskForm = () => {
         navigate("/")
     }
 
-    const deleteTask = async () => {
-        await destroyTask(getTask.id)
-        dispatch({type: actions.DELETE, data:getTask})
-        navigate("/")  // extract to a constant HOMEPAGE or something
-    }
+
 
     return (
         <div>
@@ -60,7 +56,7 @@ export const TaskForm = () => {
             </div>
             <button onClick={updateOrCreateTask} disabled={!getIsSavable}>Save</button>
             <button onClick={cancel}>Cancel</button>
-            <button onClick={deleteTask}>Delete</button>
+            <button onClick={()=>deleteTask(getTask)}>Delete</button>
         </div>
     )
 }

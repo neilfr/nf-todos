@@ -1,7 +1,7 @@
 import React, {createContext, useEffect, useReducer} from "react";
 import {actions, TaskListReducer} from "../reducers/TaskListReducer";
 import {DEFAULT_STAGE_ID} from "../Utilities";
-import {getTasks, updateTask} from "../service/ApiService";
+import {destroyTask, getTasks, updateTask} from "../service/ApiService";
 import {useNavigate} from "react-router-dom";
 
 export const TaskListContext = createContext('')
@@ -38,6 +38,12 @@ export const TaskListProvider = ({
         navigate("/edit")
     }
 
+    const deleteTask = async (task) => {
+        await destroyTask(task.id)
+        dispatch({type: actions.DELETE, data:task})
+        navigate("/")  // extract to a constant HOMEPAGE or something
+    }
+
     useEffect( async () => {
         const tasks = await getTasks()
         dispatch({
@@ -47,7 +53,7 @@ export const TaskListProvider = ({
     },[])
 
     return (
-        <TaskListContext.Provider value={{newTask, updateTaskStage, editTask, tasks:state.tasks, currentTask:state.currentTask, dispatch, actions}}>
+        <TaskListContext.Provider value={{deleteTask, newTask, updateTaskStage, editTask, tasks:state.tasks, currentTask:state.currentTask, dispatch, actions}}>
             {children}
         </TaskListContext.Provider>
     )
