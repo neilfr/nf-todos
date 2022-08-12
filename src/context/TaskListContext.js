@@ -3,6 +3,7 @@ import {actions, TaskListReducer} from "../reducers/TaskListReducer";
 import {DEFAULT_STAGE_ID} from "../Utilities";
 import {createTask, destroyTask, getTasks, updateTask} from "../service/ApiService";
 import {useNavigate} from "react-router-dom";
+import {navigate} from "@storybook/addon-links";
 
 export const TaskListContext = createContext('')
 
@@ -28,24 +29,32 @@ export const TaskListProvider = ({
 
     let navigate = useNavigate()
 
-    const editTask = (task) => {
-        dispatch({type:actions.SELECT, data:task})
+    const gotoHome = () => {
+        navigate("/")
+    }
+
+    const gotoTaskForm = () => {
         navigate("/edit")
     }
 
+    const editTask = (task) => {
+        dispatch({type:actions.SELECT, data:task})
+        gotoTaskForm()
+    }
+
     const cancel = () => {
-        navigate("/")
+        gotoHome()
     }
 
     const deleteTask = async (task) => {
         await destroyTask(task.id)
         dispatch({type: actions.DELETE, data:task})
-        navigate("/")  // extract to a constant HOMEPAGE or something
+        gotoHome()
     }
 
     const addNewTask = () => {
         dispatch({type:actions.NEW})
-        navigate("/edit")
+        gotoTaskForm()
     }
 
     const updateOrCreateTask = async (taskToCreateOrUpdate) => {
@@ -56,7 +65,7 @@ export const TaskListProvider = ({
             const updatedTask = await updateTask(taskToCreateOrUpdate.id, taskToCreateOrUpdate)
             dispatch({type: actions.UPDATE, data:updatedTask})
         }
-        navigate("/")
+        gotoHome()
     }
 
     useEffect( async () => {
