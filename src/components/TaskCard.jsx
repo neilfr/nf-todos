@@ -17,7 +17,7 @@ export const TaskCard = (props) => {
                     )
                 })}
             </select>
-            <div aria-label={`task-select-for-${props.task.description}`} className={"w-full"} onClick={() => {editTask(props.task)}}>
+            <div role="button" aria-label={`${props.task.description}`} className={"w-full"} onClick={() => {editTask(props.task)}}>
                 <Priority priority={props.task.priority}/>
                 <Description description={props.task.description}/>
             </div>

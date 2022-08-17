@@ -3,21 +3,23 @@ import {render} from "@testing-library/react"
 import {TaskCard} from "./TaskCard";
 import {MemoryRouter} from "react-router-dom"
 import {StageContext} from "../context/StageContext";
-import {fireEvent} from "@testing-library/dom";
+import {fireEvent, getAllByLabelText, getAllByRole, screen} from "@testing-library/dom";
 import {TaskListContext} from "../context/TaskListContext";
 
-let renderTask, mockTask, mockStages, mockEditTask, initialTaskStage
+let renderTask, mockTask, mockStages, mockEditTask, mockUpdateTaskStage, initialTaskStageId
 
 describe('TaskCard',() => {
     beforeEach( () => {
-        initialTaskStage = 2
+        initialTaskStageId = 2
 
         mockEditTask = jest.fn()
+
+        mockUpdateTaskStage = jest.fn()
 
         mockTask = {
             description:'my task',
             priority:5,
-            stage_id:initialTaskStage
+            stage_id:initialTaskStageId
         }
 
         mockStages = [
@@ -35,7 +37,7 @@ describe('TaskCard',() => {
             return render(
                 <MemoryRouter>
                     <StageContext.Provider value={{stages:mockStages}}>
-                        <TaskListContext.Provider value={{updateTaskStage:jest.fn(), editTask:mockEditTask}}>
+                        <TaskListContext.Provider value={{updateTaskStage:mockUpdateTaskStage, editTask:mockEditTask}}>
                             <TaskCard task={mockTask}/>
                         </TaskListContext.Provider>
                     </StageContext.Provider>
@@ -75,14 +77,34 @@ describe('TaskCard',() => {
         })
     })
 
-    it('navigates to the task edit endpoint when task is clicked', () => {
+    it('calls the update task stage function when a stage is selected', () => {
+        const {getByLabelText} = renderTask()
+
+        const stageSelect = getByLabelText(`stage-select-for-${mockTask.description}`)
+
+        fireEvent.click(stageSelect)
+
+        const selectedStageOption = getByLabelText(`stage-select-option-${mockStages[0].description}`)
+        fireEvent.change(selectedStageOption)
+
+        const options = getAllByRole('options')
+        console.log('options', options)
+
+        // expect(selectedStageOption.selected).toBeTruthy()
+
+        // expect(mockUpdateTaskStage).toHaveBeenCalled()
+    })
+
+    it('calls the edit task function when task is clicked', () => {
 
         const {getByLabelText} = renderTask()
 
-        const taskSelect = getByLabelText(`task-select-for-${mockTask.description}`)
+        const taskSelect = screen.getByRole('button')
+        // const taskSelect = getByLabelText(`task-select-for-${mockTask.description}`)
         fireEvent.click(taskSelect)
 
         expect(mockEditTask).toHaveBeenCalled()
+        expect(mockEditTask).toHaveBeenCalledWith(mockTask)
 
     })
 })
