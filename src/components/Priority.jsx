@@ -3,6 +3,6 @@ import React from 'react'
 export const Priority = (props) => {
 
     return (
-        <span className="ml-2">{props.priority}</span>
+        <input type="text" aria-label="priority" className="ml-2" value={props.priority} readOnly={true}/>
     )
 }

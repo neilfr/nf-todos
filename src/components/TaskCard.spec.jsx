@@ -3,7 +3,7 @@ import {render} from "@testing-library/react"
 import {TaskCard} from "./TaskCard";
 import {MemoryRouter} from "react-router-dom"
 import {StageContext} from "../context/StageContext";
-import {fireEvent, getAllByLabelText, getAllByRole, screen} from "@testing-library/dom";
+import {fireEvent, getAllByRole, screen} from "@testing-library/dom";
 import {TaskListContext} from "../context/TaskListContext";
 
 let renderTask, mockTask, mockStages, mockEditTask, mockUpdateTaskStage, initialTaskStageId
@@ -47,15 +47,17 @@ describe('TaskCard',() => {
     })
 
     it('displays a task priority', () => {
-        const {getByText} = renderTask()
-
-        expect(getByText(mockTask.priority)).toBeInTheDocument()
+        renderTask()
+        const priority = screen.getByRole('textbox',{name: 'priority'})
+        expect(priority).toBeInTheDocument()
+        expect(priority).toHaveValue(mockTask.priority.toString())
     })
 
     it('displays a task description', () => {
-        const {getByText} = renderTask()
-
-        expect(getByText(mockTask.description)).toBeInTheDocument()
+        renderTask()
+        const description = screen.getByRole('textbox',{name: 'description'})
+        expect(description).toBeInTheDocument()
+        expect(description).toHaveValue(mockTask.description)
     })
 
     it('displays task stage as initial selected value in stage select dropdown', () => {
@@ -97,10 +99,9 @@ describe('TaskCard',() => {
 
     it('calls the edit task function when task is clicked', () => {
 
-        const {getByLabelText} = renderTask()
+        renderTask()
 
         const taskSelect = screen.getByRole('button')
-        // const taskSelect = getByLabelText(`task-select-for-${mockTask.description}`)
         fireEvent.click(taskSelect)
 
         expect(mockEditTask).toHaveBeenCalled()
