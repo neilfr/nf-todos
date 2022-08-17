@@ -17,6 +17,7 @@ describe('TaskCard',() => {
         mockUpdateTaskStage = jest.fn()
 
         mockTask = {
+            id:1,
             description:'my task',
             priority:5,
             stage_id:initialTaskStageId
@@ -48,53 +49,52 @@ describe('TaskCard',() => {
 
     it('displays a task priority', () => {
         renderTask()
-        const priority = screen.getByRole('textbox',{name: 'priority'})
+        const priority = screen.getByRole('textbox',{name: 'Priority'})
         expect(priority).toBeInTheDocument()
         expect(priority).toHaveValue(mockTask.priority.toString())
     })
 
     it('displays a task description', () => {
         renderTask()
-        const description = screen.getByRole('textbox',{name: 'description'})
+        const description = screen.getByRole('textbox',{name: 'Description'})
         expect(description).toBeInTheDocument()
         expect(description).toHaveValue(mockTask.description)
     })
 
-    it('displays task stage as initial selected value in stage select dropdown', () => {
-        const {getByLabelText} = renderTask()
-
-        const stageSelect = getByLabelText(`stage-select-for-${mockTask.description}`)
-        expect(stageSelect).toHaveValue(initialTaskStage.toString())
+    it('sets initial value of stage select to the task stage_id', () => {
+        renderTask()
+        const stageSelect = screen.getByRole('combobox', {name: 'Task stage'})
+        expect(stageSelect).toHaveValue(initialTaskStageId.toString())
     })
 
-    it('displays all available task stages in stage select dropdown', () => {
-        const {getByLabelText} = renderTask()
+    it('displays all available task stages in stage select dropdown with correct aria-selected attribute', () => {
+        renderTask()
 
-        const stageSelect = getByLabelText(`stage-select-for-${mockTask.description}`)
+        const stageSelect = screen.getByRole('combobox', {name: 'Task stage'})
 
         fireEvent.click(stageSelect)
+
         mockStages.forEach( (stage) => {
-            const stageOption = getByLabelText(`stage-select-option-${stage.description}`)
+            const stageOption = screen.getByRole('option', {name: stage.description})
             expect(stageOption).toBeVisible()
+            if (stage.id === initialTaskStageId)
+            {
+                expect(stageOption.getAttribute("aria-selected")).toBe("true")
+            } else {
+                expect(stageOption.getAttribute("aria-selected")).toBe("false")
+            }
         })
     })
 
     it('calls the update task stage function when a stage is selected', () => {
-        const {getByLabelText} = renderTask()
+        renderTask()
 
-        const stageSelect = getByLabelText(`stage-select-for-${mockTask.description}`)
+        const stageSelect = screen.getByRole('combobox', {name: 'Task stage'})
 
-        fireEvent.click(stageSelect)
+        fireEvent.change(stageSelect, { target: {value:1}})
 
-        const selectedStageOption = getByLabelText(`stage-select-option-${mockStages[0].description}`)
-        fireEvent.change(selectedStageOption)
-
-        const options = getAllByRole('options')
-        console.log('options', options)
-
-        // expect(selectedStageOption.selected).toBeTruthy()
-
-        // expect(mockUpdateTaskStage).toHaveBeenCalled()
+        expect(mockUpdateTaskStage).toHaveBeenCalled()
+        expect(mockUpdateTaskStage).toHaveBeenCalledWith(mockTask.id, "1")
     })
 
     it('calls the edit task function when task is clicked', () => {
