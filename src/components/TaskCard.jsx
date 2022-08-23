@@ -14,11 +14,11 @@ export const TaskCard = (props) => {
                 {stages.map((stage, index)=>{
                     const isSelected = stage.id === props.task.stage_id
                     return (
-                        <option aria-label={stage.description} aria-selected={false} key={index} value={stage.id}>{stage.description}</option>
+                        <option aria-label={stage.description} aria-selected={isSelected} key={index} value={stage.id}>{stage.description}</option>
                     )
                 })}
             </select>
-            <div role="button" aria-label={`${props.task.description}`} className={"w-full"} onClick={() => {editTask(props.task)}}>
+            <div role="button" aria-label={props.task.description} className={"w-full"} onClick={() => {editTask(props.task)}}>
                 <Priority priority={props.task.priority}/>
                 <Description description={props.task.description}/>
             </div>

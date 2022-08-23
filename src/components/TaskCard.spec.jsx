@@ -6,7 +6,7 @@ import {StageContext} from "../context/StageContext";
 import {fireEvent, getAllByRole, screen} from "@testing-library/dom";
 import {TaskListContext} from "../context/TaskListContext";
 
-let renderTask, mockTask, mockStages, mockEditTask, mockUpdateTaskStage, initialTaskStageId
+let renderTask, task, stages, mockEditTask, mockUpdateTaskStage, initialTaskStageId
 
 describe('TaskCard',() => {
     beforeEach( () => {
@@ -16,14 +16,14 @@ describe('TaskCard',() => {
 
         mockUpdateTaskStage = jest.fn()
 
-        mockTask = {
+        task = {
             id:1,
             description:'my task',
             priority:5,
             stage_id:initialTaskStageId
         }
 
-        mockStages = [
+        stages = [
             {
                 id:1,
                 description:'Backlog'
@@ -37,9 +37,9 @@ describe('TaskCard',() => {
         renderTask = () => {
             return render(
                 <MemoryRouter>
-                    <StageContext.Provider value={{stages:mockStages}}>
+                    <StageContext.Provider value={{stages:stages}}>
                         <TaskListContext.Provider value={{updateTaskStage:mockUpdateTaskStage, editTask:mockEditTask}}>
-                            <TaskCard task={mockTask}/>
+                            <TaskCard task={task}/>
                         </TaskListContext.Provider>
                     </StageContext.Provider>
                 </MemoryRouter>
@@ -51,20 +51,28 @@ describe('TaskCard',() => {
         renderTask()
         const priority = screen.getByRole('textbox',{name: 'Priority'})
         expect(priority).toBeInTheDocument()
-        expect(priority).toHaveValue(mockTask.priority.toString())
+        expect(priority).toHaveValue(task.priority.toString())
     })
 
     it('displays a task description', () => {
         renderTask()
         const description = screen.getByRole('textbox',{name: 'Description'})
         expect(description).toBeInTheDocument()
-        expect(description).toHaveValue(mockTask.description)
+        expect(description).toHaveValue(task.description)
+    })
+
+    it('displays the initially selected stage text', () => {
+        renderTask()
+        const selectedStageText = screen.getByText("To Do")
+        expect(selectedStageText).toBeInTheDocument()
     })
 
     it('sets initial value of stage select to the task stage_id', () => {
         renderTask()
         const stageSelect = screen.getByRole('combobox', {name: 'Task stage'})
         expect(stageSelect).toHaveValue(initialTaskStageId.toString())
+        const selectedStageOption = screen.getByRole('option', {name: "To Do"})
+        expect(selectedStageOption).toHaveAttribute('aria-selected', "true")
     })
 
     it('displays all available task stages in stage select dropdown with correct aria-selected attribute', () => {
@@ -74,7 +82,7 @@ describe('TaskCard',() => {
 
         fireEvent.click(stageSelect)
 
-        mockStages.forEach( (stage) => {
+        stages.forEach( (stage) => {
             const stageOption = screen.getByRole('option', {name: stage.description})
             expect(stageOption).toBeVisible()
             if (stage.id === initialTaskStageId)
@@ -94,18 +102,18 @@ describe('TaskCard',() => {
         fireEvent.change(stageSelect, { target: {value:1}})
 
         expect(mockUpdateTaskStage).toHaveBeenCalled()
-        expect(mockUpdateTaskStage).toHaveBeenCalledWith(mockTask.id, "1")
+        expect(mockUpdateTaskStage).toHaveBeenCalledWith(task.id, "1")
     })
 
     it('calls the edit task function when task is clicked', () => {
 
         renderTask()
 
-        const taskSelect = screen.getByRole('button')
+        const taskSelect = screen.getByRole('button', {name:task.description})
         fireEvent.click(taskSelect)
 
         expect(mockEditTask).toHaveBeenCalled()
-        expect(mockEditTask).toHaveBeenCalledWith(mockTask)
+        expect(mockEditTask).toHaveBeenCalledWith(task)
 
     })
 })
