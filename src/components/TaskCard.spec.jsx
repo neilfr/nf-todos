@@ -3,7 +3,7 @@ import {render} from "@testing-library/react"
 import {TaskCard} from "./TaskCard";
 import {MemoryRouter} from "react-router-dom"
 import {StageContext} from "../context/StageContext";
-import {fireEvent, getAllByRole, screen} from "@testing-library/dom";
+import {fireEvent, screen} from "@testing-library/dom";
 import {TaskListContext} from "../context/TaskListContext";
 
 let renderTask, task, stages, mockEditTask, mockUpdateTaskStage, initialTaskStageId

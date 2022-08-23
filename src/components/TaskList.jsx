@@ -9,9 +9,9 @@ export const TaskList = (props) => {
     const {stages} = useContext(StageContext)
 
     return (
-        <div>
+        <div role={"tasklist"}>
             <button onClick={ addNewTask }>Add</button>
-            {(tasks.length === 0) && (<p>Please add a first task</p>)}
+            {(tasks.length === 0) && (<p role={'text'}>Please add a first task</p>)}
             <div className={'flex pr-8'}>
                 {stages && stages.map((stage)=>{
                     return (
