@@ -9,7 +9,7 @@ export const TaskCard = (props) => {
     const {stages} = useContext(StageContext)
 
     return (
-        <div className="flex border rounded border-black m-2 p-2">
+        <div role={'Task'} aria-label={props.task.description} className="flex border rounded border-black m-2 p-2">
             <select aria-label={'Task stage'} value={props.task.stage_id} onChange={(e)=>updateTaskStage(props.task.id,e.target.value)}>
                 {stages.map((stage, index)=>{
                     const isSelected = stage.id === props.task.stage_id

@@ -4,7 +4,6 @@ import {TaskListContext} from "../context/TaskListContext";
 import React from "react";
 import { render } from "@testing-library/react"
 import {fireEvent, logRoles, screen} from "@testing-library/dom";
-import {TaskListProvider} from "../context/TaskListContext"
 import {StageContext} from "../context/StageContext";
 
 
@@ -15,13 +14,13 @@ describe('TaskList tests', () => {
             id:1,
             description:'my task',
             priority:5,
-            stage_id:1
+            stage_id:2
         },
         {
             id:2,
             description:'my other task',
             priority:7,
-            stage_id:2
+            stage_id:1
         }
     ]
 
@@ -38,11 +37,11 @@ describe('TaskList tests', () => {
         }
     ]
 
-    const renderTaskList = () => {
+    const renderTaskList = (tasks = []) => {
         return render(
             <MemoryRouter>
                 <StageContext.Provider value={{stages:mockStages}}>
-                    <TaskListContext.Provider value={{addNewTask:mockAddNewTask, tasks:[]}}>
+                    <TaskListContext.Provider value={{addNewTask:mockAddNewTask, tasks:tasks}}>
                         <TaskList/>
                     </TaskListContext.Provider>
                 </StageContext.Provider>
@@ -78,8 +77,14 @@ describe('TaskList tests', () => {
     })
 
     it('sorts tasks into columns by stage', () => {
-        renderTaskList()
-    })
+        renderTaskList(mockTasks)
 
+        const stageOneColumn = screen.getByRole('stage-column', {name:mockStages[0].description})
+        const stageTwoColumn = screen.getByRole('stage-column', {name:mockStages[1].description})
+        const taskOne = screen.getByRole('Task', {name:mockTasks[0].description})
+        const taskTwo = screen.getByRole('Task', {name:mockTasks[1].description})
+        expect(stageOneColumn).toContainElement(taskTwo)
+        expect(stageTwoColumn).toContainElement(taskOne)
+    })
 
 })
