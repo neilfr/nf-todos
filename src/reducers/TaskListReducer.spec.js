@@ -1,8 +1,32 @@
 import {TaskListReducer} from "./TaskListReducer";
+import {defaultTask} from "../context/TaskListContext";
 
-describe('task list reducer tests', () => {
+describe('TaskListReducer', () => {
+    it('initializes the task list with provided tasks', () => {
+        const initialState = {}
+        const initialTasks = [
+            {
+                id: 1,
+                priority: 2,
+                description: "first description",
+                complete: false
+            },{
+                id: 2,
+                priority: 3,
+                description: "second description",
+                complete: true
+            }
+        ]
 
-    it('updates task list when task is updated', () => {
+        const newState = TaskListReducer(initialState,{type:'initialize', data:{tasks:initialTasks}})
+
+        expect(newState).toEqual({
+            tasks:initialTasks,
+            currentTask:{}
+        })
+    })
+
+    it('updates task list state when task is updated', () => {
         const originalTask = {
             id: 1,
             priority: 1,
@@ -31,51 +55,90 @@ describe('task list reducer tests', () => {
 
     })
 
-    it('adds created task to task list', () => {
+    it('create a new task and sets it as the current task in state', () => {
         const initialState = {
             tasks:[],
             currentTask:{}
         }
 
-        const newTask = {
-            id: null,
+        const newState = TaskListReducer(initialState, {type:'new'})
+
+        expect(newState).toEqual({
+            tasks:[],
+            currentTask:defaultTask
+        })
+    })
+
+    it('adds newly created task to task list state', () => {
+        const initialState = {
+            tasks:[],
+            currentTask:{}
+        }
+
+        const newTaskFromDB = {
+            id: 1,
             priority: 1,
             description: "new task description",
             complete: false
         }
 
-        const newState = TaskListReducer(initialState, {type:'create', data:newTask})
+        const newState = TaskListReducer(initialState, {type:'create', data:newTaskFromDB})
 
         expect(newState).toEqual({
-            tasks: [{...newTask, id:0}],
+            tasks: [newTaskFromDB],
             currentTask:{}
         })
 
     })
 
     it('deletes task from task list and persists it', () => {
-        const originalTaskId = 0
-        const nextTaskId = originalTaskId+1
         const originalTask = {
-            id: originalTaskId,
+            id: 1,
             priority: 1,
             description: "old description",
             complete: false
         }
         const initialState = {
-            nextTaskId:nextTaskId,
-            tasks:[originalTask]
+            tasks:[originalTask],
+            currentTask:{}
         }
 
         const newState = TaskListReducer(initialState, {type:'delete', data:originalTask})
 
         expect(newState).toEqual({
-            nextTaskId: nextTaskId,
-            tasks:[]
+            tasks:[],
+            currentTask:{}
         })
 
-        expect(global.Storage.prototype.setItem).toHaveBeenCalledTimes(1)
-        expect(JSON.parse(mockStorage['tasks'])).toEqual([])
+    })
+
+    it('sets current task when task is selected', () => {
+
+        const taskToBeSelected = {
+            id: 2,
+            priority: 3,
+            description: "second description",
+            complete: true
+        }
+        let tasks = [
+            {
+                id: 1,
+                priority: 2,
+                description: "first description",
+                complete: false
+            }, taskToBeSelected
+        ]
+        const initialState = {
+            tasks: tasks,
+            currentTask: {}
+        }
+
+        const newState = TaskListReducer(initialState, {type:'select', data:taskToBeSelected})
+
+        expect(newState).toEqual({
+            tasks:tasks,
+            currentTask: taskToBeSelected
+        })
     })
 })
 

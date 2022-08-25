@@ -15,7 +15,7 @@ describe('initial state setup', ()=> {
 
     const renderWithContext = (component) => {
         return render(
-            <TaskListContext.Provider>
+            <TaskListContext.Provider value={{}}>
                 <div role={'foo'}>foobar</div>
             </TaskListContext.Provider>
         )
