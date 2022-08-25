@@ -2,40 +2,34 @@ import {TaskListReducer} from "./TaskListReducer";
 import {defaultTask} from "../context/TaskListContext";
 
 describe('TaskListReducer', () => {
+    const taskList = [
+        {
+            id: 1,
+            priority: 2,
+            description: "first description",
+            complete: true
+        },{
+            id: 2,
+            priority: 3,
+            description: "second description",
+            complete: false
+        }
+    ]
+
     it('initializes the task list with provided tasks', () => {
         const initialState = {}
-        const initialTasks = [
-            {
-                id: 1,
-                priority: 2,
-                description: "first description",
-                complete: false
-            },{
-                id: 2,
-                priority: 3,
-                description: "second description",
-                complete: true
-            }
-        ]
 
-        const newState = TaskListReducer(initialState,{type:'initialize', data:{tasks:initialTasks}})
+        const newState = TaskListReducer(initialState,{type:'initialize', data:{tasks:taskList}})
 
         expect(newState).toEqual({
-            tasks:initialTasks,
+            tasks:taskList,
             currentTask:{}
         })
     })
 
     it('updates task list state when task is updated', () => {
-        const originalTask = {
-            id: 1,
-            priority: 1,
-            description: "old description",
-            complete: false
-        }
-
         const initialState = {
-            tasks:[originalTask],
+            tasks:taskList,
             currentTask:{}
         }
 
@@ -49,7 +43,10 @@ describe('TaskListReducer', () => {
         const newState = TaskListReducer(initialState, {type:'update', data:updatedTask})
 
         expect(newState).toEqual({
-            tasks: [updatedTask],
+            tasks: [
+                updatedTask,
+                initialState.tasks[1]
+            ],
             currentTask: {}
         })
 
@@ -75,38 +72,26 @@ describe('TaskListReducer', () => {
             currentTask:{}
         }
 
-        const newTaskFromDB = {
-            id: 1,
-            priority: 1,
-            description: "new task description",
-            complete: false
-        }
-
-        const newState = TaskListReducer(initialState, {type:'create', data:newTaskFromDB})
+        const newState = TaskListReducer(initialState, {type:'create', data:taskList[0]})
 
         expect(newState).toEqual({
-            tasks: [newTaskFromDB],
+            tasks: [taskList[0]],
             currentTask:{}
         })
 
     })
 
     it('deletes task from task list and persists it', () => {
-        const originalTask = {
-            id: 1,
-            priority: 1,
-            description: "old description",
-            complete: false
-        }
+
         const initialState = {
-            tasks:[originalTask],
+            tasks:taskList,
             currentTask:{}
         }
 
-        const newState = TaskListReducer(initialState, {type:'delete', data:originalTask})
+        const newState = TaskListReducer(initialState, {type:'delete', data:taskList[0]})
 
         expect(newState).toEqual({
-            tasks:[],
+            tasks:[taskList[1]],
             currentTask:{}
         })
 
