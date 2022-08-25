@@ -1,4 +1,4 @@
-import {TaskListReducer} from "./TaskListReducer";
+import {actions, TaskListReducer} from "./TaskListReducer";
 import {defaultTask} from "../context/TaskListContext";
 
 describe('TaskListReducer', () => {
@@ -19,7 +19,7 @@ describe('TaskListReducer', () => {
     it('initializes the task list with provided tasks', () => {
         const initialState = {}
 
-        const newState = TaskListReducer(initialState,{type:'initialize', data:{tasks:taskList}})
+        const newState = TaskListReducer(initialState,{type:actions.INITIALIZE, data:{tasks:taskList}})
 
         expect(newState).toEqual({
             tasks:taskList,
@@ -40,7 +40,7 @@ describe('TaskListReducer', () => {
             complete: false
         }
 
-        const newState = TaskListReducer(initialState, {type:'update', data:updatedTask})
+        const newState = TaskListReducer(initialState, {type:actions.UPDATE, data:updatedTask})
 
         expect(newState).toEqual({
             tasks: [
@@ -58,7 +58,7 @@ describe('TaskListReducer', () => {
             currentTask:{}
         }
 
-        const newState = TaskListReducer(initialState, {type:'new'})
+        const newState = TaskListReducer(initialState, {type:actions.NEW})
 
         expect(newState).toEqual({
             tasks:[],
@@ -72,7 +72,7 @@ describe('TaskListReducer', () => {
             currentTask:{}
         }
 
-        const newState = TaskListReducer(initialState, {type:'create', data:taskList[0]})
+        const newState = TaskListReducer(initialState, {type:actions.CREATE, data:taskList[0]})
 
         expect(newState).toEqual({
             tasks: [taskList[0]],
@@ -88,7 +88,7 @@ describe('TaskListReducer', () => {
             currentTask:{}
         }
 
-        const newState = TaskListReducer(initialState, {type:'delete', data:taskList[0]})
+        const newState = TaskListReducer(initialState, {type:actions.DELETE, data:taskList[0]})
 
         expect(newState).toEqual({
             tasks:[taskList[1]],
@@ -99,29 +99,16 @@ describe('TaskListReducer', () => {
 
     it('sets current task when task is selected', () => {
 
-        const taskToBeSelected = {
-            id: 2,
-            priority: 3,
-            description: "second description",
-            complete: true
-        }
-        let tasks = [
-            {
-                id: 1,
-                priority: 2,
-                description: "first description",
-                complete: false
-            }, taskToBeSelected
-        ]
         const initialState = {
-            tasks: tasks,
+            tasks: taskList,
             currentTask: {}
         }
+        const taskToBeSelected = taskList[1]
 
-        const newState = TaskListReducer(initialState, {type:'select', data:taskToBeSelected})
+        const newState = TaskListReducer(initialState, {type:actions.SELECT, data:taskToBeSelected})
 
         expect(newState).toEqual({
-            tasks:tasks,
+            tasks: taskList,
             currentTask: taskToBeSelected
         })
     })
