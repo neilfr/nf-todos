@@ -2,34 +2,21 @@ import {TaskListReducer} from "./TaskListReducer";
 
 describe('task list reducer tests', () => {
 
-    let mockStorage
-
-    beforeEach(()=>{
-        mockStorage = {}
-        global.Storage.prototype.setItem = jest.fn((key, value) => {
-            mockStorage[key] = value
-        })
-    })
-
-    afterEach(()=>{
-        global.Storage.prototype.setItem.mockReset()
-    })
-
-    it('updates task list and persists it when task is updated', () => {
-        const originalTaskId = 0
-        const nextTaskId = originalTaskId+1
+    it('updates task list when task is updated', () => {
         const originalTask = {
-            id: originalTaskId,
+            id: 1,
             priority: 1,
             description: "old description",
             complete: false
         }
+
         const initialState = {
-            nextTaskId:nextTaskId,
-            tasks:[originalTask]
+            tasks:[originalTask],
+            currentTask:{}
         }
+
         const updatedTask = {
-            id: originalTaskId,
+            id: 1,
             priority: 5,
             description: "new description",
             complete: false
@@ -38,12 +25,10 @@ describe('task list reducer tests', () => {
         const newState = TaskListReducer(initialState, {type:'update', data:updatedTask})
 
         expect(newState).toEqual({
-            nextTaskId: nextTaskId,
-            tasks: [updatedTask]
+            tasks: [updatedTask],
+            currentTask: {}
         })
 
-        expect(global.Storage.prototype.setItem).toHaveBeenCalledTimes(1)
-        expect(JSON.parse(mockStorage['tasks'])).toEqual([updatedTask])
     })
 
     it('adds created task to task list, increments nextTaskId and persists them', () => {

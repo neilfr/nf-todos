@@ -1,9 +1,7 @@
 import React from 'react'
 import {TaskListContext} from "./TaskListContext";
 import { render } from "@testing-library/react"
-import {getByLabelText} from "@testing-library/dom";
-import {MemoryRouter} from "react-router-dom";
-import {TaskForm} from "../components/TaskForm";
+import { screen } from "@testing-library/dom"
 
 describe('initial state setup', ()=> {
     const TestComponent = (props) => {
@@ -16,28 +14,30 @@ describe('initial state setup', ()=> {
     }
 
     const renderWithContext = (component) => {
-        return {
-            ...render(
-                <TaskListContext>
-                    {component}
-                </TaskListContext>
-            )
-        }
-
+        return render(
+            <TaskListContext.Provider>
+                <div role={'foo'}>foobar</div>
+            </TaskListContext.Provider>
+        )
+        // return render(
+        //     <TaskListContext>
+        //         {component}
+        //     </TaskListContext>
+        // )
     }
 
     it('sets initial state if there are no tasks in local storage', () => {
-        let mockStorage = {}
-        global.Storage.prototype.getItem = jest.fn((key) => mockStorage[key])
-        const expectedState = {
-            nextTaskId: 0,
-            tasks: []
-        };
+        // const expectedState = {
+        //     tasks:[],
+        //     currentTask: {}
+        // }
 
-        ({getByLabelText} = renderWithContext(<TestComponent/>))
+        renderWithContext(<TestComponent/>)
 
-        const taskListCount = getByLabelText('TaskListCount:')
-        expect(taskListCount).toHaveValue(0)
+        const foo = screen.getByRole('foo')
+        expect(foo).toBeInTheDocument()
+        // const taskListCount = screen.getByLabelText('TaskListCount:')
+        // expect(taskListCount).toHaveValue(0)
     })
 })
 

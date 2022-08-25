@@ -51,20 +51,3 @@ describe('TaskForm save button', () => {
         expect(saveButton).toHaveAttribute('disabled')
     })
 })
-
-describe('mock tests', () => {
-    let getByLabelText, getByText
-    it('sets localstorage nextTaskId to the next task id when saving a valid task', () => {
-        // set the current nextTaskId to 1
-
-        // render the task form with a valid new task (id is null)
-        ({getByText} = renderTaskForm())
-
-        // user clicks save
-        const saveButton = getByText('Save')
-        fireEvent.click(saveButton)
-
-        // assert that local storage set item is called with nextTaskId as 2
-        expect('localStorage.setItem()').toHaveBeenCalled()
-    })
-})

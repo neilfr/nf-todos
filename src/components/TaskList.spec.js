@@ -58,9 +58,8 @@ describe('TaskList tests', () => {
 
     it('calls the supplied function when the add new task button is clicked', () => {
         renderTaskList()
-        const addButton = screen.getByRole('button',{name:'Add'})
-        expect(addButton).toBeInTheDocument()
 
+        const addButton = screen.getByRole('button',{name:'Add'})
         fireEvent.click(addButton)
 
         expect(mockAddNewTask).toHaveBeenCalled()
@@ -68,9 +67,9 @@ describe('TaskList tests', () => {
 
     it('renders stage columns with descriptions', () => {
         renderTaskList()
+
         const stageColumns = screen.getAllByRole('stage-column')
         expect(stageColumns).toHaveLength(2)
-
         stageColumns.forEach((column,index) => {
             expect(column).toHaveTextContent(mockStages[index].description)
         })
