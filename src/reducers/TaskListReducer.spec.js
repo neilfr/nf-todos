@@ -115,59 +115,79 @@ describe('TaskListReducer', () => {
 })
 
 describe('sort task list', ()=>{
-    let originalTaskId, nextTaskId, originalTask, initialState
+
+    let taskList, taskToBeCreated
 
     beforeEach(()=>{
-        originalTaskId = 0
-        nextTaskId = originalTaskId+1
-        originalTask = {
-            id: originalTaskId,
-            priority: 5,
-            description: "z original description",
+        taskList = [
+            {
+                id: 1,
+                priority: 2,
+                description: "a description",
+                complete: true
+            },{
+                id: 2,
+                priority: 2,
+                description: "a description",
+                complete: true
+            }
+        ]
+        taskToBeCreated = {
+            id: 3,
+            priority: 2,
+            description: "a description",
             complete: true
-        }
-        initialState = {
-            nextTaskId:nextTaskId,
-            tasks:[originalTask]
         }
     })
 
     it('sorts tasks by description in ascending order when a new task is added', () => {
-        const newTask = {
-            id: null,
-            priority: 5,
-            description: "z new task description",
-            complete: true
+        taskList[1]["description"] = "z description"
+        taskToBeCreated.description = "h description"
+        const initialState = {
+            tasks:taskList,
+            currentTask:{}
         }
 
-        const newState = TaskListReducer(initialState, {type:'create', data:newTask})
+        const newState = TaskListReducer(initialState, {type:'create', data:taskToBeCreated})
 
-        expect(newState.tasks).toEqual([{...newTask, id:originalTaskId+1}, originalTask])
+        expect(newState.tasks).toEqual([
+            taskList[0],
+            taskToBeCreated,
+            taskList[1]
+        ])
     })
 
     it('sorts tasks by priority in ascending order when a new task is added', () => {
-        const newTask = {
-            id: null,
-            priority: 1,
-            description: "z original description",
-            complete: true
+        taskList[1]["priority"]=5
+        taskToBeCreated.priority=3
+
+        const initialState = {
+            tasks:taskList,
+            currentTask:{}
         }
 
-        const newState = TaskListReducer(initialState, {type:'create', data:newTask})
+        const newState = TaskListReducer(initialState, {type:'create', data:taskToBeCreated})
 
-        expect(newState.tasks).toEqual([{...newTask, id:originalTaskId+1}, originalTask])
+        expect(newState.tasks).toEqual([
+            taskList[0],
+            taskToBeCreated,
+            taskList[1]
+        ])
     })
 
     it('sorts incomplete tasks to the top when a new task is added', () => {
-        const newTask = {
-            id: null,
-            priority: 5,
-            description: "z original description",
-            complete: false
+        taskToBeCreated.complete = false
+        const initialState = {
+            tasks:taskList,
+            currentTask:{}
         }
 
-        const newState = TaskListReducer(initialState, {type:'create', data:newTask})
+        const newState = TaskListReducer(initialState, {type:'create', data:taskToBeCreated})
 
-        expect(newState.tasks).toEqual([{...newTask, id:originalTaskId+1}, originalTask])
+        expect(newState.tasks).toEqual([
+            taskToBeCreated,
+            taskList[0],
+            taskList[1]
+        ])
     })
 })
