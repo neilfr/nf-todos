@@ -31,11 +31,12 @@ describe('task list reducer tests', () => {
 
     })
 
-    it('adds created task to task list, increments nextTaskId and persists them', () => {
+    it('adds created task to task list', () => {
         const initialState = {
-            nextTaskId:0,
-            tasks:[]
+            tasks:[],
+            currentTask:{}
         }
+
         const newTask = {
             id: null,
             priority: 1,
@@ -46,13 +47,10 @@ describe('task list reducer tests', () => {
         const newState = TaskListReducer(initialState, {type:'create', data:newTask})
 
         expect(newState).toEqual({
-            nextTaskId: initialState.nextTaskId+1,
-            tasks: [{...newTask, id:0}]
+            tasks: [{...newTask, id:0}],
+            currentTask:{}
         })
 
-        expect(global.Storage.prototype.setItem).toHaveBeenCalledTimes(2)
-        expect(JSON.parse(mockStorage['tasks'])).toEqual(newState.tasks)
-        expect(JSON.parse(mockStorage['nextTaskId'])).toEqual(newState.nextTaskId)
     })
 
     it('deletes task from task list and persists it', () => {

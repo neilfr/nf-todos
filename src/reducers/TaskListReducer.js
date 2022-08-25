@@ -34,7 +34,8 @@ export const TaskListReducer = (state,action) => {
         case actions.INITIALIZE:
             newState = {
                 ...state,
-                tasks:action.data.tasks
+                tasks:action.data.tasks,
+                currentTask:{}
             }
             return newState
         case actions.UPDATE:
@@ -44,7 +45,8 @@ export const TaskListReducer = (state,action) => {
             newTaskArray[taskToBeReplacedIndex] = action.data
             newState = {
                 ...state,
-                tasks: newTaskArray
+                tasks: newTaskArray,
+                currentTask:{}
             }
             return newState
         case actions.CREATE:
@@ -55,14 +57,14 @@ export const TaskListReducer = (state,action) => {
                         ...action.data,
                     }
                 ].sort(descriptionSort).sort(prioritySort).sort(completeSort),
-                currentTask:defaultTask
+                currentTask:{}
             }
             return newState
         case actions.DELETE:
             newState = {
                 ...state,
                 tasks:state.tasks.filter((task) => task.id !== action.data.id),
-                currentTask:defaultTask
+                currentTask:{}
             }
             return newState
         case actions.SELECT:
