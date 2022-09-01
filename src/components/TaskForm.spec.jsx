@@ -13,10 +13,15 @@ const currentTask = {
 }
 
 const mockUpdateOrCreateTask = jest.fn()
+const mockDeleteTask = jest.fn()
 
 const renderTaskForm = () => {
     return render(
-        <TaskListContext.Provider value={{currentTask:currentTask, updateOrCreateTask:mockUpdateOrCreateTask}}>
+        <TaskListContext.Provider value={{
+            currentTask:currentTask,
+            updateOrCreateTask:mockUpdateOrCreateTask,
+            deleteTask:mockDeleteTask
+        }}>
             <MemoryRouter>
                 <TaskForm/>
             </MemoryRouter>
@@ -24,14 +29,14 @@ const renderTaskForm = () => {
     );
 };
 
-describe('TaskForm save button', () => {
+describe('TaskForm', () => {
     let getByText, getByLabelText
 
     beforeEach(() => {
         ({getByText, getByLabelText} = renderTaskForm());
     });
 
-    it('enables if the user enters a description', () => {
+    it('save button enables if the user enters a description', () => {
         const saveButton = getByText('Save')
         const description = getByLabelText('Description:')
 
@@ -40,7 +45,7 @@ describe('TaskForm save button', () => {
         expect(saveButton).not.toHaveAttribute('disabled')
     })
 
-    it('disables if the description is empty', () => {
+    it('save button disables if the description is empty', () => {
         const saveButton = getByText('Save')
         const description = getByLabelText('Description:')
 
@@ -59,4 +64,9 @@ describe('TaskForm save button', () => {
         expect(mockUpdateOrCreateTask).toHaveBeenCalledWith(currentTask)
     })
 
+    it("calls the context's delete when the delete button is clicked", () => {
+        const deleteButton = screen.getByRole('button',{name:'Delete'})
+        fireEvent.click(deleteButton)
+        expect(mockDeleteTask).toHaveBeenCalledWith(currentTask)
+    })
 })
