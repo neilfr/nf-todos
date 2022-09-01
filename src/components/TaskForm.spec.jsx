@@ -2,8 +2,11 @@ import {TaskForm} from "./TaskForm"
 import { render } from "@testing-library/react"
 import {MemoryRouter} from "react-router-dom"
 import React from 'react'
-import {fireEvent} from "@testing-library/dom";
+import {fireEvent, screen} from "@testing-library/dom";
 import {TaskListContext} from "../context/TaskListContext";
+import {getTasks} from "../service/api/TaskListApiService";
+
+jest.mock('../service/api/TaskListApiService')
 
 const currentTask = {
     "id": 0,
@@ -12,9 +15,11 @@ const currentTask = {
     "complete": false
 }
 
+const mockUpdateOrCreateTask = jest.fn()
+
 const renderTaskForm = () => {
     return render(
-        <TaskListContext.Provider value={{currentTask:currentTask}}>
+        <TaskListContext.Provider value={{currentTask:currentTask, updateOrCreateTask:mockUpdateOrCreateTask}}>
             <MemoryRouter>
                 <TaskForm/>
             </MemoryRouter>
@@ -49,6 +54,12 @@ describe('TaskForm save button', () => {
         fireEvent.change(description, {target: {value: ''}})
         expect(description).toHaveValue('')
         expect(saveButton).toHaveAttribute('disabled')
+    })
+
+    it('calls the contexts updateOrCreateTask when the save button is clicked', () => {
+        const saveButton = screen.getByRole('button',{name:'Save'})
+        fireEvent.click(saveButton)
+        expect(mockUpdateOrCreateTask).toHaveBeenCalledWith(currentTask)
     })
 
 })

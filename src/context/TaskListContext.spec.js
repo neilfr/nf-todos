@@ -11,9 +11,7 @@ describe('initial state setup', ()=> {
     const TestComponent = (props) => {
         return(
             <div>
-                {/*<label for="taskListCount">TaskListCount:</label>*/}
-                {/*<input id="taskListCount" type="number" value={props.tasks.length}/>*/}
-                foobar
+                <button>Create</button>
             </div>
         )
     }
@@ -29,7 +27,7 @@ describe('initial state setup', ()=> {
         )
     }
 
-    it('foo', () => {
+    it('calls getTasks from api when a component is rendered with the context', () => {
         renderWithContext()
         expect(getTasks).toHaveBeenCalled()
     })
