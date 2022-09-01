@@ -115,7 +115,6 @@ describe('TaskListReducer', () => {
 })
 
 describe('sort task list', ()=>{
-
     let taskList, taskToBeCreated
 
     beforeEach(()=>{
