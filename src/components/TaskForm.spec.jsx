@@ -4,9 +4,6 @@ import {MemoryRouter} from "react-router-dom"
 import React from 'react'
 import {fireEvent, screen} from "@testing-library/dom";
 import {TaskListContext} from "../context/TaskListContext";
-import {getTasks} from "../service/api/TaskListApiService";
-
-jest.mock('../service/api/TaskListApiService')
 
 const currentTask = {
     "id": 0,
@@ -56,7 +53,7 @@ describe('TaskForm save button', () => {
         expect(saveButton).toHaveAttribute('disabled')
     })
 
-    it('calls the contexts updateOrCreateTask when the save button is clicked', () => {
+    it("calls the context's updateOrCreateTask when the save button is clicked", () => {
         const saveButton = screen.getByRole('button',{name:'Save'})
         fireEvent.click(saveButton)
         expect(mockUpdateOrCreateTask).toHaveBeenCalledWith(currentTask)
