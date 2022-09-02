@@ -106,14 +106,11 @@ describe('TaskCard',() => {
     })
 
     it('calls the edit task function when task is clicked', () => {
-
         renderTask()
 
         const taskSelect = screen.getByRole('button', {name:task.description})
         fireEvent.click(taskSelect)
 
-        expect(mockEditTask).toHaveBeenCalled()
         expect(mockEditTask).toHaveBeenCalledWith(task)
-
     })
 })
