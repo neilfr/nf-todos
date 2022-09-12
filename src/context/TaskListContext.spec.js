@@ -1,9 +1,9 @@
 import React from 'react'
 import {TaskListProvider} from "./TaskListContext";
 import {MemoryRouter} from "react-router-dom"
-import { render } from "@testing-library/react"
+import {act, render} from "@testing-library/react"
 
-import {getTasks} from "../service/api/TaskListApiService"
+import {TaskListApiService} from "../service/api/TaskListApiService"
 
 jest.mock('../service/api/TaskListApiService')
 
@@ -28,8 +28,10 @@ describe('initial state setup', ()=> {
     }
 
     it('calls getTasks from api when a component is rendered with the context', () => {
-        renderWithContext()
-        expect(getTasks).toHaveBeenCalled()
+        act( () => {
+            renderWithContext()
+        })
+        expect(TaskListApiService.getTasks).toHaveBeenCalled()
     })
 
 })
