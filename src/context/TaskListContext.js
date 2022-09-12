@@ -1,6 +1,6 @@
 import React, {createContext, useEffect, useReducer} from "react";
 import {actions, TaskListReducer} from "../reducers/TaskListReducer";
-import {createTask, destroyTask, getTasks, updateTask} from "../service/api/TaskListApiService";
+import {TaskListApiService} from "../service/api/TaskListApiService";
 import {useNavigate} from "react-router-dom";
 import {navigate} from "@storybook/addon-links";
 
@@ -25,7 +25,7 @@ export const TaskListProvider = ({
     })
 
     const updateTaskStage = async (task_id, stage_id) => {
-        const task = await updateTask(task_id, {stage_id:stage_id})
+        const task = await TaskListApiService.updateTask(task_id, {stage_id:stage_id})
         dispatch({type: actions.UPDATE, data:task})
     }
 
@@ -49,7 +49,7 @@ export const TaskListProvider = ({
     }
 
     const deleteTask = async (task) => {
-        await destroyTask(task.id)
+        await TaskListApiService.destroyTask(task.id)
         dispatch({type: actions.DELETE, data:task})
         gotoHome()
     }
@@ -61,17 +61,17 @@ export const TaskListProvider = ({
 
     const updateOrCreateTask = async (taskToCreateOrUpdate) => {
         if (taskToCreateOrUpdate.id === null) {
-            const task = await createTask(taskToCreateOrUpdate)
+            const task = await TaskListApiService.createTask(taskToCreateOrUpdate)
             dispatch({type: actions.CREATE, data:task})
         } else {
-            const updatedTask = await updateTask(taskToCreateOrUpdate.id, taskToCreateOrUpdate)
+            const updatedTask = await TaskListApiService.updateTask(taskToCreateOrUpdate.id, taskToCreateOrUpdate)
             dispatch({type: actions.UPDATE, data:updatedTask})
         }
         gotoHome()
     }
 
     useEffect( async () => {
-        const tasks = await getTasks()
+        const tasks = await TaskListApiService.getTasks()
         dispatch({
             type:actions.INITIALIZE,
             data:{"tasks":tasks}
