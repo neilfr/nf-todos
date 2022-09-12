@@ -19,7 +19,7 @@ export const TaskListApiService = {
             },
             body: JSON.stringify(payload),
         })
-        if (!response.ok) { throw new Error(`Error: ${response.status}`)}
+        // if (!response.ok) { throw new Error(`Error: ${response.status}`)}
         const createdTask = await response.json()
         return createdTask.data
     },
@@ -27,7 +27,7 @@ export const TaskListApiService = {
         try {
             const response = await fetch("http://localhost:8000/api/tasks")
             console.log('response', response)
-            // if (!response.ok) { throw new Error(`Error: ${response.status}`)}
+            if (!response.ok) { throw new Error(`Error: ${response.status}`)}
             const foo = await response.json()
             console.log('foo', foo)
             return foo
