@@ -2,7 +2,7 @@ import React from 'react'
 import {StageProvider} from "./StageContext";
 import {MemoryRouter} from "react-router-dom"
 import { render } from "@testing-library/react"
-import {getStages} from "../service/api/StageApiService";
+import {StageApiService} from "../service/api/StageApiService";
 
 jest.mock('../service/api/StageApiService')
 
@@ -28,7 +28,7 @@ describe('initial state setup', ()=> {
 
     it('calls getStages from api when a component is rendered with the context', () => {
         renderWithContext()
-        expect(getStages).toHaveBeenCalled()
+        expect(StageApiService.getStages).toHaveBeenCalled()
     })
 
 })

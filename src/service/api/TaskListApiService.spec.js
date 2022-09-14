@@ -1,5 +1,4 @@
 import {TaskListApiService} from "./TaskListApiService";
-import {FooService} from "./FooService";
 
 describe('task list api service', () => {
     it('calls fetch when getting tasks',  async () => {
