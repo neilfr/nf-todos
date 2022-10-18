@@ -49,7 +49,8 @@ export const TaskListProvider = ({
     }
 
     const deleteTask = async (task) => {
-        await TaskListApiService.destroyTask(task.id)
+        await TaskListApiService.destroyTaskAxios(task.id)
+        // await TaskListApiService.destroyTask(task.id)
         dispatch({type: actions.DELETE, data:task})
         gotoHome()
     }
@@ -61,17 +62,20 @@ export const TaskListProvider = ({
 
     const updateOrCreateTask = async (taskToCreateOrUpdate) => {
         if (taskToCreateOrUpdate.id === null) {
-            const task = await TaskListApiService.createTask(taskToCreateOrUpdate)
+            // const task = await TaskListApiService.createTask(taskToCreateOrUpdate)
+            const task = await TaskListApiService.createTaskAxios(taskToCreateOrUpdate)
             dispatch({type: actions.CREATE, data:task})
         } else {
-            const updatedTask = await TaskListApiService.updateTask(taskToCreateOrUpdate.id, taskToCreateOrUpdate)
+            const updatedTask = await TaskListApiService.updateTaskAxios(taskToCreateOrUpdate.id, taskToCreateOrUpdate)
+            // const updatedTask = await TaskListApiService.updateTask(taskToCreateOrUpdate.id, taskToCreateOrUpdate)
             dispatch({type: actions.UPDATE, data:updatedTask})
         }
         gotoHome()
     }
 
     useEffect( async () => {
-        const tasks = await TaskListApiService.getTasks()
+        const tasks = await TaskListApiService.getTasksAxios()
+        // const tasks = await TaskListApiService.getTasks()
         dispatch({
             type:actions.INITIALIZE,
             data:{"tasks":tasks}

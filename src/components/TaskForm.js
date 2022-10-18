@@ -9,7 +9,7 @@ export const TaskForm = () => {
 
     useEffect(()=>{
         setTask(currentTask)
-    },[])
+    },[currentTask])
 
     useEffect(() => {
         (getTask.description.length > 0 && getTask.priority !== '') ? setIsSavable(true) : setIsSavable(false)
