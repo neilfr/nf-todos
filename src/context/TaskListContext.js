@@ -3,6 +3,8 @@ import {actions, TaskListReducer} from "../reducers/TaskListReducer";
 import {TaskListApiService} from "../service/api/TaskListApiService";
 import {useNavigate} from "react-router-dom";
 import {navigate} from "@storybook/addon-links";
+import {AxiosApiService} from "../service/api/AxiosApiService";
+import {FetchApiService} from "../service/api/FetchApiService";
 
 export const TaskListContext = createContext('')
 
@@ -25,7 +27,8 @@ export const TaskListProvider = ({
     })
 
     const updateTaskStage = async (task_id, stage_id) => {
-        const task = await TaskListApiService.updateTask(task_id, {stage_id:stage_id})
+        const task = await FetchApiService.updateTask(task_id, {stage_id:stage_id})
+        // const task = await AxiosApiService.updateTaskAxios(task_id, {stage_id:stage_id})
         dispatch({type: actions.UPDATE, data:task})
     }
 
@@ -49,8 +52,8 @@ export const TaskListProvider = ({
     }
 
     const deleteTask = async (task) => {
-        await TaskListApiService.destroyTaskAxios(task.id)
-        // await TaskListApiService.destroyTask(task.id)
+        // await AxiosApiService.destroyTaskAxios(task.id)
+        await FetchApiService.destroyTask(task.id)
         dispatch({type: actions.DELETE, data:task})
         gotoHome()
     }
@@ -62,20 +65,20 @@ export const TaskListProvider = ({
 
     const updateOrCreateTask = async (taskToCreateOrUpdate) => {
         if (taskToCreateOrUpdate.id === null) {
-            // const task = await TaskListApiService.createTask(taskToCreateOrUpdate)
-            const task = await TaskListApiService.createTaskAxios(taskToCreateOrUpdate)
+            const task = await FetchApiService.createTask(taskToCreateOrUpdate)
+            // const task = await AxiosApiService.createTaskAxios(taskToCreateOrUpdate)
             dispatch({type: actions.CREATE, data:task})
         } else {
-            const updatedTask = await TaskListApiService.updateTaskAxios(taskToCreateOrUpdate.id, taskToCreateOrUpdate)
-            // const updatedTask = await TaskListApiService.updateTask(taskToCreateOrUpdate.id, taskToCreateOrUpdate)
+            // const updatedTask = await AxiosApiService.updateTaskAxios(taskToCreateOrUpdate.id, taskToCreateOrUpdate)
+            const updatedTask = await FetchApiService.updateTask(taskToCreateOrUpdate.id, taskToCreateOrUpdate)
             dispatch({type: actions.UPDATE, data:updatedTask})
         }
         gotoHome()
     }
 
     useEffect( async () => {
-        const tasks = await TaskListApiService.getTasksAxios()
-        // const tasks = await TaskListApiService.getTasks()
+        // const tasks = await AxiosApiService.getTasksAxios()
+        const tasks = await FetchApiService.getTasks()
         dispatch({
             type:actions.INITIALIZE,
             data:{"tasks":tasks}
