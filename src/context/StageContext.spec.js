@@ -2,9 +2,9 @@ import React from 'react'
 import {StageProvider} from "./StageContext";
 import {MemoryRouter} from "react-router-dom"
 import { render } from "@testing-library/react"
-import {StageApiService} from "../service/api/StageApiService";
+import {FetchApiService} from "../service/api/FetchApiService";
 
-jest.mock('../service/api/StageApiService')
+jest.mock('../service/api/FetchApiService')
 
 describe('initial state setup', ()=> {
     const TestComponent = (props) => {
@@ -28,7 +28,7 @@ describe('initial state setup', ()=> {
 
     it('calls getStages from api when a component is rendered with the context', () => {
         renderWithContext()
-        expect(StageApiService.getStages).toHaveBeenCalled()
+        expect(FetchApiService.getStages).toHaveBeenCalled()
     })
 
 })

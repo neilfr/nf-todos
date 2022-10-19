@@ -1,8 +1,7 @@
 import React, {createContext, useEffect, useReducer} from 'react'
-import {StageApiService} from "../service/api/StageApiService";
 import {StageReducer} from "../reducers/StageReducer";
-import {AxiosApiService} from "../service/api/AxiosApiService";
-import {FetchApiService} from "../service/api/FetchApiService";
+// import {AxiosApiService} from "../service/api/AxiosApiService";
+import FetchApiService from "../service/api/FetchApiService";
 
 export const StageContext = createContext('')
 

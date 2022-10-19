@@ -4,6 +4,7 @@ import {MemoryRouter} from "react-router-dom"
 import {act, render} from "@testing-library/react"
 
 import {TaskListApiService} from "../service/api/TaskListApiService"
+import {FetchApiService} from "../service/api/FetchApiService";
 
 jest.mock('../service/api/TaskListApiService')
 
@@ -31,7 +32,20 @@ describe('initial state setup', ()=> {
         act( () => {
             renderWithContext()
         })
-        expect(TaskListApiService.getTasks).toHaveBeenCalled()
+        expect(FetchApiService.getTasks).toHaveBeenCalled()
+    })
+
+    it('calls fetch when getting stages',  async () => {
+        fetch = jest.fn().mockReturnValue({
+            ok: true,
+            status: 200,
+            json: async () => 5
+        })
+        const response =  await FetchApiService.getStages()
+        expect(fetch).toHaveBeenCalledWith(
+            "http://localhost:8000/api/stages"
+        )
+        expect(response).toBe(5)
     })
 
 })

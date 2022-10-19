@@ -1,13 +1,13 @@
-import {TaskListApiService} from "./TaskListApiService";
+import {getTasks, createTask, destroyTask, updateTask, getStages} from "./FetchApiService";
 
-describe('task list api service', () => {
+describe('fetch api service', () => {
     it('calls fetch when getting tasks',  async () => {
         fetch = jest.fn().mockReturnValue({
             ok: true,
             status: 200,
             json: async () => 5
         })
-        const response =  await TaskListApiService.getTasks()
+        const response =  await getTasks()
         expect(fetch).toHaveBeenCalledWith(
             "http://localhost:8000/api/tasks"
         )
@@ -21,7 +21,7 @@ describe('task list api service', () => {
             status: 200,
             json: async () => { return {data:payload}}
         })
-        const response =  await TaskListApiService.createTask(payload)
+        const response =  await createTask(payload)
         expect(fetch).toHaveBeenCalledWith(
             "http://localhost:8000/api/tasks/",
             {
@@ -41,7 +41,7 @@ describe('task list api service', () => {
             status: 200,
             json: async () => { return task}
         })
-        const response =  await TaskListApiService.destroyTask(task.id)
+        const response =  await destroyTask(task.id)
         expect(fetch).toHaveBeenCalledWith(
             `http://localhost:8000/api/tasks/${task.id}`,
             {
@@ -64,7 +64,7 @@ describe('task list api service', () => {
             status: 200,
             json: async () => { return {data:payload}}
         })
-        const response =  await TaskListApiService.updateTask(taskid, payload)
+        const response =  await updateTask(taskid, payload)
         expect(fetch).toHaveBeenCalledWith(
             `http://localhost:8000/api/tasks/${taskid}`,
             {
@@ -76,6 +76,18 @@ describe('task list api service', () => {
             }
         )
         expect(response).toBe(payload)
+    })
+    it('calls fetch when getting stages',  async () => {
+        fetch = jest.fn().mockReturnValue({
+            ok: true,
+            status: 200,
+            json: async () => 5
+        })
+        const response =  await getStages()
+        expect(fetch).toHaveBeenCalledWith(
+            "http://localhost:8000/api/stages"
+        )
+        expect(response).toBe(5)
     })
 
 })

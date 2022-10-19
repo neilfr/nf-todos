@@ -1,4 +1,13 @@
-export const FetchApiService = {
+const FetchApiService = {
+    getTasks: async () => {
+        try {
+            const response = await fetch("http://localhost:8000/api/tasks")
+            if (!response.ok) { throw new Error(`Error: ${response.status}`)}
+            return await response.json()
+        } catch(e) {
+            return null
+        }
+    },
     updateTask: async (taskId, payload) => {
         const response = await fetch(`http://localhost:8000/api/tasks/${taskId}`, {
             method: 'PATCH',
@@ -23,15 +32,6 @@ export const FetchApiService = {
         const createdTask = await response.json()
         return createdTask.data
     },
-    getTasks: async () => {
-        try {
-            const response = await fetch("http://localhost:8000/api/tasks")
-            if (!response.ok) { throw new Error(`Error: ${response.status}`)}
-            return await response.json()
-        } catch(e) {
-            return null
-        }
-    },
     destroyTask: async (taskId) => {
         const response = await fetch(`http://localhost:8000/api/tasks/${taskId}`, {
             method: 'DELETE',
@@ -48,3 +48,5 @@ export const FetchApiService = {
         return await response.json()
     }
 }
+
+export default FetchApiService
