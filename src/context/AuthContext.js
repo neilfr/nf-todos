@@ -29,6 +29,10 @@ export const AuthProvider = ({children}) => {
         navigate("/home")
     }
 
+    const goTasks = () => {
+        navigate("/tasks")
+    }
+
     const login = async (email, password) => {
         await getCsrf()
         try{
@@ -48,6 +52,7 @@ export const AuthProvider = ({children}) => {
 
         // once authenticated, should go to the tasks route to see the tasklist
         // goHome()
+        goTasks()
     }
 
     const updateAuthed = (x) => {
