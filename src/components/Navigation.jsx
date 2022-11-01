@@ -15,7 +15,9 @@ export const Navigation = () => {
         <Routes>
             <Route path={"/login"} element={<Login/>}/>
             <Route path={"/"} element={<Login/>}/>
-            <Route path = "/tasks" element={<RouteGuard requiredRoles={['admin']}><TaskList editTask={editTask}/></RouteGuard>}/>
+            {/*<Route path = "/tasks" element={<RouteGuard requiredRoles={['admin']}><TaskList editTask={editTask}/></RouteGuard>}/>*/}
+            {/*<Route path = "/edit" element={<RouteGuard requiredRoles={['admin']}><TaskForm/></RouteGuard>}/>*/}
+            <Route path = "/tasks" element={<TaskList editTask={editTask}/>}/>
             <Route path = "/edit" element={<TaskForm/>}/>
         </Routes>
     )
