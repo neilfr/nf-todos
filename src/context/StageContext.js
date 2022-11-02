@@ -1,7 +1,6 @@
-import React, {createContext, useEffect, useReducer} from 'react'
+import React, {createContext, useContext, useEffect, useReducer} from 'react'
 import {StageReducer} from "../reducers/StageReducer";
-// import {AxiosApiService} from "../service/api/AxiosApiService";
-import FetchApiService from "../service/api/FetchApiService";
+import {ApiContext} from "./ApiContext";
 
 export const StageContext = createContext('')
 
@@ -10,13 +9,14 @@ export const actions = {
 }
 
 export const StageProvider = ({children}) => {
+    const {getStages} = useContext(ApiContext)
 
     const [state, dispatch] = useReducer(StageReducer, undefined, ()=>{
         return {}
     })
+
     useEffect(async () => {
-        // const stages = await AxiosApiService.getStagesAxios()
-        const stages = await FetchApiService.getStages()
+        const stages = await getStages()
         dispatch({
             type:actions.INIT_STAGES,
             data:{"stages":stages}

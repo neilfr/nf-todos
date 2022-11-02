@@ -5,19 +5,22 @@ import {StageProvider} from "./context/StageContext";
 import {Navigation} from "./components/Navigation";
 import {TaskListProvider} from "./context/TaskListContext";
 import {AuthProvider} from "./context/AuthContext";
+import {ApiProvider} from "./context/ApiContext";
 
 const App = () => {
 
   return (
       <div>
           <BrowserRouter>
-              <AuthProvider>
-                  <StageProvider>
-                      <TaskListProvider>
-                          <Navigation/>
-                      </TaskListProvider>
-                  </StageProvider>
-              </AuthProvider>
+              <ApiProvider>
+                  <AuthProvider>
+                      <StageProvider>
+                          <TaskListProvider>
+                              <Navigation/>
+                          </TaskListProvider>
+                      </StageProvider>
+                  </AuthProvider>
+              </ApiProvider>
           </BrowserRouter>
       </div>
   );

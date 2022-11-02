@@ -1,40 +1,20 @@
-import React, {createContext, useState} from 'react'
+import React, {createContext, useContext, useState} from 'react'
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {ApiContext} from "./ApiContext";
 
 export const AuthContext = createContext()
 
 export const AuthProvider = ({children}) => {
     let navigate = useNavigate()
-
+    const {http} = useContext(ApiContext)
     const [authed, setAuthed] = useState(false)
-
-    axios.defaults.withCredentials=true
-    axios.defaults.baseURL='http://localhost:8000'
-
-    const http = axios.create({
-        baseURL: 'http://localhost:8000',
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-        },
-        withCredentials: true,
-    })
-
-    const getCsrf = async () => {
-        const csrf = await http.get('/sanctum/csrf-cookie')
-        console.log('csrf =', csrf)
-    }
-
-    const goHome = () => {
-        navigate("/home")
-    }
 
     const goTasks = () => {
         navigate("/tasks")
     }
 
     const login = async (email, password) => {
-        await getCsrf()
         try{
             const login = await http.post('/login', {
                 email: email,
@@ -60,7 +40,7 @@ export const AuthProvider = ({children}) => {
     }
 
     const logout = () => {
-        axios.post('/logout').then(
+        http.post('/logout').then(
             (res) => {
                 updateAuthed(false)
                 console.log('logged out')
