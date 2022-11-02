@@ -25,9 +25,26 @@ export const ApiProvider = ({children}) => {
         return response.data
     }
 
+    const updateTask = async (taskId, payload) => {
+        const updatedTask = await axios.patch(`http://localhost:8000/api/tasks/${taskId}`,payload)
+        return updatedTask.data.data
+    }
+    const destroyTask = async (taskId) => {
+        const response = await axios.delete(`http://localhost:8000/api/tasks/${taskId}`)
+        return response.data.data
+    }
+    const createTask = async (payload) => {
+        const createdTask = await axios.post(`http://localhost:8000/api/tasks/`, payload)
+        return createdTask.data.data
+    }
+    const getTasks = async () => {
+        const response = await axios.get("http://localhost:8000/api/tasks")
+        return response.data
+    }
+
     return(
         <ApiContext.Provider value={{
-            http, getCsrf, getStages
+            http, getCsrf, getStages, updateTask, destroyTask, createTask, getTasks
         }}>
             {children}
         </ApiContext.Provider>
