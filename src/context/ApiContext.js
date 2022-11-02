@@ -4,8 +4,6 @@ import axios from "axios";
 export const ApiContext = createContext()
 
 export const ApiProvider = ({children}) => {
-    axios.defaults.withCredentials=true
-    axios.defaults.baseURL='http://localhost:8000'
 
     const http = axios.create({
         baseURL: 'http://localhost:8000',
