@@ -32,8 +32,8 @@ export const TaskListProvider = ({
 
     let navigate = useNavigate()
 
-    const gotoHome = () => {
-        navigate("/")
+    const gotoTasks = () => {
+        navigate("/tasks")
     }
 
     const gotoTaskForm = () => {
@@ -46,13 +46,13 @@ export const TaskListProvider = ({
     }
 
     const cancel = () => {
-        gotoHome()
+        gotoTasks()
     }
 
     const deleteTask = async (task) => {
         await destroyTask(task.id)
         dispatch({type: actions.DELETE, data:task})
-        gotoHome()
+        gotoTasks()
     }
 
     const addNewTask = () => {
@@ -68,7 +68,7 @@ export const TaskListProvider = ({
             const updatedTask = await updateTask(taskToCreateOrUpdate.id, taskToCreateOrUpdate)
             dispatch({type: actions.UPDATE, data:updatedTask})
         }
-        gotoHome()
+        gotoTasks()
     }
 
     useEffect( async () => {
