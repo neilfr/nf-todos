@@ -70,10 +70,22 @@ export const ApiProvider = ({children}) => {
         return createdTask.data.data
     }
 
+    const login = async (email, password) => {
+        const foo = await axios.post('http://localhost:8000/login', {
+            email: email,
+            password: password,
+        }, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            withCredentials: true,
+        })
+        console.log('login =', foo)
+    }
 
     return(
         <ApiContext.Provider value={{
-            getCsrf, getStages, updateTask, destroyTask, createTask, getTasks
+            login, getCsrf, getStages, updateTask, destroyTask, createTask, getTasks
         }}>
             {children}
         </ApiContext.Provider>

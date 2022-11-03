@@ -1,29 +1,21 @@
 import React, {createContext, useContext, useState} from 'react'
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {ApiContext} from "./ApiContext";
 
 export const AuthContext = createContext()
 
 export const AuthProvider = ({children}) => {
     let navigate = useNavigate()
     const [authed, setAuthed] = useState()
-
+    const {login} = useContext(ApiContext)
     const goTasks = () => {
         navigate("/tasks")
     }
 
-    const login = async (email, password) => {
+    const logMeIn = async (email, password) => {
         try{
-            const login = await axios.post('http://localhost:8000/login', {
-                email: email,
-                password: password,
-            }, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                withCredentials: true,
-            })
-            console.log('login =', login)
+            await login(email, password);
             updateAuthed(true)
 
         } catch (e){
@@ -69,7 +61,7 @@ export const AuthProvider = ({children}) => {
             updateAuthed,
             roles:['admin', 'user'],
             logout,
-            login
+            login: logMeIn
         }}>
             {children}
         </AuthContext.Provider>
