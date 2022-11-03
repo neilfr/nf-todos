@@ -5,47 +5,75 @@ export const ApiContext = createContext()
 
 export const ApiProvider = ({children}) => {
 
-    const http = axios.create({
-        baseURL: 'http://localhost:8000',
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-        },
-        withCredentials: true,
-    })
+    // const http = axios.create({
+    //     baseURL: 'http://localhost:8000',
+    //     headers: {
+    //         'X-Requested-With': 'XMLHttpRequest',
+    //     },
+    //     withCredentials: true,
+    // })
 
     const getCsrf = async () => {
-        const csrf = await http.get('/sanctum/csrf-cookie')
+        const csrf = await axios.get('http://localhost:8000/sanctum/csrf-cookie')
         console.log('csrf =', csrf)
     }
 
     const getStages = async () => {
-        const response = await http.get("/api/stages")
+        const response = await axios.get("http://localhost:8000/api/stages",{
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            withCredentials: true,
+        })
+        return response.data
+    }
+
+    const getTasks = async () => {
+        const response = await axios.get("http://localhost:8000/api/tasks", {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            withCredentials: true,
+        })
         return response.data
     }
 
     const updateTask = async (taskId, payload) => {
-        const updatedTask = await http.patch(`/api/tasks/${taskId}`,payload)
+        const updatedTask = await axios.patch(`http://localhost:8000/api/tasks/${taskId}`,
+            payload, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                withCredentials: true,
+            })
         return updatedTask.data.data
     }
 
     const destroyTask = async (taskId) => {
-        const response = await http.delete(`/api/tasks/${taskId}`)
+        const response = await axios.delete(`http://localhost:8000/api/tasks/${taskId}`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            withCredentials: true,
+        })
         return response.data.data
     }
 
     const createTask = async (payload) => {
-        const createdTask = await http.post(`/api/tasks/`, payload)
+        const createdTask = await axios.post(`http://localhost:8000/api/tasks/`,
+            payload, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                withCredentials: true,
+            })
         return createdTask.data.data
     }
 
-    const getTasks = async () => {
-        const response = await http.get("/api/tasks")
-        return response.data
-    }
 
     return(
         <ApiContext.Provider value={{
-            http, getCsrf, getStages, updateTask, destroyTask, createTask, getTasks
+            getCsrf, getStages, updateTask, destroyTask, createTask, getTasks
         }}>
             {children}
         </ApiContext.Provider>

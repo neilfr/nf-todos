@@ -16,9 +16,14 @@ export const AuthProvider = ({children}) => {
 
     const login = async (email, password) => {
         try{
-            const login = await http.post('/login', {
+            const login = await axios.post('http://localhost:8000/login', {
                 email: email,
                 password: password,
+            }, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                withCredentials: true,
             })
             console.log('login =', login)
             updateAuthed(true)
@@ -27,7 +32,13 @@ export const AuthProvider = ({children}) => {
             console.log('redirect back to clean login page with login failure message')
         }
 
-        const user = await http.get('/api/user')
+        const user = await axios.get('http://localhost:8000/api/user',
+            {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                withCredentials: true,
+            })
         console.log('user =', user)
 
         // once authenticated, should go to the tasks route to see the tasklist
