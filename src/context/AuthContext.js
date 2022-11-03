@@ -7,7 +7,7 @@ export const AuthContext = createContext()
 
 export const AuthProvider = ({children}) => {
     let navigate = useNavigate()
-    const {http} = useContext(ApiContext)
+    const {} = useContext(ApiContext)
     const [authed, setAuthed] = useState(false)
 
     const goTasks = () => {
@@ -51,7 +51,14 @@ export const AuthProvider = ({children}) => {
     }
 
     const logout = () => {
-        http.post('/logout').then(
+        axios.post('http://localhost:8000/logout',
+            null,
+            {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                withCredentials: true,
+            }).then(
             (res) => {
                 updateAuthed(false)
                 console.log('logged out')
