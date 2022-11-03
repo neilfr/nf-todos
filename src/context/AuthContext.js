@@ -8,7 +8,7 @@ export const AuthContext = createContext()
 export const AuthProvider = ({children}) => {
     let navigate = useNavigate()
     const [authed, setAuthed] = useState()
-    const {login} = useContext(ApiContext)
+    const {login, logout, getUser} = useContext(ApiContext)
     const goTasks = () => {
         navigate("/tasks")
     }
@@ -22,14 +22,7 @@ export const AuthProvider = ({children}) => {
             console.log('redirect back to clean login page with login failure message')
         }
 
-        const user = await axios.get('http://localhost:8000/api/user',
-            {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                withCredentials: true,
-            })
-        console.log('user =', user)
+        await getUser();
 
         goTasks()
     }
@@ -38,21 +31,11 @@ export const AuthProvider = ({children}) => {
         setAuthed(x)
     }
 
-    const logout = () => {
-        axios.post('http://localhost:8000/logout',
-            null,
-            {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                withCredentials: true,
-            }).then(
-            (res) => {
-                updateAuthed(false)
-                console.log('logged out')
-                navigate('/login')
-            }
-        )
+    const logMeOut = async () => {
+        await logout();
+        updateAuthed(false)
+        console.log('logged out')
+        navigate('/login')
     }
 
     return (
@@ -60,7 +43,7 @@ export const AuthProvider = ({children}) => {
             authed,
             updateAuthed,
             roles:['admin', 'user'],
-            logout,
+            logout: logMeOut,
             login: logMeIn
         }}>
             {children}

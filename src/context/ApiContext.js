@@ -83,9 +83,31 @@ export const ApiProvider = ({children}) => {
         console.log('login =', foo)
     }
 
+    const logout = async () => {
+        await axios.post('http://localhost:8000/logout',
+            null,
+            {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                withCredentials: true,
+            })
+    }
+
+    const getUser = async () => {
+        const user = await axios.get('http://localhost:8000/api/user',
+            {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                withCredentials: true,
+            })
+        console.log('user =', user)
+    }
+
     return(
         <ApiContext.Provider value={{
-            login, getCsrf, getStages, updateTask, destroyTask, createTask, getTasks
+            login, logout, getCsrf, getStages, updateTask, destroyTask, createTask, getTasks, getUser
         }}>
             {children}
         </ApiContext.Provider>
