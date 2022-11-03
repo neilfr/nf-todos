@@ -8,6 +8,7 @@ const RouteGuard = ({requiredRoles, children}) => {
     if (!requiredRoles || requiredRoles.length === 0) return children
     const canAccess = roles.some(role => requiredRoles.includes(role))
     console.log('canAccess', canAccess)
+    console.log('authed', authed)
     return (canAccess && (authed === true)) ? children : <Navigate to="/login" />
 }
 

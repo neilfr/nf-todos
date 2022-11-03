@@ -7,8 +7,8 @@ export const AuthContext = createContext()
 
 export const AuthProvider = ({children}) => {
     let navigate = useNavigate()
-    const {} = useContext(ApiContext)
-    const [authed, setAuthed] = useState(false)
+    const {http} = useContext(ApiContext)
+    const [authed, setAuthed] = useState()
 
     const goTasks = () => {
         navigate("/tasks")
@@ -16,7 +16,7 @@ export const AuthProvider = ({children}) => {
 
     const login = async (email, password) => {
         try{
-            const login = await axios.post('http://localhost:8000/login', {
+            const login = await http.post('http://localhost:8000/login', {
                 email: email,
                 password: password,
             }, {
@@ -32,7 +32,7 @@ export const AuthProvider = ({children}) => {
             console.log('redirect back to clean login page with login failure message')
         }
 
-        const user = await axios.get('http://localhost:8000/api/user',
+        const user = await http.get('http://localhost:8000/api/user',
             {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
@@ -41,8 +41,6 @@ export const AuthProvider = ({children}) => {
             })
         console.log('user =', user)
 
-        // once authenticated, should go to the tasks route to see the tasklist
-        // goHome()
         goTasks()
     }
 
@@ -51,7 +49,7 @@ export const AuthProvider = ({children}) => {
     }
 
     const logout = () => {
-        axios.post('http://localhost:8000/logout',
+        http.post('http://localhost:8000/logout',
             null,
             {
                 headers: {
