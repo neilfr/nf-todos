@@ -1,5 +1,6 @@
 import React, {createContext} from 'react'
 import axios from "axios";
+import AxiosApiService from "../service/api/AxiosApiService";
 
 export const ApiContext = createContext()
 
@@ -14,95 +15,40 @@ export const ApiProvider = ({children}) => {
     // })
 
     const getCsrf = async () => {
-        const csrf = await axios.get('http://localhost:8000/sanctum/csrf-cookie')
+        const csrf = AxiosApiService.getCsrf()
         console.log('csrf =', csrf)
     }
 
     const getStages = async () => {
-        const response = await axios.get("http://localhost:8000/api/stages",{
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-            withCredentials: true,
-        })
-        return response.data
+        return await AxiosApiService.getStages()
     }
 
     const getTasks = async () => {
-        const response = await axios.get("http://localhost:8000/api/tasks", {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-            withCredentials: true,
-        })
-        return response.data
+        return AxiosApiService.getTasks()
     }
 
     const updateTask = async (taskId, payload) => {
-        const updatedTask = await axios.patch(`http://localhost:8000/api/tasks/${taskId}`,
-            payload, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                withCredentials: true,
-            })
-        return updatedTask.data.data
+        return AxiosApiService.updateTask(taskId, payload)
     }
 
     const destroyTask = async (taskId) => {
-        const response = await axios.delete(`http://localhost:8000/api/tasks/${taskId}`, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-            withCredentials: true,
-        })
-        return response.data.data
+        return AxiosApiService.destroyTask(taskId)
     }
 
     const createTask = async (payload) => {
-        const createdTask = await axios.post(`http://localhost:8000/api/tasks/`,
-            payload, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                withCredentials: true,
-            })
-        return createdTask.data.data
+        return AxiosApiService.createTask(payload)
     }
 
     const login = async (email, password) => {
-        const foo = await axios.post('http://localhost:8000/login', {
-            email: email,
-            password: password,
-        }, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-            withCredentials: true,
-        })
-        console.log('login =', foo)
+        await AxiosApiService.login(email, password)
     }
 
     const logout = async () => {
-        await axios.post('http://localhost:8000/logout',
-            null,
-            {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                withCredentials: true,
-            })
+        await AxiosApiService.logout()
     }
 
     const getUser = async () => {
-        const user = await axios.get('http://localhost:8000/api/user',
-            {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                withCredentials: true,
-            })
-        console.log('user =', user)
+        await AxiosApiService.getUser()
     }
 
     return(

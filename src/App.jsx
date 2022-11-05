@@ -11,17 +11,17 @@ const App = () => {
 
   return (
       <div>
-          <BrowserRouter>
-              <ApiProvider>
-                  <AuthProvider>
-                      <StageProvider>
-                          <TaskListProvider>
-                              <Navigation/>
-                          </TaskListProvider>
-                      </StageProvider>
-                  </AuthProvider>
-              </ApiProvider>
-          </BrowserRouter>
+          <ApiProvider>
+            <BrowserRouter>
+              <AuthProvider>
+                  <StageProvider>
+                      <TaskListProvider>
+                          <Navigation/>
+                      </TaskListProvider>
+                  </StageProvider>
+              </AuthProvider>
+            </BrowserRouter>
+          </ApiProvider>
       </div>
   );
 }
