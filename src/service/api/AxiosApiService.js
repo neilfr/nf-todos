@@ -10,7 +10,7 @@ const AxiosApiService = {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
             },
-            withCredentials: true,
+            withCredentials: true
         })
         return response.data
     },

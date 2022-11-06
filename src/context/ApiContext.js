@@ -1,6 +1,6 @@
 import React, {createContext} from 'react'
-import axios from "axios";
 import AxiosApiService from "../service/api/AxiosApiService";
+import FetchApiService from "../service/api/FetchApiService";
 
 export const ApiContext = createContext()
 
@@ -15,31 +15,35 @@ export const ApiProvider = ({children}) => {
     // })
 
     const getCsrf = async () => {
-        const csrf = AxiosApiService.getCsrf()
+        const csrf = await AxiosApiService.getCsrf()
         console.log('csrf =', csrf)
     }
 
     const getStages = async () => {
+        // return await FetchApiService.getStages()
         return await AxiosApiService.getStages()
     }
 
     const getTasks = async () => {
-        return AxiosApiService.getTasks()
+        return await AxiosApiService.getTasks()
+        // return FetchApiService.getTasks()
     }
 
     const updateTask = async (taskId, payload) => {
-        return AxiosApiService.updateTask(taskId, payload)
+        return await AxiosApiService.updateTask(taskId, payload)
+        // return FetchApiService.updateTask(taskId, payload)
     }
 
     const destroyTask = async (taskId) => {
-        return AxiosApiService.destroyTask(taskId)
+        return await AxiosApiService.destroyTask(taskId)
     }
 
     const createTask = async (payload) => {
-        return AxiosApiService.createTask(payload)
+        return await AxiosApiService.createTask(payload)
     }
 
     const login = async (email, password) => {
+        await getCsrf()
         await AxiosApiService.login(email, password)
     }
 
