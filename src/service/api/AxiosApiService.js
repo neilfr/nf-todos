@@ -3,7 +3,8 @@ import axios from "axios"
 const AxiosApiService = {
     getCsrf : async () => {
         const csrf = await axios.get('http://localhost:8000/sanctum/csrf-cookie')
-        console.log('csrf =', csrf)
+        console.log('axios, csrf =', csrf)
+        return csrf
     },
     getStages : async () => {
         const response = await axios.get("http://localhost:8000/api/stages",{
@@ -11,6 +12,25 @@ const AxiosApiService = {
                 'X-Requested-With': 'XMLHttpRequest',
             },
             withCredentials: true
+        })
+        return response.data
+    },
+    createTask : async (payload) => {
+        const createdTask = await axios.post(`http://localhost:8000/api/tasks/`,
+            payload, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                withCredentials: true,
+            })
+        return createdTask.data.data
+    },
+    getTasks : async () => {
+        const response = await axios.get("http://localhost:8000/api/tasks", {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            withCredentials: true,
         })
         return response.data
     },
@@ -33,25 +53,6 @@ const AxiosApiService = {
             withCredentials: true,
         })
         return response.data.data
-    },
-    createTask : async (payload) => {
-        const createdTask = await axios.post(`http://localhost:8000/api/tasks/`,
-            payload, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                withCredentials: true,
-            })
-        return createdTask.data.data
-    },
-    getTasks : async () => {
-        const response = await axios.get("http://localhost:8000/api/tasks", {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-            withCredentials: true,
-        })
-        return response.data
     },
     login : async (email, password) => {
         await axios.post('http://localhost:8000/login', {
