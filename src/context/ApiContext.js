@@ -18,8 +18,7 @@ export const ApiProvider = ({children}) => {
     }
 
     const getTasks = async () => {
-        return await service.getTasks()
-        // return FetchApiService.getTasks()
+        return await FetchApiService.getTasks()
     }
 
     const updateTask = async (taskId, payload) => {
