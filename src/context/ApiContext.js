@@ -2,30 +2,19 @@ import React, {createContext} from 'react'
 import AxiosApiService from "../service/api/AxiosApiService";
 import FetchApiService from "../service/api/FetchApiService";
 
-let i = 0;
 export const ApiContext = createContext()
 
 export const ApiProvider = ({children}) => {
 
-    // const http = axios.create({
-    //     baseURL: 'http://localhost:8000',
-    //     headers: {
-    //         'X-Requested-With': 'XMLHttpRequest',
-    //     },
-    //     withCredentials: true,
-    // })
     const service = AxiosApiService
 
     const getCsrf = async () => {
-        i++;
         const csrf = await FetchApiService.getCsrf()
-        console.log('count', i)
         console.log('context csrf =', csrf)
     }
 
     const getStages = async () => {
-        // return await FetchApiService.getStages()
-        return await service.getStages()
+        return await FetchApiService.getStages()
     }
 
     const getTasks = async () => {
