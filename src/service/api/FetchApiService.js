@@ -1,13 +1,76 @@
-import axios from "axios";
+function getXSRFToken() {
+    if (! document.cookie) {
+        return null
+    }
+
+    const cookies = document.cookie.split(';');
+    const xsrfCookie = cookies.filter((cookie)=>{
+        if (cookie.includes('XSRF-TOKEN')) return cookie
+    })
+
+    const token = xsrfCookie[0].split('=')[1]
+    return token
+}
+
+const baseUrl = 'http://localhost:8000'
+const tacos = (url, init) => fetch(baseUrl + url, {
+    headers: {
+        'X-CSRF-TOKEN': getXSRFToken(),
+        "X-Requested-With": "XMLHttpRequest",
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        ...(init.headers || {}),
+    },
+    ...init,
+})
+
+
 
 const FetchApiService = {
     getCsrf : async () => {
-        const csrf = await fetch('http://localhost:8000/sanctum/csrf-cookie')
+        const csrf = await tacos('/sanctum/csrf-cookie',{
+            credentials: "include"
+        })
         console.log('fetch, csrf =', csrf)
         return csrf
     },
+    login : async (email, password) => {
+        // console.log('token is:',getXSRFToken())
+        await tacos('/login', {
+            method: 'POST',
+            mode: 'cors',
+            credentials: "include",
+            // headers: {
+            //     "Content-Type": "application/json",
+            //     "Accept":'application/json'
+            // },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        })
+    },
+    logout : async () => {
+        await tacos('/logout',{
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                "Content-type": "application/json",
+            }
+        })
+    },
+    getUser : async () => {
+        const user = await tacos('/api/user',
+            {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                withCredentials: true,
+            })
+        console.log('user =', user)
+    },
     getStages: async () => {
-        const response = await fetch("http://localhost:8000/api/stages",{
+        const response = await tacos("/api/stages",{
             method: "GET",
             credentials: "include",
             headers: {
@@ -18,7 +81,7 @@ const FetchApiService = {
         return await response.json()
     },
     createTask: async (payload) => {
-        const response = await fetch(`http://localhost:8000/api/tasks/`, {
+        const response = await tacos(`/api/tasks/`, {
             method: 'POST',
             credentials: "include",
             headers: {
@@ -32,7 +95,7 @@ const FetchApiService = {
     },
     getTasks: async () => {
         try {
-            const response = await fetch("http://localhost:8000/api/tasks", {
+            const response = await tacos("/api/tasks", {
                 method: "GET",
                 credentials: "include",
                 headers: {
@@ -49,8 +112,8 @@ const FetchApiService = {
         console.log('update')
         console.log('taskId', taskId)
         console.log('payload', payload)
-        const response = await fetch(`http://localhost:8000/api/tasks/${taskId}`, {
-            method: 'PATCH',
+        const response = await tacos(`/api/tasks/${taskId}`, {
+            method: "PATCH",
             credentials: "include",
             headers: {
                 "Content-type": "application/json",
@@ -63,7 +126,7 @@ const FetchApiService = {
         return updatedTask.data
     },
     destroyTask: async (taskId) => {
-        const response = await fetch(`http://localhost:8000/api/tasks/${taskId}`, {
+        const response = await tacos(`/api/tasks/${taskId}`, {
             method: 'DELETE',
             credentials: "include",
             headers: {
@@ -72,38 +135,6 @@ const FetchApiService = {
         })
         if (!response.ok) { throw new Error(`Error: ${response.status}`)}
         return await response.json()
-    },
-    login : async (email, password) => {
-        await fetch('http://localhost:8000/login', {
-            method: 'POST',
-            credentials: "include",
-            headers: {
-                "Content-type": "application/json",
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
-        })
-    },
-    logout : async () => {
-        await fetch('http://localhost:8000/logout',{
-            method: 'POST',
-            credentials: "include",
-            headers: {
-                "Content-type": "application/json",
-            }
-        })
-    },
-    getUser : async () => {
-        const user = await fetch('http://localhost:8000/api/user',
-            {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                withCredentials: true,
-            })
-        console.log('user =', user)
     }
 }
 

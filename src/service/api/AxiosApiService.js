@@ -6,6 +6,27 @@ const AxiosApiService = {
         console.log('axios, csrf =', csrf)
         return csrf
     },
+    login : async (email, password) => {
+        await axios.post('http://localhost:8000/login', {
+            email: email,
+            password: password,
+        }, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            withCredentials: true,
+        })
+    },
+    logout : async () => {
+        await axios.post('http://localhost:8000/logout',
+            null,
+            {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                withCredentials: true,
+            })
+    },
     getStages : async () => {
         const response = await axios.get("http://localhost:8000/api/stages",{
             headers: {
@@ -53,27 +74,6 @@ const AxiosApiService = {
             withCredentials: true,
         })
         return response.data.data
-    },
-    login : async (email, password) => {
-        await axios.post('http://localhost:8000/login', {
-            email: email,
-            password: password,
-        }, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-            withCredentials: true,
-        })
-    },
-    logout : async () => {
-        await axios.post('http://localhost:8000/logout',
-            null,
-            {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                withCredentials: true,
-            })
     },
     getUser : async () => {
         const user = await axios.get('http://localhost:8000/api/user',
