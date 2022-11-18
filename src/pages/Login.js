@@ -4,8 +4,8 @@ import {AuthContext} from "../context/AuthContext";
 export const Login = () => {
     const { login, logout } = useContext(AuthContext)
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('tester@example.com')
+    const [password, setPassword] = useState('password')
 
     const updateEmail = (e) => {
         setEmail(e.target.value)
@@ -29,10 +29,10 @@ export const Login = () => {
                 <input type={"text"} value={password} onChange={updatePassword}/>
             </div>
             <div>
-                <button onClick={()=>login(email, password)}>Login</button>
+                <button onClick={async ()=> await login(email, password)}>Login</button>
             </div>
             <div>
-                <button onClick={()=>logout(email, password)}>Logout</button>
+                <button onClick={async ()=> await logout(email, password)}>Logout</button>
             </div>
         </div>
     )

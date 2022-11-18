@@ -17,18 +17,15 @@ function getXSRFToken() {
 }
 
 const baseUrl = 'http://localhost:8000'
-// const tacos = (url, init) => fetch(baseUrl + url, {
-//     headers: {
-//         'X-CSRF-TOKEN': getXSRFToken(),
-//         "X-Requested-With": "XMLHttpRequest",
-//         'Content-Type': 'application/json',
-//         'Accept': 'application/json',
-//         ...(init.headers || {}),
-//     },
-//     ...init,
-// })
 
-
+const defaultHeaders = () => {
+    return {
+        "X-XSRF-TOKEN": getXSRFToken(),
+        "Content-Type": "application/json",
+        "Accept":"application/json,text/plain,*/*",
+        "X-Requested-With": "XMLHttpRequest"
+    }
+}
 
 const FetchApiService = {
     getCsrf : async () => {
@@ -43,50 +40,42 @@ const FetchApiService = {
         await fetch(`${baseUrl}/login`, {
             method: 'POST',
             credentials: "include",
-            headers: {
-                'X-XSRF-TOKEN': getXSRFToken(),
-                "Content-Type": "application/json",
-                "Accept":'application/json,text/plain,*/*',
-                "X-Requested-With": "XMLHttpRequest"
-            },
+            headers: defaultHeaders(),
             body: JSON.stringify({
                 email: email,
                 password: password
             })
         })
+        const response = await fetch(`${baseUrl}/api/user`,
+            {
+                credentials: "include",
+                headers: defaultHeaders(),
+            })
+        const user = await response.json()
+        console.log('user =', user)
     },
     logout : async () => {
         await fetch(`${baseUrl}/logout`,{
             method: 'POST',
             credentials: "include",
-            headers: {
-                'X-XSRF-TOKEN': getXSRFToken(),
-                "Content-Type": "application/json",
-                "Accept":'application/json,text/plain,*/*',
-                "X-Requested-With": "XMLHttpRequest"
-            }
+            headers: defaultHeaders()
         })
     },
     getUser : async () => {
-        const user = await fetch(`${baseUrl}/api/user`,
+        const response = await fetch(`${baseUrl}/api/user`,
             {
                 credentials: "include",
-                headers: {
-                    'X-XSRF-TOKEN': getXSRFToken(),
-                    "Content-Type": "application/json",
-                    "Accept":'application/json,text/plain,*/*',
-                    "X-Requested-With": "XMLHttpRequest"
-                },
+                headers: defaultHeaders(),
             })
+        const user = await response.json()
         console.log('user =', user)
+        return user
     },
     getStages: async () => {
         const response = await fetch(`${baseUrl}/api/stages`,{
             method: "GET",
             credentials: "include",
-            headers: {
-                "Content-type": "application/json",
-            },
+            headers: defaultHeaders(),
         })
         if (!response.ok) { throw new Error(`Error: ${response.status}`)}
         return await response.json()
@@ -95,11 +84,7 @@ const FetchApiService = {
         const response = await fetch(`${baseUrl}/api/tasks/`, {
             method: 'POST',
             credentials: "include",
-            headers: {
-                'X-XSRF-TOKEN': getXSRFToken(),
-                "Content-Type": "application/json",
-                "Accept":'application/json,text/plain,*/*',
-                "X-Requested-With": "XMLHttpRequest"            },
+            headers: defaultHeaders(),
             body: JSON.stringify(payload),
         })
         if (!response.ok) { throw new Error(`Error: ${response.status}`)}
@@ -111,9 +96,7 @@ const FetchApiService = {
             const response = await fetch(`${baseUrl}/api/tasks`, {
                 method: "GET",
                 credentials: "include",
-                headers: {
-                    "Content-type": "application/json",
-                },
+                headers: defaultHeaders(),
             })
             if (!response.ok) { throw new Error(`Error: ${response.status}`)}
             return await response.json()
@@ -125,11 +108,7 @@ const FetchApiService = {
         const response = await fetch(`${baseUrl}/api/tasks/${taskId}`, {
             method: "PATCH",
             credentials: "include",
-            headers: {
-                'X-XSRF-TOKEN': getXSRFToken(),
-                "Content-Type": "application/json",
-                "Accept":'application/json,text/plain,*/*',
-                "X-Requested-With": "XMLHttpRequest"              },
+            headers: defaultHeaders(),
             body: JSON.stringify(payload),
         })
         if (!response.ok) { throw new Error(`Error: ${response.status}`)}
@@ -140,12 +119,7 @@ const FetchApiService = {
         const response = await fetch(`${baseUrl}/api/tasks/${taskId}`, {
             method: 'DELETE',
             credentials: "include",
-            headers: {
-                'X-XSRF-TOKEN': getXSRFToken(),
-                "Content-Type": "application/json",
-                "Accept":'application/json,text/plain,*/*',
-                "X-Requested-With": "XMLHttpRequest"
-            },
+            headers: defaultHeaders(),
         })
         if (!response.ok) { throw new Error(`Error: ${response.status}`)}
         return await response.json()
