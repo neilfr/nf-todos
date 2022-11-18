@@ -1,5 +1,4 @@
-function getXSRFToken() {
-
+const getXSRFToken = () => {
     if (!document.cookie) {
         return null
     }
@@ -9,26 +8,30 @@ function getXSRFToken() {
         if (cookie.includes('XSRF-TOKEN')) return cookie
     })
 
-    const token = xsrfCookie[0].split('=')[1]
-    console.log('token', token)
-    const betterToken = decodeURIComponent(token)
-    console.log('better token', betterToken)
-    return betterToken
+    const encodedToken = xsrfCookie[0].split('=')[1]
+    const token = decodeURIComponent(encodedToken)
+    return token
 }
 
 const baseUrl = 'http://localhost:8000'
-// const tacos = (url, init) => fetch(baseUrl + url, {
-//     headers: {
-//         'X-CSRF-TOKEN': getXSRFToken(),
-//         "X-Requested-With": "XMLHttpRequest",
-//         'Content-Type': 'application/json',
-//         'Accept': 'application/json',
-//         ...(init.headers || {}),
-//     },
-//     ...init,
-// })
 
+const defaultHeaders = {
+    'X-XSRF-TOKEN': getXSRFToken(),
+    "Content-Type": "application/json",
+    "Accept": 'application/json,text/plain,*/*',
+    "X-Requested-With": "XMLHttpRequest"
+};
 
+const tacos = async (url, init) => {
+    const mergedHeaders = (init && init.headers) ? {...defaultHeaders, ...init.headers} : {}
+    const mergedInit = init ? {
+        credentials: "include",
+        ...init,
+        headers: {...defaultHeaders, ...mergedHeaders},
+    } : {}
+    console.log('url:',url,'mergedInit:', mergedInit)
+    await fetch(baseUrl + url, mergedInit)
+}
 
 const FetchApiService = {
     getCsrf : async () => {
@@ -40,36 +43,23 @@ const FetchApiService = {
         return csrf
     },
     login : async (email, password) => {
-        await fetch(`${baseUrl}/login`, {
+        await tacos('/login',{
             method: 'POST',
-            credentials: "include",
-            headers: {
-                'X-XSRF-TOKEN': getXSRFToken(),
-                "Content-Type": "application/json",
-                "Accept":'application/json,text/plain,*/*',
-                "X-Requested-With": "XMLHttpRequest"
-            },
-            body: JSON.stringify({
+            body:JSON.stringify({
                 email: email,
                 password: password
-            })
-        })
+            })})
     },
     logout : async () => {
-        await fetch(`${baseUrl}/logout`,{
+        await tacos('/logout',{
             method: 'POST',
-            credentials: "include",
-            headers: {
-                'X-XSRF-TOKEN': getXSRFToken(),
-                "Content-Type": "application/json",
-                "Accept":'application/json,text/plain,*/*',
-                "X-Requested-With": "XMLHttpRequest"
-            }
         })
     },
     getUser : async () => {
+        // const user = await tacos('/api/user',{})
         const user = await fetch(`${baseUrl}/api/user`,
             {
+                method: "GET",
                 credentials: "include",
                 headers: {
                     'X-XSRF-TOKEN': getXSRFToken(),

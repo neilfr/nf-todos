@@ -21,7 +21,6 @@ export const AuthProvider = ({children}) => {
         } catch (e){
             console.log('redirect back to clean login page with login failure message')
         }
-
         await getUser();
 
         goTasks()
