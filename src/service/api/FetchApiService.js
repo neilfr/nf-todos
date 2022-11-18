@@ -1,5 +1,6 @@
 function getXSRFToken() {
-    if (! document.cookie) {
+
+    if (!document.cookie) {
         return null
     }
 
@@ -9,41 +10,45 @@ function getXSRFToken() {
     })
 
     const token = xsrfCookie[0].split('=')[1]
-    return token
+    console.log('token', token)
+    const betterToken = decodeURIComponent(token)
+    console.log('better token', betterToken)
+    return betterToken
 }
 
 const baseUrl = 'http://localhost:8000'
-const tacos = (url, init) => fetch(baseUrl + url, {
-    headers: {
-        'X-CSRF-TOKEN': getXSRFToken(),
-        "X-Requested-With": "XMLHttpRequest",
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        ...(init.headers || {}),
-    },
-    ...init,
-})
+// const tacos = (url, init) => fetch(baseUrl + url, {
+//     headers: {
+//         'X-CSRF-TOKEN': getXSRFToken(),
+//         "X-Requested-With": "XMLHttpRequest",
+//         'Content-Type': 'application/json',
+//         'Accept': 'application/json',
+//         ...(init.headers || {}),
+//     },
+//     ...init,
+// })
 
 
 
 const FetchApiService = {
     getCsrf : async () => {
-        const csrf = await tacos('/sanctum/csrf-cookie',{
-            credentials: "include"
+        const csrf = await fetch(`${baseUrl}/sanctum/csrf-cookie`,{
+            method: "GET",
+            credentials: "include",
         })
         console.log('fetch, csrf =', csrf)
         return csrf
     },
     login : async (email, password) => {
-        // console.log('token is:',getXSRFToken())
-        await tacos('/login', {
+        await fetch(`${baseUrl}/login`, {
             method: 'POST',
-            mode: 'cors',
             credentials: "include",
-            // headers: {
-            //     "Content-Type": "application/json",
-            //     "Accept":'application/json'
-            // },
+            headers: {
+                'X-XSRF-TOKEN': getXSRFToken(),
+                "Content-Type": "application/json",
+                "Accept":'application/json,text/plain,*/*',
+                "X-Requested-With": "XMLHttpRequest"
+            },
             body: JSON.stringify({
                 email: email,
                 password: password
@@ -51,26 +56,32 @@ const FetchApiService = {
         })
     },
     logout : async () => {
-        await tacos('/logout',{
+        await fetch(`${baseUrl}/logout`,{
             method: 'POST',
             credentials: "include",
             headers: {
-                "Content-type": "application/json",
+                'X-XSRF-TOKEN': getXSRFToken(),
+                "Content-Type": "application/json",
+                "Accept":'application/json,text/plain,*/*',
+                "X-Requested-With": "XMLHttpRequest"
             }
         })
     },
     getUser : async () => {
-        const user = await tacos('/api/user',
+        const user = await fetch(`${baseUrl}/api/user`,
             {
+                credentials: "include",
                 headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-XSRF-TOKEN': getXSRFToken(),
+                    "Content-Type": "application/json",
+                    "Accept":'application/json,text/plain,*/*',
+                    "X-Requested-With": "XMLHttpRequest"
                 },
-                withCredentials: true,
             })
         console.log('user =', user)
     },
     getStages: async () => {
-        const response = await tacos("/api/stages",{
+        const response = await fetch(`${baseUrl}/api/stages`,{
             method: "GET",
             credentials: "include",
             headers: {
@@ -81,12 +92,14 @@ const FetchApiService = {
         return await response.json()
     },
     createTask: async (payload) => {
-        const response = await tacos(`/api/tasks/`, {
+        const response = await fetch(`${baseUrl}/api/tasks/`, {
             method: 'POST',
             credentials: "include",
             headers: {
-                "Content-type": "application/json",
-            },
+                'X-XSRF-TOKEN': getXSRFToken(),
+                "Content-Type": "application/json",
+                "Accept":'application/json,text/plain,*/*',
+                "X-Requested-With": "XMLHttpRequest"            },
             body: JSON.stringify(payload),
         })
         if (!response.ok) { throw new Error(`Error: ${response.status}`)}
@@ -95,7 +108,7 @@ const FetchApiService = {
     },
     getTasks: async () => {
         try {
-            const response = await tacos("/api/tasks", {
+            const response = await fetch(`${baseUrl}/api/tasks`, {
                 method: "GET",
                 credentials: "include",
                 headers: {
@@ -109,28 +122,29 @@ const FetchApiService = {
         }
     },
     updateTask: async (taskId, payload) => {
-        console.log('update')
-        console.log('taskId', taskId)
-        console.log('payload', payload)
-        const response = await tacos(`/api/tasks/${taskId}`, {
+        const response = await fetch(`${baseUrl}/api/tasks/${taskId}`, {
             method: "PATCH",
             credentials: "include",
             headers: {
-                "Content-type": "application/json",
-            },
+                'X-XSRF-TOKEN': getXSRFToken(),
+                "Content-Type": "application/json",
+                "Accept":'application/json,text/plain,*/*',
+                "X-Requested-With": "XMLHttpRequest"              },
             body: JSON.stringify(payload),
         })
-        console.log('update response', response)
         if (!response.ok) { throw new Error(`Error: ${response.status}`)}
         const updatedTask = await response.json()
         return updatedTask.data
     },
     destroyTask: async (taskId) => {
-        const response = await tacos(`/api/tasks/${taskId}`, {
+        const response = await fetch(`${baseUrl}/api/tasks/${taskId}`, {
             method: 'DELETE',
             credentials: "include",
             headers: {
-                "Content-type": "application/json",
+                'X-XSRF-TOKEN': getXSRFToken(),
+                "Content-Type": "application/json",
+                "Accept":'application/json,text/plain,*/*',
+                "X-Requested-With": "XMLHttpRequest"
             },
         })
         if (!response.ok) { throw new Error(`Error: ${response.status}`)}
