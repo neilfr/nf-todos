@@ -40,9 +40,9 @@ export const AuthProvider = ({children}) => {
     }
 
     const logMeOut = async () => {
-        await logout();
+        const res = await logout();
         setAuthed(false)
-        console.log('logged out')
+        console.log('logged out', res)
         navigate('/login')
     }
 

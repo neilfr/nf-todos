@@ -3,11 +3,10 @@ import axios from "axios"
 const AxiosApiService = {
     getCsrf : async () => {
         const csrf = await axios.get('http://localhost:8000/sanctum/csrf-cookie')
-        console.log('axios, csrf =', csrf)
         return csrf
     },
     login : async (email, password) => {
-        await axios.post('http://localhost:8000/login', {
+        const res = await axios.post('http://localhost:8000/login', {
             email: email,
             password: password,
         }, {
@@ -16,9 +15,10 @@ const AxiosApiService = {
             },
             withCredentials: true,
         })
+        return res.status === 200 ? true:false
     },
     logout : async () => {
-        await axios.post('http://localhost:8000/logout',
+        const res = await axios.post('http://localhost:8000/logout',
             null,
             {
                 headers: {
@@ -26,6 +26,18 @@ const AxiosApiService = {
                 },
                 withCredentials: true,
             })
+        return res.status === 204 ? true:false
+
+    },
+    getUser : async () => {
+        const user = await axios.get('http://localhost:8000/api/user',
+            {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                withCredentials: true,
+            })
+        return user.data
     },
     getStages : async () => {
         const response = await axios.get("http://localhost:8000/api/stages",{
@@ -74,16 +86,6 @@ const AxiosApiService = {
             withCredentials: true,
         })
         return response.data.data
-    },
-    getUser : async () => {
-        const user = await axios.get('http://localhost:8000/api/user',
-            {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-                withCredentials: true,
-            })
-        console.log('user =', user)
     }
 }
 

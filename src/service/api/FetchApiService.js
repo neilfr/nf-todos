@@ -30,7 +30,6 @@ const FetchApiService = {
             method: "GET",
             credentials: "include",
         })
-        console.log('fetch, csrf =', csrf)
         return csrf
     },
     login : async (email, password) => {
@@ -46,11 +45,12 @@ const FetchApiService = {
         return res.status === 200 ? true:false
     },
     logout : async () => {
-        await fetch(`${baseUrl}/logout`,{
+        const res = await fetch(`${baseUrl}/logout`,{
             method: 'POST',
             credentials: "include",
             headers: defaultHeaders()
         })
+        return res.status === 204 ? true:false
     },
     getUser : async () => {
         const response = await fetch(`${baseUrl}/api/user`,

@@ -6,8 +6,8 @@ export const ApiContext = createContext()
 
 export const ApiProvider = ({children}) => {
 
-    const service = FetchApiService
-    //const service = AxiosApiService
+    // const service = FetchApiService
+    const service = AxiosApiService
 
     const getCsrf = async () => {
         const csrf = await service.getCsrf()
