@@ -3,13 +3,17 @@ import {TaskListContext} from "../context/TaskListContext";
 import {StageContext} from "../context/StageContext";
 import {TaskCard} from "./TaskCard";
 import {StageColumn} from "./StageColumn";
+import {ApiContext} from "../context/ApiContext";
+import {AuthContext} from "../context/AuthContext";
 
 export const TaskList = (props) => {
+    const {logout}=useContext(AuthContext)
     const {addNewTask, tasks} = useContext(TaskListContext)
     const {stages} = useContext(StageContext)
 
     return (
         <div role={"tasklist"}>
+            <button onClick={ logout }>Logout</button>
             <button onClick={ addNewTask }>Add</button>
             {(tasks.length === 0) && (<p role={'text'}>Please add a first task</p>)}
             <div className={'flex pr-8'}>
