@@ -11,20 +11,20 @@ export const ApiProvider = ({children}) => {
 
     const getCsrf = async () => {
         const csrf = await service.getCsrf()
-        console.log('context csrf =', csrf)
+        return csrf
     }
 
     const login = async (email, password) => {
         await getCsrf()
-        await service.login(email, password)
+        return await service.login(email, password)
     }
 
     const logout = async () => {
-        await service.logout()
+        return await service.logout()
     }
 
     const getUser = async () => {
-        await service.getUser()
+        return await service.getUser()
     }
 
     const getStages = async () => {

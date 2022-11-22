@@ -2,37 +2,46 @@ import React, {createContext, useContext, useState} from 'react'
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {ApiContext} from "./ApiContext";
+import FetchApiService from "../service/api/FetchApiService";
 
 export const AuthContext = createContext()
 
 export const AuthProvider = ({children}) => {
     let navigate = useNavigate()
-    const [authed, setAuthed] = useState()
     const {login, logout, getUser} = useContext(ApiContext)
+    const isLoggedIn = () => {
+        if (getUser() && getUser().id != null) return true
+        return false
+    }
+    // console.log('auth provider, getUser()', getUser())
+    const [authed, setAuthed] = useState(isLoggedIn())
     const goTasks = () => {
         navigate("/tasks")
     }
+    const goHome = () => {
+        navigate("/")
+    }
+
 
     const logMeIn = async (email, password) => {
         try{
-            await login(email, password);
-            updateAuthed(true)
 
+            const response = await login(email, password);
+            console.log('logmein',response)
+            setAuthed(response)
+            if (response) {
+                goTasks()
+            } else {
+                goHome()
+            }
         } catch (e){
-            console.log('redirect back to clean login page with login failure message')
+            console.log('login failed, redirect back to clean login page with login failure message', e.message)
         }
-        await getUser();
-
-        goTasks()
-    }
-
-    const updateAuthed = (x) => {
-        setAuthed(x)
     }
 
     const logMeOut = async () => {
         await logout();
-        updateAuthed(false)
+        setAuthed(false)
         console.log('logged out')
         navigate('/login')
     }
@@ -40,7 +49,7 @@ export const AuthProvider = ({children}) => {
     return (
         <AuthContext.Provider value={{
             authed,
-            updateAuthed,
+            setAuthed,
             roles:['admin', 'user'],
             logout: logMeOut,
             login: logMeIn

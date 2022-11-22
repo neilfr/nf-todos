@@ -34,7 +34,7 @@ const FetchApiService = {
         return csrf
     },
     login : async (email, password) => {
-        await fetch(`${baseUrl}/login`, {
+        const res = await fetch(`${baseUrl}/login`, {
             method: 'POST',
             credentials: "include",
             headers: defaultHeaders(),
@@ -43,13 +43,7 @@ const FetchApiService = {
                 password: password
             })
         })
-        const response = await fetch(`${baseUrl}/api/user`,
-            {
-                credentials: "include",
-                headers: defaultHeaders(),
-            })
-        const user = await response.json()
-        console.log('user =', user)
+        return res.status === 200 ? true:false
     },
     logout : async () => {
         await fetch(`${baseUrl}/logout`,{
@@ -64,9 +58,7 @@ const FetchApiService = {
                 credentials: "include",
                 headers: defaultHeaders(),
             })
-        const user = await response.json()
-        console.log('user =', user)
-        return user
+        return await response.json()
     },
     getStages: async () => {
         const response = await fetch(`${baseUrl}/api/stages`,{
