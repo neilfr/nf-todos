@@ -18,7 +18,7 @@ export const defaultTask = {
 export const TaskListProvider = ({
     children
 }) => {
-    const { getTasks, updateTask, createTask, destroyTask, getStages} = useContext(ApiContext)
+    const { apiService } = useContext(ApiContext)
 
     const [state, dispatch] = useReducer(TaskListReducer, {
         tasks:[],
@@ -26,7 +26,7 @@ export const TaskListProvider = ({
     })
 
     const updateTaskStage = async (task_id, stage_id) => {
-        const task = await updateTask(task_id, {stage_id:stage_id})
+        const task = await apiService.updateTask(task_id, {stage_id:stage_id})
         dispatch({type: actions.UPDATE, data:task})
     }
 
@@ -50,7 +50,7 @@ export const TaskListProvider = ({
     }
 
     const deleteTask = async (task) => {
-        await destroyTask(task.id)
+        await apiService.destroyTask(task.id)
         dispatch({type: actions.DELETE, data:task})
         gotoTasks()
     }
@@ -62,17 +62,17 @@ export const TaskListProvider = ({
 
     const updateOrCreateTask = async (taskToCreateOrUpdate) => {
         if (taskToCreateOrUpdate.id === null) {
-            const task = await createTask(taskToCreateOrUpdate)
+            const task = await apiService.createTask(taskToCreateOrUpdate)
             dispatch({type: actions.CREATE, data:task})
         } else {
-            const updatedTask = await updateTask(taskToCreateOrUpdate.id, taskToCreateOrUpdate)
+            const updatedTask = await apiService.updateTask(taskToCreateOrUpdate.id, taskToCreateOrUpdate)
             dispatch({type: actions.UPDATE, data:updatedTask})
         }
         gotoTasks()
     }
 
     useEffect( async () => {
-        const tasks = await getTasks()
+        const tasks = await apiService.getTasks()
         dispatch({
             type:actions.INITIALIZE,
             data:{"tasks":tasks}

@@ -1,19 +1,16 @@
 import React, {createContext, useContext, useState} from 'react'
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {ApiContext} from "./ApiContext";
-import FetchApiService from "../service/api/FetchApiService";
 
 export const AuthContext = createContext()
 
 export const AuthProvider = ({children}) => {
     let navigate = useNavigate()
-    const {login, logout, getUser} = useContext(ApiContext)
+    const {apiService} = useContext(ApiContext)
     const isLoggedIn = () => {
-        if (getUser() && getUser().id != null) return true
+        if (apiService.getUser() && apiService.getUser().id != null) return true
         return false
     }
-    // console.log('auth provider, getUser()', getUser())
     const [authed, setAuthed] = useState(isLoggedIn())
     const goTasks = () => {
         navigate("/tasks")
@@ -26,8 +23,7 @@ export const AuthProvider = ({children}) => {
     const logMeIn = async (email, password) => {
         try{
 
-            const response = await login(email, password);
-            console.log('logmein',response)
+            const response = await apiService.login(email, password);
             setAuthed(response)
             if (response) {
                 goTasks()
@@ -35,14 +31,13 @@ export const AuthProvider = ({children}) => {
                 goHome()
             }
         } catch (e){
-            console.log('login failed, redirect back to clean login page with login failure message', e.message)
+            console.log('Login failed, redirect back to clean login page with login failure message', e.message)
         }
     }
 
     const logMeOut = async () => {
-        const res = await logout();
+        const res = await apiService.logout();
         setAuthed(false)
-        console.log('logged out', res)
         navigate('/login')
     }
 

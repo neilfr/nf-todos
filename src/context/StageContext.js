@@ -9,14 +9,14 @@ export const actions = {
 }
 
 export const StageProvider = ({children}) => {
-    const {getStages} = useContext(ApiContext)
+    const {apiService} = useContext(ApiContext)
 
     const [state, dispatch] = useReducer(StageReducer, undefined, ()=>{
         return {}
     })
 
     useEffect(async () => {
-        const stages = await getStages()
+        const stages = await apiService.getStages()
         dispatch({
             type:actions.INIT_STAGES,
             data:{"stages":stages}
