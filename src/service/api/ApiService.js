@@ -3,6 +3,18 @@ import AxiosApiService from "./AxiosApiService";
 
 const service = AxiosApiService
 
+const login = async () => {
+    return service.login()
+}
+
+const logout = async () => {
+    return service.logout()
+}
+
+const getUser = async () => {
+    return service.getUser()
+}
+
 const getTasks = async () => {
     return service.getTasks()
 }
@@ -23,4 +35,4 @@ const getStages = async () => {
     return service.getStages()
 }
 
-export { getTasks, updateTask, createTask, destroyTask, getStages }
+export { login, logout, getUser, getTasks, updateTask, createTask, destroyTask, getStages }

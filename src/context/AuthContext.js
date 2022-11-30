@@ -1,14 +1,13 @@
 import React, {createContext, useContext, useState} from 'react'
 import {useNavigate} from "react-router-dom";
-import {ApiContext} from "./ApiContext";
+import {getUser, login, logout} from "../service/api/ApiService";
 
 export const AuthContext = createContext()
 
 export const AuthProvider = ({children}) => {
     let navigate = useNavigate()
-    const {apiService} = useContext(ApiContext)
     const isLoggedIn = () => {
-        if (apiService.getUser() && apiService.getUser().id != null) return true
+        if (getUser() && getUser().id != null) return true
         return false
     }
     const [authed, setAuthed] = useState(isLoggedIn())
@@ -23,7 +22,7 @@ export const AuthProvider = ({children}) => {
     const logMeIn = async (email, password) => {
         try{
 
-            const response = await apiService.login(email, password);
+            const response = await login(email, password);
             setAuthed(response)
             if (response) {
                 goTasks()
@@ -36,7 +35,7 @@ export const AuthProvider = ({children}) => {
     }
 
     const logMeOut = async () => {
-        const res = await apiService.logout();
+        const res = await logout();
         setAuthed(false)
         navigate('/login')
     }

@@ -3,7 +3,6 @@ import {TaskListContext} from "../context/TaskListContext";
 import {StageContext} from "../context/StageContext";
 import {TaskCard} from "./TaskCard";
 import {StageColumn} from "./StageColumn";
-import {ApiContext} from "../context/ApiContext";
 import {AuthContext} from "../context/AuthContext";
 
 export const TaskList = (props) => {
