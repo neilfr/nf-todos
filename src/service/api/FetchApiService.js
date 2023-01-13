@@ -69,17 +69,6 @@ const FetchApiService = {
         if (!response.ok) { throw new Error(`Error: ${response.status}`)}
         return await response.json()
     },
-    createTask: async (payload) => {
-        const response = await fetch(`${baseUrl}/api/tasks/`, {
-            method: 'POST',
-            credentials: "include",
-            headers: defaultHeaders(),
-            body: JSON.stringify(payload),
-        })
-        if (!response.ok) { throw new Error(`Error: ${response.status}`)}
-        const createdTask = await response.json()
-        return createdTask.data
-    },
     getTasks: async () => {
         try {
             const response = await fetch(`${baseUrl}/api/tasks`, {
@@ -92,6 +81,17 @@ const FetchApiService = {
         } catch(e) {
             return null
         }
+    },
+    createTask: async (payload) => {
+        const response = await fetch(`${baseUrl}/api/tasks/`, {
+            method: 'POST',
+            credentials: "include",
+            headers: defaultHeaders(),
+            body: JSON.stringify(payload),
+        })
+        if (!response.ok) { throw new Error(`Error: ${response.status}`)}
+        const createdTask = await response.json()
+        return createdTask.data
     },
     updateTask: async (taskId, payload) => {
         const response = await fetch(`${baseUrl}/api/tasks/${taskId}`, {

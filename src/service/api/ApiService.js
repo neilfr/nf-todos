@@ -3,8 +3,10 @@ import AxiosApiService from "./AxiosApiService";
 
 const service = AxiosApiService
 
-const login = async () => {
-    return service.login()
+// missing getCsrf... and it doesn't appear to be used anywhere
+
+const login = async (email, password) => {
+    return service.login(email, password)
 }
 
 const logout = async () => {
@@ -15,6 +17,10 @@ const getUser = async () => {
     return service.getUser()
 }
 
+const getStages = async () => {
+    return service.getStages()
+}
+
 const getTasks = async () => {
     return service.getTasks()
 }
@@ -23,16 +29,12 @@ const createTask = async (payload) => {
     return service.createTask(payload)
 }
 
-const destroyTask = async (taskId) => {
-    return service.destroyTask(taskId)
-}
-
 const updateTask = async (taskId, payload) => {
     return service.updateTask(taskId,payload)
 }
 
-const getStages = async () => {
-    return service.getStages()
+const destroyTask = async (taskId) => {
+    return service.destroyTask(taskId)
 }
 
 export { login, logout, getUser, getTasks, updateTask, createTask, destroyTask, getStages }

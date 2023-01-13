@@ -6,6 +6,9 @@ const AxiosApiService = {
         return csrf
     },
     login : async (email, password) => {
+        console.log('got here')
+        console.log('email is:',email)
+        console.log('password is:',password)
         const res = await axios.post('http://localhost:8000/login', {
             email: email,
             password: password,
@@ -48,6 +51,15 @@ const AxiosApiService = {
         })
         return response.data
     },
+    getTasks : async () => {
+        const response = await axios.get("http://localhost:8000/api/tasks", {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            withCredentials: true,
+        })
+        return response.data
+    },
     createTask : async (payload) => {
         const createdTask = await axios.post(`http://localhost:8000/api/tasks/`,
             payload, {
@@ -57,15 +69,6 @@ const AxiosApiService = {
                 withCredentials: true,
             })
         return createdTask.data.data
-    },
-    getTasks : async () => {
-        const response = await axios.get("http://localhost:8000/api/tasks", {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-            withCredentials: true,
-        })
-        return response.data
     },
     updateTask : async (taskId, payload) => {
         const updatedTask = await axios.patch(`http://localhost:8000/api/tasks/${taskId}`,
