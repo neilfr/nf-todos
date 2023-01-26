@@ -5,7 +5,7 @@ import {createTask, destroyTask, getTasks, updateTask} from "../service/api/ApiS
 
 export const TaskListContext = createContext('')
 
-const DEFAULT_STAGE_ID = 1
+const DEFAULT_STAGE_ID = 2
 const DEFAULT_PRIORITY = 1
 
 export const defaultTask = {

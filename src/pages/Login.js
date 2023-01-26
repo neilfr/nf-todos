@@ -4,7 +4,7 @@ import {AuthContext} from "../context/AuthContext";
 export const Login = () => {
     const { login, logout } = useContext(AuthContext)
 
-    const [email, setEmail] = useState('tester@example.com')
+    const [email, setEmail] = useState('test@example.com')
     const [password, setPassword] = useState('password')
 
     const updateEmail = (e) => {
