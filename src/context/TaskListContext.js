@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useEffect, useReducer} from "react";
+import React, {createContext, useEffect, useReducer} from "react";
 import {actions, TaskListReducer} from "../reducers/TaskListReducer";
 import {useNavigate} from "react-router-dom";
 import {createTask, destroyTask, getTasks, updateTask} from "../service/api/ApiService";
@@ -6,11 +6,13 @@ import {createTask, destroyTask, getTasks, updateTask} from "../service/api/ApiS
 export const TaskListContext = createContext('')
 
 const DEFAULT_PRIORITY = 1
+const DEFAULT_INITIAL_STAGE = 1
 
 export const defaultTask = {
     id:null,
     priority: DEFAULT_PRIORITY,
     description:'',
+    stage_id: DEFAULT_INITIAL_STAGE
 }
 
 export const TaskListProvider = ({
